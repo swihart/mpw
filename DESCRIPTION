@@ -1,0 +1,16 @@
+Package: mpw
+Title: Marginalized Piecewise Weibull Frailty Models in R
+Version: 0.0.0.9000
+Authors@R: 
+    c(person("Bruce", "Swihart", 
+             role = c("aut", "cre"), 
+             email="bruce.swihart@gmail.com",
+             comment = c(ORCID = "0000-0002-4216-9942")
+             ))
+Description: Aids in the fitting of marginalized piecewise Weibull frailty
+  models for plotting of distributions, survival, hazards, hazard ratios, 
+  and vaccine efficacy curves for different levels of underlying heterogeneity.
+License: LGPL (>= 2.1)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
