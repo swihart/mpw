@@ -23,7 +23,7 @@ pak::pak("swihart/mpw")
 
 These are basic examples.
 
-## PS($\alpha$,$\alpha$,0) Positive Stable Example
+## PS($\alpha,\alpha,0$) Positive Stable Example
 
 This is the $F_{\alpha}$ referenced in the manuscript.
 
@@ -101,7 +101,7 @@ plot(time,
 
 <img src="man/figures/README-example_alpha-2.png" width="100%" />
 
-## Gamma($\beta$,$\beta$) Example
+## Gamma($\beta,\beta$) Example
 
 This is the $F_{\beta}$ referenced in the manuscript.
 
@@ -164,7 +164,7 @@ plot(time,
 
 <img src="man/figures/README-example_beta-1.png" width="100%" />
 
-## Inverse Gaussian(1,$\lambda$) Example
+## Inverse Gaussian($1,\lambda$) Example
 
 This is the $F_{\lambda}$ referenced in the manuscript.
 
