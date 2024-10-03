@@ -54,13 +54,14 @@ tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
 init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
 
 
-## fit F_alpha
+## fit F_alpha for a given H_PARM
+H_PARM <- 0.72
 fit_F_alpha <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=x[1], 
                                             g0=x[2], 
                                             delta_vec=x[-c(1,2)],
-                                            h_parm = 1,
+                                            h_parm = H_PARM,
                                             frailty="PS")  - F0)^2) }
 
 
@@ -76,16 +77,22 @@ delta_vec_p =plac_fit_F_alpha$par[-1*c(1,2)]
   
 plot(time, 
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
-                 delta_vec = delta_vec_p, h_parm=1, frailty="PS"),
+                 delta_vec = delta_vec_p, h_parm= H_PARM, frailty="PS"),
      type="l")
+
+## plot the pop-avg (marginal) hazard:
+plot(time,
+     popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p, h_parm= H_PARM),
+     type="l", ylim=c(0,1e-3))
 
 ## plot the subject-specific hazard, fit in the presence
 ## of the h_parm value:
 
-plot(time,
+lines(time,
      subjspec_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
                   delta_vec = delta_vec_p),
-     type="l")
+     lty=2)
 
 ```
 
@@ -108,13 +115,14 @@ F0 <- Pf.F0
 tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
 init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
 
-## fit F_beta
+## fit F_beta for a given H_PARM
+H_PARM <- 0.72
 fit_F_beta <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=x[1], 
                                             g0=x[2], 
                                             delta_vec=x[-c(1,2)],
-                                            h_parm = 1,
+                                            h_parm = H_PARM,
                                             frailty="GA")  - F0)^2) }
 
 
@@ -131,6 +139,21 @@ delta_vec_p =plac_fit_F_beta$par[-1*c(1,2)]
 plot(time, 
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
                  delta_vec = delta_vec_p, h_parm=1, frailty="GA"))
+
+## plot the pop-avg (marginal) hazard:
+plot(time,
+     popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p, h_parm= H_PARM),
+     type="l", ylim=c(0,1e-3))
+
+## plot the subject-specific hazard, fit in the presence
+## of the h_parm value:
+
+lines(time,
+     subjspec_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p),
+     lty=2)
+
 ```
 
 

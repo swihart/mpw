@@ -43,13 +43,14 @@ tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
 init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
 
 
-## fit F_alpha
+## fit F_alpha for a given H_PARM
+H_PARM <- 0.72
 fit_F_alpha <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=x[1], 
                                             g0=x[2], 
                                             delta_vec=x[-c(1,2)],
-                                            h_parm = 1,
+                                            h_parm = H_PARM,
                                             frailty="PS")  - F0)^2) }
 
 
@@ -59,16 +60,17 @@ plac_fit_F_alpha <-
         control=list(maxit=1e8))
 print(plac_fit_F_alpha)
 #> $par
-#>  [1]   0.5634471 -10.1156700  -0.6050857   0.1679388  -0.1957840  -0.4840228
-#>  [7]   0.4386202   0.7144927  -0.2086004  -0.2890240   0.1647068   0.5441700
-#> [13]  -0.7044185  -0.3194671   0.0513128  -0.6940473   0.7618653   1.5605713
+#>  [1]  -0.15799938 -10.12040145  -0.21508909   0.74768428   0.21589618
+#>  [6]   0.03136962  -0.15528469   0.27388947   0.35359469   0.20431276
+#> [11]  -0.03848921  -0.39518830   0.11877485  -0.05979150  -0.91393283
+#> [16]  -0.27749430   0.54807831   1.84013113
 #> 
 #> $value
-#> [1] 4.472874e-07
+#> [1] 1.831274e-07
 #> 
 #> $counts
 #> function gradient 
-#>     1363       NA 
+#>     1239       NA 
 #> 
 #> $convergence
 #> [1] 0
@@ -82,7 +84,7 @@ delta_vec_p =plac_fit_F_alpha$par[-1*c(1,2)]
   
 plot(time, 
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
-                 delta_vec = delta_vec_p, h_parm=1, frailty="PS"),
+                 delta_vec = delta_vec_p, h_parm= H_PARM, frailty="PS"),
      type="l")
 ```
 
@@ -90,13 +92,19 @@ plot(time,
 
 ``` r
 
+## plot the pop-avg (marginal) hazard:
+plot(time,
+     popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p, h_parm= H_PARM),
+     type="l", ylim=c(0,1e-3))
+
 ## plot the subject-specific hazard, fit in the presence
 ## of the h_parm value:
 
-plot(time,
+lines(time,
      subjspec_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
                   delta_vec = delta_vec_p),
-     type="l")
+     lty=2)
 ```
 
 <img src="man/figures/README-example_alpha-2.png" width="100%" />
@@ -120,13 +128,14 @@ F0 <- Pf.F0
 tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
 init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
 
-## fit F_beta
+## fit F_beta for a given H_PARM
+H_PARM <- 0.72
 fit_F_beta <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=x[1], 
                                             g0=x[2], 
                                             delta_vec=x[-c(1,2)],
-                                            h_parm = 1,
+                                            h_parm = H_PARM,
                                             frailty="GA")  - F0)^2) }
 
 
@@ -136,16 +145,17 @@ plac_fit_F_beta <-
         control=list(maxit=1e8))
 print(plac_fit_F_beta)
 #> $par
-#>  [1]  0.45007125 -9.92319241 -0.21806492 -0.12305034 -0.11011477 -0.01500168
-#>  [7]  0.31741269 -0.05562032 -0.11916903  0.43493734 -0.02658546 -0.12111867
-#> [13] -0.04767211 -0.35578863  0.01361462 -0.65382093  0.59235453  0.68610703
+#>  [1]   0.502079930 -10.040468476  -0.330061562   0.003865048  -0.336826948
+#>  [6]  -0.024383734   0.250173132   0.439016976  -0.255277225  -0.234803012
+#> [11]   1.061206688  -0.896795452   0.105126011  -0.138730813  -0.307526058
+#> [16]  -0.739420915   1.018565747   1.429820594
 #> 
 #> $value
-#> [1] 1.969299e-07
+#> [1] 4.750979e-07
 #> 
 #> $counts
 #> function gradient 
-#>      927       NA 
+#>      999       NA 
 #> 
 #> $convergence
 #> [1] 0
@@ -163,6 +173,25 @@ plot(time,
 ```
 
 <img src="man/figures/README-example_beta-1.png" width="100%" />
+
+``` r
+
+## plot the pop-avg (marginal) hazard:
+plot(time,
+     popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p, h_parm= H_PARM),
+     type="l", ylim=c(0,1e-3))
+
+## plot the subject-specific hazard, fit in the presence
+## of the h_parm value:
+
+lines(time,
+     subjspec_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p),
+     lty=2)
+```
+
+<img src="man/figures/README-example_beta-2.png" width="100%" />
 
 ## Inverse Gaussian($1,\lambda$) Example
 
