@@ -79,11 +79,13 @@ plot(time,
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
                  delta_vec = delta_vec_p, h_parm= H_PARM, frailty="PS"),
      type="l")
+points(time, F0)
 
 ## plot the pop-avg (marginal) hazard:
 plot(time,
      popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
-                  delta_vec = delta_vec_p, h_parm= H_PARM),
+                  delta_vec = delta_vec_p, h_parm= H_PARM,
+                                            frailty="PS"),
      type="l", ylim=c(0,1e-3))
 
 ## plot the subject-specific hazard, fit in the presence
@@ -138,12 +140,14 @@ delta_vec_p =plac_fit_F_beta$par[-1*c(1,2)]
   
 plot(time, 
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
-                 delta_vec = delta_vec_p, h_parm=1, frailty="GA"))
+                 delta_vec = delta_vec_p, h_parm=H_PARM, frailty="GA"),
+     type="l")
+points(time, F0)
 
 ## plot the pop-avg (marginal) hazard:
 plot(time,
      popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
-                  delta_vec = delta_vec_p, h_parm= H_PARM),
+                  delta_vec = delta_vec_p, h_parm= H_PARM, frailty="GA"),
      type="l", ylim=c(0,1e-3))
 
 ## plot the subject-specific hazard, fit in the presence
@@ -161,6 +165,8 @@ lines(time,
 
 This is the $F_{\lambda}$ referenced in the manuscript.
 
+  * $F_{\lambda}(x) = 1-\exp[- \lambda ( (1+ \frac{2}{\lambda} \exp\eta )^{\frac{1}{2}} - 1) ]$
+  
 ```{r example_lambda}
 library(mpw)
 ## basic example code
@@ -177,13 +183,14 @@ tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
 init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
 
 
-## fit F_lambda
+## fit F_lambda for a given H_PARM
+H_PARM <- 0.72
 fit_F_lambda <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=x[1], 
                                             g0=x[2], 
                                             delta_vec=x[-c(1,2)],
-                                            h_parm = 1,
+                                            h_parm = H_PARM,
                                             frailty="IG")  - F0)^2) }
 
 
@@ -199,13 +206,30 @@ delta_vec_p =plac_fit_F_lambda$par[-1*c(1,2)]
   
 plot(time, 
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
-                 delta_vec = delta_vec_p, h_parm=1, frailty="IG"))
+                 delta_vec = delta_vec_p, h_parm=H_PARM, frailty="IG"),
+     type="l")
+points(time, F0)
+## plot the pop-avg (marginal) hazard:
+plot(time,
+     popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p, h_parm=H_PARM, frailty="IG"),
+     type="l", ylim=c(0,1e-3))
+
+## plot the subject-specific hazard, fit in the presence
+## of the h_parm value:
+
+lines(time,
+     subjspec_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p),
+     lty=2)
 ```
 
 
 ## Two-Point($\rho$, $\xi$) Example
 
 This is the $F_{\rho}$ referenced in the manuscript.
+
+  * $F_{\rho}(x) =  1-             \left(           (1-\rho)  \exp[- \xi \exp\eta ] + \rho \exp[-\xi^{\prime} \exp \eta ] \right)$
 
 ```{r example_rho}
 library(mpw)
@@ -222,15 +246,19 @@ F0 <- Pf.F0
 tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
 init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
 
-## fit F_rho
+## fit F_rho for a given H_PARM and XI <1
+## (1-H_PARM) will have value XI < 1
+##    H_PARM  will have XI_prime > 1 that ensures E[u] = 1
+H_PARM <- 0.1
+XI <- 1/10
 fit_F_rho <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=x[1], 
                                             g0=x[2], 
                                             delta_vec=x[-c(1,2)],
-                                            h_parm = 0.5,
+                                            h_parm = H_PARM,
                                             frailty="TP1",
-                                            xi = 0.1)  - F0)^2) }
+                                            xi = XI)  - F0)^2) }
 
 
 plac_fit_F_rho <- 
@@ -245,7 +273,26 @@ delta_vec_p =plac_fit_F_rho$par[-1*c(1,2)]
   
 plot(time, 
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
-                 delta_vec = delta_vec_p, h_parm=0.5, frailty="TP1", xi = 0.1))
+                 delta_vec = delta_vec_p, h_parm=H_PARM, 
+                 frailty="TP1", xi = XI),
+     type="l")
+points(time, F0)
+
+## plot the pop-avg (marginal) hazard:
+plot(time,
+     popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p, h_parm=H_PARM, 
+                frailty="TP1", xi=XI),
+     type="l", ylim=c(0,1e-2))
+
+## plot the subject-specific hazard, fit in the presence
+## of the h_parm value:
+
+lines(time,
+     subjspec_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p),
+     lty=2)
+
 ```
 
 

@@ -50,14 +50,12 @@ popavg_haz <- function(x,
                                        log(knots[0: lower.index])))
                       switch(frailty,
                              PS = b^h_parm*(h_parm*k)*x^(h_parm*k-1),
-                             GA = b*k*x^(k-1) / (1 + b*x^(k)/h_parm),
-                             IG = 1 -
-                               exp(-h_parm * (sqrt(1 + 2/h_parm * b*x^k)-1)) +
-                               any(c(k0, k0+cumsum(delta_vec)) < 0)*1e6,
-                             TP1 = 1 -
-                               ( (1-h_parm)*exp(-xi      * b*x^k) +
-                                   (h_parm)*exp(-xi_prime* b*x^k)
-                               ) + any(c(k0, k0+cumsum(delta_vec)) < 0)*1e6,
+                             GA = b*k*x^(k-1) / (1 +   b*x^(k)/h_parm),
+                             IG = b*k*x^(k-1) / (1 + 2*b*x^(k)/h_parm)^(1/2),
+                             TP1 = {z <- (exp(-xi*b*x^k)/(1-h_parm)) /
+                               (exp(-xi_prime*b*x^k)/(h_parm))
+                             (xi / (1+z) + xi_prime / (1 + 1/z))*
+                               b*k*x^(k-1)},
                              TPU = 1 -
                                ( (1-h_parm)*exp(-n* b*x^k) +
                                    (h_parm)*exp(-s* b*x^k)
