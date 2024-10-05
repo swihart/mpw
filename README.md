@@ -366,7 +366,7 @@ plot(time,
      popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
                   delta_vec = delta_vec_p, h_parm=H_PARM, 
                 frailty="TP1", xi=XI),
-     type="l", ylim=c(0,1e-2))
+     type="l", ylim=c(0,1e-3))
 
 ## plot the subject-specific hazard, fit in the presence
 ## of the h_parm value:
@@ -398,16 +398,21 @@ F0 <- Pf.F0
 tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
 init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
 
-
+## fit F_omega for a given H_PARM and N<1 and S>1
+## (1-H_PARM) will have value N < 1
+##    H_PARM  will have value S > 1 
+H_PARM <- 0.5
+N <- 0.25
+S <- 4.00
 fit_F_omega <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=x[1], 
                                             g0=x[2], 
                                             delta_vec=x[-c(1,2)],
-                                            h_parm = 0.50,
+                                            h_parm = H_PARM,
                                             frailty="TPU",
-                                            n=0.25,
-                                            s=4.00)  - F0)^2) }
+                                            n=N,
+                                            s=S)  - F0)^2) }
 
 
 plac_fit_F_omega <- 
@@ -439,8 +444,30 @@ delta_vec_p =plac_fit_F_omega$par[-1*c(1,2)]
   
 plot(time, 
      popavg_dist(time, knots=tvec.in, logk0=logk0p, g0=g0p, 
-                 delta_vec = delta_vec_p, h_parm=0.50, frailty="TPU",
-                 n=0.25, s=4.00))
+                 delta_vec = delta_vec_p, h_parm=H_PARM, frailty="TPU",
+                 n=N, s=S),
+     type="l")
+points(time, F0)
 ```
 
 <img src="man/figures/README-example_omega-1.png" width="100%" />
+
+``` r
+
+## plot the pop-avg (marginal) hazard:
+plot(time,
+     popavg_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p, h_parm=H_PARM, 
+                frailty="TPU", n=0.25, s=4.00),
+     type="l", ylim=c(0,1e-3))
+
+## plot the subject-specific hazard, fit in the presence
+## of the h_parm value:
+
+lines(time,
+     subjspec_haz(time, knots=tvec.in, logk0=logk0p, g0=g0p,
+                  delta_vec = delta_vec_p),
+     lty=2)
+```
+
+<img src="man/figures/README-example_omega-2.png" width="100%" />

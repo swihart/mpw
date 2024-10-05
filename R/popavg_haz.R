@@ -56,11 +56,10 @@ popavg_haz <- function(x,
                                (exp(-xi_prime*b*x^k)/(h_parm))
                              (xi / (1+z) + xi_prime / (1 + 1/z))*
                                b*k*x^(k-1)},
-                             TPU = 1 -
-                               ( (1-h_parm)*exp(-n* b*x^k) +
-                                   (h_parm)*exp(-s* b*x^k)
-                               ) + any(c(k0, k0+cumsum(delta_vec)) < 0)*1e6
-
+                             TPU = {z <- (exp(-n*b*x^k)/(1-h_parm)) /
+                               (exp(-s*b*x^k)/(h_parm))
+                             (n / (1+z) + s / (1 + 1/z))*
+                               b*k*x^(k-1)}
 
                       )
 
