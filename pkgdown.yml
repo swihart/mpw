@@ -2,12 +2,12 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  articles/a_weibull-weibull-positive-stable: a_weibull-weibull-positive-stable.html
-  articles/b_burr-weibull-gamma: b_burr-weibull-gamma.html
-  articles/c_marginalized-weibull-inverse-gaussian: c_marginalized-weibull-inverse-gaussian.html
-  articles/d_marginalized-weibull-tp1: d_marginalized-weibull-tp1.html
-  articles/e_marginalized-weibull-tpu: e_marginalized-weibull-tpu.html
-last_built: 2024-10-05T21:06Z
+  articles/alpha: alpha.html
+  articles/beta: beta.html
+  articles/lambda: lambda.html
+  articles/rho: rho.html
+  articles/womega: womega.html
+last_built: 2024-10-05T21:37Z
 urls:
   reference: https://swihart.github.io/mpw/reference
   article: https://swihart.github.io/mpw/articles
