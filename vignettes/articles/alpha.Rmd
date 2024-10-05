@@ -40,7 +40,7 @@ legend("topleft", c("Placebo", "Vaccine"),
 ```
 
 
-## Two step fitting procedure
+## 0. Two step fitting procedure
 
 ### 1. Fit for placebo group
 
