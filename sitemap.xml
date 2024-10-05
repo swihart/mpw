@@ -1,7 +1,11 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://swihart.github.io/mpw/404.html</loc></url>
+<url><loc>https://swihart.github.io/mpw/articles/a_weibull-weibull-positive-stable.html</loc></url>
+<url><loc>https://swihart.github.io/mpw/articles/b_burr-weibull-gamma.html</loc></url>
+<url><loc>https://swihart.github.io/mpw/articles/c_marginalized-weibull-inverse-gaussian.html</loc></url>
+<url><loc>https://swihart.github.io/mpw/articles/d_marginalized-weibull-tp1.html</loc></url>
+<url><loc>https://swihart.github.io/mpw/articles/e_marginalized-weibull-tpu.html</loc></url>
 <url><loc>https://swihart.github.io/mpw/articles/index.html</loc></url>
-<url><loc>https://swihart.github.io/mpw/articles/weibull-weibull-positive-stable.html</loc></url>
 <url><loc>https://swihart.github.io/mpw/authors.html</loc></url>
 <url><loc>https://swihart.github.io/mpw/index.html</loc></url>
 <url><loc>https://swihart.github.io/mpw/reference/index.html</loc></url>
