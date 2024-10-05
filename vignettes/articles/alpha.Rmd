@@ -40,8 +40,19 @@ legend("topleft", c("Placebo", "Vaccine"),
 ```
 
 
-## 0. Two step fitting procedure
+### Two step fitting procedure
 
-### 1. Fit for placebo group
+#### 1. Fit for placebo group
 
-### 2. Fit for vaccine group
+#### 2. Fit for vaccine group
+
+### Plot population avg CDF
+  * Quick check of fit
+  
+### Plot population avg HR
+  * uses parameters from two step fitting procedure
+  * HR(0) = 1
+  
+### Add subject-specific HRs
+  * should flatten
+
