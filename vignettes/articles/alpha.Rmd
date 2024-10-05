@@ -1,5 +1,10 @@
 ---
 title: "Weibull-Weibull-Positive Stable"
+output: 
+  html_document:
+    toc: true # table of content true
+    toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
+    number_sections: true
 ---
 
 ```{r, include = FALSE}
@@ -33,3 +38,10 @@ legend("topleft", c("Placebo", "Vaccine"),
 )
 
 ```
+
+
+## Two step fitting procedure
+
+### 1. Fit for placebo group
+
+### 2. Fit for vaccine group
