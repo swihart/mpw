@@ -214,4 +214,5 @@ lines  (time.haz, vacc.haz.ss/plac.haz.ss, type="l", col="gold", xlab="Days", yl
 
 ```
 
-The plot above shows that for a $\alpha = $ `r H_PARM` and a positive-stable frailty, the subject-specific HR is flatter and lower than the population average HR.
+The plot above shows that for a positive-stable frailty with $\alpha$ = `r H_PARM` the subject-specific HR is flatter and lower than the population average HR.
+
