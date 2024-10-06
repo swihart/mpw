@@ -63,6 +63,7 @@ FRAILTY <- "PS"
 
 ```{r knot16_specific_setup}
 tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
+tvec.in
 ```
 
 ### Two step fitting procedure
@@ -118,7 +119,7 @@ delta_vec_v =vacc_fit_F_alpha$par
 ### Plot population avg CDF
   * Quick check of fit
 
-We use the knots and the original time in `time.dist` to do a quick check of the fit.
+We use the knots and the original time in `time.dist` to do a quick check of the fit.  We put vertical dashed lines in the plot to denote knot placement.
 
 ```{r}
 time.dist <- sort(c(time, tvec.in))
@@ -150,6 +151,7 @@ legend("topleft", c("Placebo", "Vaccine"),
 )
 
 ```
+
 ### Plot population avg HR
   * uses parameters from two step fitting procedure
   * HR(0) = 1
