@@ -133,9 +133,9 @@ this example.</p>
 <h2 id="sixteen-knots">Sixteen knots<a class="anchor" aria-label="anchor" href="#sixteen-knots"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tvec.in</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">14</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">-</span><span class="fl">14</span>,length.out<span class="op">=</span><span class="fl">14</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">-</span><span class="fl">7</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">tvec.in</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">14</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">-</span><span class="fl">14</span>,length.out<span class="op">=</span><span class="fl">14</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">-</span><span class="fl">7</span><span class="op">)</span></span>
 <span><span class="va">tvec.in</span></span>
-<span><span class="co">#&gt;  [1]   7.00000  14.00000  26.92308  39.84615  52.76923  65.69231  78.61538</span></span>
+<span><span class="co">#&gt;  [1]   5.00000  14.00000  26.92308  39.84615  52.76923  65.69231  78.61538</span></span>
 <span><span class="co">#&gt;  [8]  91.53846 104.46154 117.38462 130.30769 143.23077 156.15385 169.07692</span></span>
 <span><span class="co">#&gt; [15] 182.00000 189.00000</span></span></code></pre></div>
 <div class="section level3">
@@ -160,17 +160,17 @@ this example.</p>
 <span>        control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxit<span class="op">=</span><span class="fl">1e8</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plac_fit_F_alpha</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $par</span></span>
-<span><span class="co">#&gt;  [1]  -0.15799938 -10.12040145  -0.21508909   0.74768428   0.21589618</span></span>
-<span><span class="co">#&gt;  [6]   0.03136962  -0.15528469   0.27388947   0.35359469   0.20431276</span></span>
-<span><span class="co">#&gt; [11]  -0.03848921  -0.39518830   0.11877485  -0.05979150  -0.91393283</span></span>
-<span><span class="co">#&gt; [16]  -0.27749430   0.54807831   1.84013113</span></span>
+<span><span class="co">#&gt;  [1]  -0.19809428 -10.00290490  -0.46528979   1.50975780  -0.41049204</span></span>
+<span><span class="co">#&gt;  [6]   0.13659323   0.10835991   0.26344501   0.18239172  -0.08269246</span></span>
+<span><span class="co">#&gt; [11]  -0.07470972   0.19303094   0.05622029  -0.55575772  -0.99909140</span></span>
+<span><span class="co">#&gt; [16]   0.53537197   0.38629201   0.88779139</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $value</span></span>
-<span><span class="co">#&gt; [1] 1.831274e-07</span></span>
+<span><span class="co">#&gt; [1] 2.366405e-07</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $counts</span></span>
 <span><span class="co">#&gt; function gradient </span></span>
-<span><span class="co">#&gt;     1239       NA </span></span>
+<span><span class="co">#&gt;      909       NA </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $convergence</span></span>
 <span><span class="co">#&gt; [1] 0</span></span>
@@ -206,17 +206,16 @@ same for both groups (i.e. <em>ramp-up time</em>).</p>
 <span>        control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxit<span class="op">=</span><span class="fl">1e8</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vacc_fit_F_alpha</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $par</span></span>
-<span><span class="co">#&gt;  [1] -8.538501e-01  1.412733e-07  3.512281e-08  4.482365e-01  7.181797e-02</span></span>
-<span><span class="co">#&gt;  [6]  6.486320e-01  4.269952e-01 -1.855307e-01  1.929620e-02  2.049996e-01</span></span>
-<span><span class="co">#&gt; [11]  2.439450e-01  8.880881e-02 -2.597165e-01  1.558628e-01 -7.205915e-01</span></span>
-<span><span class="co">#&gt; [16] -4.719281e-01</span></span>
+<span><span class="co">#&gt;  [1] -0.80982557 -0.01045652  0.62457154 -0.33277056 -0.21486434  0.42390586</span></span>
+<span><span class="co">#&gt;  [7]  1.31843225 -0.36908115  1.26785248 -0.74096065  0.23847180 -0.30173673</span></span>
+<span><span class="co">#&gt; [13] -0.44639190 -0.40910808  1.19813727  0.38037584</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $value</span></span>
-<span><span class="co">#&gt; [1] 1.054605e-07</span></span>
+<span><span class="co">#&gt; [1] 1.488447e-08</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $counts</span></span>
 <span><span class="co">#&gt; function gradient </span></span>
-<span><span class="co">#&gt;     3209       NA </span></span>
+<span><span class="co">#&gt;     2483       NA </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $convergence</span></span>
 <span><span class="co">#&gt; [1] 0</span></span>
@@ -265,9 +264,10 @@ denote knot placement.</p>
 <span>       col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span><span class="op">)</span>,</span>
 <span>       lty<span class="op">=</span><span class="fl">1</span>,</span>
 <span>       pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="alpha_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<p>Note from Days <code>0</code> to 7 the curves are the same.</p>
+<p>Note from Days 0 to 5 the curves are the same.</p>
 </div>
 <div class="section level3">
 <h3 id="plot-population-avg-hr-1">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr-1"></a>
