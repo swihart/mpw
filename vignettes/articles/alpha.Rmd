@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r data}
 library(mpw)
 ## This data resembles that in Thomas et al
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
@@ -35,7 +35,12 @@ legend("topleft", c("Placebo", "Vaccine"),
 
 ```
 
+Set the `h_parm` and `frailty` distribution for this example.
 
+```{r setup}
+H_PARM <- 0.72
+FRAILTY <- "PS"
+```
 ## Two knots
 
 ### Two step fitting procedure
@@ -56,10 +61,34 @@ legend("topleft", c("Placebo", "Vaccine"),
 
 ## Sixteen knots
 
+```{r knot16_specific_setup}
+tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
+init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
+```
+
 ### Two step fitting procedure
 
 #### 1. Fit for placebo group
+```{r }
+fit_F_alpha <- function(x){mean((popavg_dist(time, 
+                                            knots= tvec.in, 
+                                            logk0=x[1], 
+                                            g0=x[2], 
+                                            delta_vec=x[-c(1,2)],
+                                            h_parm = H_PARM,
+                                            frailty=FRAILTY)  - F0)^2) }
 
+
+plac_fit_F_alpha <- 
+  optim(init.vals, fit_F_alpha,
+        method="Nelder-Mead",
+        control=list(maxit=1e8))
+print(plac_fit_F_alpha)
+
+logk0p = plac_fit_F_alpha$par[1]
+g0p = plac_fit_F_alpha$par[2]
+delta_vec_p =plac_fit_F_alpha$par[-1*c(1,2)]
+```
 #### 2. Fit for vaccine group
 
 ### Plot population avg CDF
