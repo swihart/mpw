@@ -19,10 +19,6 @@ F1  <- c(  0, .18, .19, .22, .25, .27, .28, .34,
 F0  <- c(   0,  .29,  .60, 1.00, 1.38, 1.75, 2.25, 
             2.97, 3.50, 4.25, 4.94, 5.53, 6.00, 6.31, 6.94)/100
 
-time <- Pf.time
-F1 <- Pf.F1
-F0 <- Pf.F0
-
 ## plot the data points, 
 ## with interpolated lines
 plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF")
