@@ -160,12 +160,58 @@ Note from Days 0 to `r tvec.in[1]` the curves are the same.
 
 We use the parameters of the previous fits to estimate the 
 population average hazard, which we can fit with `mpw::popavg_haz()`.
+We adjust the time input so that the first element is just above 0.
 
 ```{r}
-rnorm(1)
+time.haz <- c(1e-4, time.dist[-1])
+plac.haz <- popavg_haz(      x = time.haz, 
+                           knots = tvec.in,
+                           logk0 = logk0p,
+                              g0 = g0p,
+                       delta_vec = delta_vec_p,
+                          h_parm = H_PARM,
+                         frailty = FRAILTY)
+
+vacc.haz <- popavg_haz(      x = time.haz, 
+                           knots = tvec.in,
+                           logk0 = logk0v,
+                              g0 = g0v,
+                       delta_vec = delta_vec_v,
+                          h_parm = H_PARM,
+                         frailty = FRAILTY)
+
+plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard", lwd=2)
+
+#abline(v=tvec.in, lty=2, col="grey")
+
+axis(1, at=c(tvec.in[1]))
 
 ```
   
 ### Add subject-specific HRs
   * should flatten
 
+The function `mpw::subjspec_haz()` does not require the arguments `frailty` or `h_parm` because it takes the inputs for the b,k, and delta pieces and models the subject-specific (aka conditional) hazard.  Doing this for the placebo group, then the vaccine group and dividing them gives the subject-specific hazard ratio (HR).
+
+```{r}
+plac.haz.ss <- subjspec_haz(      x = time.haz, 
+                           knots = tvec.in,
+                           logk0 = logk0p,
+                              g0 = g0p,
+                       delta_vec = delta_vec_p)
+
+vacc.haz.ss <- popavg_haz(      x = time.haz, 
+                           knots = tvec.in,
+                           logk0 = logk0v,
+                              g0 = g0v,
+                       delta_vec = delta_vec_v)
+
+lines  (time.haz, vacc.haz.ss/plac.haz.ss, type="l", col="gold", xlab="Days", ylab="Hazard", lty=2, lwd=2)
+
+#abline(v=tvec.in, lty=2, col="grey",lwd=)
+
+#axis(1, at=c(tvec.in[1]))
+
+```
+
+The plot above shows that for a $\alpha = $ `r h_parm` and a positive-stable frailty, the subject-specific HR is flatter and lower than the population average HR.
