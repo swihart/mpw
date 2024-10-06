@@ -277,11 +277,32 @@ denote knot placement.</p>
 <li>HR(0) = 1</li>
 </ul>
 <p>We use the parameters of the previous fits to estimate the population
-average hazard, which we can fit with
-<code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code>.</p>
+average hazard, which we can fit with <code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code>. We
+adjust the time input so that the first element is just above 0.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] -1.400044</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">time.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-4</span>, <span class="va">time.dist</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">plac.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
+<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                           logk0 <span class="op">=</span> <span class="va">logk0p</span>,</span>
+<span>                              g0 <span class="op">=</span> <span class="va">g0p</span>,</span>
+<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_p</span>,</span>
+<span>                          h_parm <span class="op">=</span> <span class="va">H_PARM</span>,</span>
+<span>                         frailty <span class="op">=</span> <span class="va">FRAILTY</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">vacc.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
+<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                           logk0 <span class="op">=</span> <span class="va">logk0v</span>,</span>
+<span>                              g0 <span class="op">=</span> <span class="va">g0v</span>,</span>
+<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_v</span>,</span>
+<span>                          h_parm <span class="op">=</span> <span class="va">H_PARM</span>,</span>
+<span>                         frailty <span class="op">=</span> <span class="va">FRAILTY</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>, ylab<span class="op">=</span><span class="st">"Hazard"</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="alpha_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="add-subject-specific-hrs-1">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs-1"></a>
@@ -289,6 +310,34 @@ average hazard, which we can fit with
 <ul>
 <li>should flatten</li>
 </ul>
+<p>The function <code><a href="../reference/subjspec_haz.html">mpw::subjspec_haz()</a></code> does not require the
+arguments <code>frailty</code> or <code>h_parm</code> because it takes
+the inputs for the b,k, and delta pieces and models the subject-specific
+(aka conditional) hazard. Doing this for the placebo group, then the
+vaccine group and dividing them gives the subject-specific hazard ratio
+(HR).</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plac.haz.ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subjspec_haz.html">subjspec_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
+<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                           logk0 <span class="op">=</span> <span class="va">logk0p</span>,</span>
+<span>                              g0 <span class="op">=</span> <span class="va">g0p</span>,</span>
+<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_p</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">vacc.haz.ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
+<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                           logk0 <span class="op">=</span> <span class="va">logk0v</span>,</span>
+<span>                              g0 <span class="op">=</span> <span class="va">g0v</span>,</span>
+<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_v</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>, ylab<span class="op">=</span><span class="st">"Hazard"</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="va">vacc.haz.ss</span><span class="op">/</span><span class="va">plac.haz.ss</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"gold"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>, ylab<span class="op">=</span><span class="st">"Hazard"</span>, lty<span class="op">=</span><span class="fl">2</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="alpha_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p>The plot above shows that for a $= $ 0.72 and a positive-stable
+frailty, the subject-specific HR is flatter and lower than the
+population average HR.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
