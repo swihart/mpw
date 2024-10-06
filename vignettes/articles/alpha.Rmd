@@ -62,7 +62,7 @@ FRAILTY <- "PS"
 ## Sixteen knots
 
 ```{r knot16_specific_setup}
-tvec.in <- c(7, seq(14,max(time)-14,length.out=14),max(time)-7)
+tvec.in <- c(5, seq(14,max(time)-14,length.out=14),max(time)-7)
 tvec.in
 ```
 
@@ -149,10 +149,10 @@ legend("topleft", c("Placebo", "Vaccine"),
        lty=1,
        pch=c(15,16)
 )
-
+axis(1, at=c(tvec.in[1]))
 ```
 
-Note from Days `0` to `r tvec.in[1]` the curves are the same. 
+Note from Days 0 to `r tvec.in[1]` the curves are the same. 
 
 ### Plot population avg HR
   * uses parameters from two step fitting procedure
