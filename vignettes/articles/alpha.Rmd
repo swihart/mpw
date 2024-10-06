@@ -152,9 +152,19 @@ legend("topleft", c("Placebo", "Vaccine"),
 
 ```
 
+Note from Days `0` to `r tvec.in[1]` the curves are the same. 
+
 ### Plot population avg HR
   * uses parameters from two step fitting procedure
   * HR(0) = 1
+
+We use the parameters of the previous fits to estimate the 
+population average hazard, which we can fit with `mpw::popavg_haz()`.
+
+```{r}
+rnorm(1)
+
+```
   
 ### Add subject-specific HRs
   * should flatten
