@@ -182,7 +182,7 @@ vacc.haz <- popavg_haz(      x = time.haz,
 
 plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard", lwd=2)
 
-#abline(v=tvec.in, lty=2, col="grey")
+abline(v=tvec.in, lty=2, col="grey")
 
 axis(1, at=c(tvec.in[1]))
 
@@ -206,11 +206,11 @@ vacc.haz.ss <- popavg_haz(      x = time.haz,
                               g0 = g0v,
                        delta_vec = delta_vec_v)
 
+plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard", lwd=2)
+
+axis(1, at=c(tvec.in[1]))
+
 lines  (time.haz, vacc.haz.ss/plac.haz.ss, type="l", col="gold", xlab="Days", ylab="Hazard", lty=2, lwd=2)
-
-#abline(v=tvec.in, lty=2, col="grey",lwd=)
-
-#axis(1, at=c(tvec.in[1]))
 
 ```
 
