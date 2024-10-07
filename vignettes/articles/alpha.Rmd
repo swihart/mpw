@@ -24,15 +24,14 @@ knitr::opts_chunk$set(
 ```
 
 
-We analyze data that looks similar to that of Figure 2 [Thomas et al (2021)](https://pubmed.ncbi.nlm.nih.gov/34525277/) with full citation: 
-
->Thomas, S. J., E. D. Moreira Jr, N. Kitchin, J. Absalon, A. Gurtman, S. Lockhart, J. L. Perez, G. P ́erez Marc, F. P. Polack, C. Zerbini, et al. (2021). Safety and efficacy of the bnt162b2 mrna covid-19 vaccine through 6 months. New England Journal of Medicine 385(19), 1761–1773.
+We analyze data that looks similar to that of Figure 2 [Thomas et al (2021) *Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine through 6 Months*](https://pubmed.ncbi.nlm.nih.gov/34525277/). 
 
 We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines.
 
 ```{r data}
 library(mpw)
-## This data resembles that in Thomas et al
+## This data resembles Figure 2 in Thomas et al
+## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
