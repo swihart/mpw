@@ -162,7 +162,8 @@ vacc.haz <- popavg_haz(      x = time.haz,
                           h_parm = H_PARM,
                          frailty = FRAILTY)
 
-plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard", lwd=2)
+plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
+       ylab="Hazard Ratio", lwd=2)
 
 abline(v=tvec.in, lty=2, col="grey")
 
@@ -188,11 +189,19 @@ vacc.haz.ss <- popavg_haz(      x = time.haz,
                               g0 = g0v,
                        delta_vec = delta_vec_v)
 
-plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard", lwd=2)
+plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
+       ylab="Hazard Ratio", lwd=2)
 
 axis(1, at=c(tvec.in[1]))
 
-lines  (time.haz, vacc.haz.ss/plac.haz.ss, type="l", col="gold", xlab="Days", ylab="Hazard", lty=2, lwd=2)
+lines  (time.haz, vacc.haz.ss/plac.haz.ss, type="l", col="gold", xlab="Days",
+        lwd=2, lty=2)
+legend("topright", c("Population HR", "Subject-specific HR"),
+       col=c("purple","gold"),
+       lty=c(1,2),
+       lwd=2
+)
+
 
 ```
 
@@ -321,7 +330,7 @@ vacc.haz <- popavg_haz(      x = time.haz,
                           h_parm = H_PARM,
                          frailty = FRAILTY)
 
-plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard", lwd=2)
+plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard Ratio", lwd=2)
 
 abline(v=tvec.in, lty=2, col="grey")
 
@@ -347,12 +356,18 @@ vacc.haz.ss <- popavg_haz(      x = time.haz,
                               g0 = g0v,
                        delta_vec = delta_vec_v)
 
-plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard", lwd=2)
+plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
+       ylab="Hazard Ratio", lwd=2)
 
 axis(1, at=c(tvec.in[1]))
 
-lines  (time.haz, vacc.haz.ss/plac.haz.ss, type="l", col="gold", xlab="Days", ylab="Hazard", lty=2, lwd=2)
-
+lines  (time.haz, vacc.haz.ss/plac.haz.ss, type="l", col="gold", xlab="Days",
+        lwd=2, lty=2)
+legend("topright", c("Population HR", "Subject-specific HR"),
+       col=c("purple","gold"),
+       lty=c(1,2),
+       lwd=2
+)
 ```
 
 The plot above shows that for a positive-stable frailty with $\alpha$ = `r H_PARM` the subject-specific HR is flatter and lower than the population average HR.
