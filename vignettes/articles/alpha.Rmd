@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 ```
 
 
-We analyze data that looks similar to that of Figure 1 Thomas et al (2021): 
+We analyze data that looks similar to that of Figure 2 [Thomas et al (2021)](https://pubmed.ncbi.nlm.nih.gov/34525277/) with full citation: 
 
 >Thomas, S. J., E. D. Moreira Jr, N. Kitchin, J. Absalon, A. Gurtman, S. Lockhart, J. L. Perez, G. P ́erez Marc, F. P. Polack, C. Zerbini, et al. (2021). Safety and efficacy of the bnt162b2 mrna covid-19 vaccine through 6 months. New England Journal of Medicine 385(19), 1761–1773.
 

@@ -50,7 +50,8 @@ This is the $F_{\alpha}$ referenced in the manuscript.
 
 ``` r
 library(mpw)
-## This data resembles that in Thomas et al
+## This data resembles Figure 2 in Thomas et al
+## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
@@ -133,7 +134,8 @@ This is the $F_{\beta}$ referenced in the manuscript.
 
 ``` r
 library(mpw)
-## This data resembles that in Thomas et al
+## This data resembles Figure 2 in Thomas et al
+## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
@@ -216,7 +218,8 @@ This is the $F_{\lambda}$ referenced in the manuscript.
 
 ``` r
 library(mpw)
-## This data resembles that in Thomas et al
+## This data resembles Figure 2 in Thomas et al
+## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
@@ -299,7 +302,8 @@ This is the $F_{\rho}$ referenced in the manuscript.
 
 ``` r
 library(mpw)
-## This data resembles that in Thomas et al
+## This data resembles Figure 2 in Thomas et al
+## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
@@ -386,7 +390,8 @@ This is the $F_{\omega}$ referenced in the manuscript.
 
 ``` r
 library(mpw)
-## This data resembles that in Thomas et al
+## This data resembles Figure 2 in Thomas et al
+## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
