@@ -23,6 +23,13 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+We analyze data that looks similar to that of Figure 1 Thomas et al (2021): 
+
+>Thomas, S. J., E. D. Moreira Jr, N. Kitchin, J. Absalon, A. Gurtman, S. Lockhart, J. L. Perez, G. P ́erez Marc, F. P. Polack, C. Zerbini, et al. (2021). Safety and efficacy of the bnt162b2 mrna covid-19 vaccine through 6 months. New England Journal of Medicine 385(19), 1761–1773.
+
+We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines.
+
 ```{r data}
 library(mpw)
 ## This data resembles that in Thomas et al
@@ -32,9 +39,9 @@ F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
 
 ## plot the data points, 
 ## with interpolated lines
-plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF")
+plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF", lty=2)
 points(time, F0, col="black", pch=15)
-lines (time, F1, col="blue")
+lines (time, F1, col="blue", lty=2)
 points(time, F1, col="blue", pch=16)
 legend("topleft", c("Placebo", "Vaccine"),
        col=c("black","blue"),
@@ -44,12 +51,15 @@ legend("topleft", c("Placebo", "Vaccine"),
 
 ```
 
-Set the `h_parm` and `frailty` distribution for this example.
+Set the `h_parm` and `frailty` distribution for this example. Beware that H_PARM has different bounds depending on what value of FRAILTY is selected.
 
 ```{r setup}
 H_PARM <- 0.72
 FRAILTY <- "PS"
 ```
+
+We first consider two knots which will allow us to model each curve with three pieces.  We set the first piece of each group to be equal so we can get an HR of 1 (more in subsequent sections). This first piece can be specified to be over a short time range where both groups would be considered equal due to the *ramp-up time* of a vaccine.  Below we set the ramp-up time to end 5 days after first dose, the second piece to go from then to 90 days after second dose, and the third piece from then until the end of the study.  We do this by specifying two knot values, as below:
+
 
 ## Two knots
 ```{r knot02_specific_setup}
@@ -113,7 +123,11 @@ delta_vec_v =vacc_fit_F_alpha$par
 We use the knots and the original time in `time.dist` to do a quick check of the fit.  We put vertical dashed lines in the plot to denote knot placement.
 
 ```{r}
-time.dist <- seq(min(c(time, tvec.in)), max(c(time, tvec.in)), 0.1)
+time.dist <- sort(c(seq(min(c(time, tvec.in)), 
+                        max(c(time, tvec.in)), 0.1),
+                    tvec.in)
+                  )
+
 plac.dist <- popavg_dist(      x = time.dist, 
                            knots = tvec.in,
                            logk0 = logk0p,
@@ -143,7 +157,7 @@ legend("topleft", c("Placebo", "Vaccine"),
 axis(1, at=c(tvec.in[1]))
 ```
 
-Note from Days 0 to `r tvec.in[1]` the curves are the same. 
+Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above.
 
 ### Plot population avg HR
   * uses parameters from two step fitting procedure
@@ -172,7 +186,7 @@ vacc.haz <- popavg_haz(      x = time.haz,
                          frailty = FRAILTY)
 
 plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
-       ylab="Hazard Ratio", lwd=2)
+       ylab="Hazard Ratio", lwd=2, ylim=c(-0.05,1.05))
 
 abline(v=tvec.in, lty=2, col="grey")
 
@@ -199,7 +213,7 @@ vacc.haz.ss <- popavg_haz(      x = time.haz,
                        delta_vec = delta_vec_v)
 
 plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
-       ylab="Hazard Ratio", lwd=2)
+       ylab="Hazard Ratio", lwd=2, ylim=c(-0.05,1.05))
 
 axis(1, at=c(tvec.in[1]))
 
@@ -281,7 +295,11 @@ delta_vec_v =vacc_fit_F_alpha$par
 We use the knots and the original time in `time.dist` to do a quick check of the fit.  We put vertical dashed lines in the plot to denote knot placement.
 
 ```{r}
-time.dist <- seq(min(c(time, tvec.in)), max(c(time, tvec.in)), 0.1)
+time.dist <- sort(c(seq(min(c(time, tvec.in)), 
+                        max(c(time, tvec.in)), 0.1),
+                    tvec.in)
+                  )
+
 plac.dist <- popavg_dist(      x = time.dist, 
                            knots = tvec.in,
                            logk0 = logk0p,
@@ -311,7 +329,7 @@ legend("topleft", c("Placebo", "Vaccine"),
 axis(1, at=c(tvec.in[1]))
 ```
 
-Note from Days 0 to `r tvec.in[1]` the curves are the same. 
+Note from Days 0 to `r tvec.in[1]` the curves are the same.  Comparing with the two knot example, the fit is much improved. 
 
 ### Plot population avg HR
   * uses parameters from two step fitting procedure
@@ -339,7 +357,7 @@ vacc.haz <- popavg_haz(      x = time.haz,
                           h_parm = H_PARM,
                          frailty = FRAILTY)
 
-plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard Ratio", lwd=2)
+plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days", ylab="Hazard Ratio", lwd=2, ylim=c(-0.05,1.05))
 
 abline(v=tvec.in, lty=2, col="grey")
 
@@ -366,7 +384,7 @@ vacc.haz.ss <- popavg_haz(      x = time.haz,
                        delta_vec = delta_vec_v)
 
 plot  (time.haz, vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
-       ylab="Hazard Ratio", lwd=2)
+       ylab="Hazard Ratio", lwd=2, ylim=c(-0.05,1.05))
 
 axis(1, at=c(tvec.in[1]))
 
