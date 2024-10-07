@@ -18,9 +18,22 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of mpw is to estimate Marginalized Piecewise Weibull Frailty 
-Models in R.
+The goal of mpw is to facilitate estimating Marginalized Piecewise Weibull Frailty Models in R.
 
+There are articles on the webpage for this package that work through
+examples of Marginalized Piecewise Weibull Frailty 
+Models in R.  Please consult the following articles:
+
+  * [Weibull-Weibull-Positive Stable](https://swihart.github.io/mpw/articles/alpha.html)
+
+  * [Burr-Weibull-Gamma](https://swihart.github.io/mpw/articles/beta.html)
+  
+  * [Marginalized-Weibull-Inverse Gaussian](https://swihart.github.io/mpw/articles/lambda.html)
+
+  * [Marginalized-Weibull-Two Point (fixed mean 1)](https://swihart.github.io/mpw/articles/rho.html)
+  
+  * [Marginalized-Weibull-Two Point (unconstrained mean)](https://swihart.github.io/mpw/articles/womega.html)
+  
 ## Installation
 
 You can install the development version of mpw from [GitHub](https://github.com/) with:
