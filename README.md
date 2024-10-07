@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mpw
+# mpw: Marginalized Piecewise Weibull Frailty Models in R
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -9,9 +9,22 @@
 The goal of mpw is to facilitate estimating Marginalized Piecewise
 Weibull Frailty Models in R.
 
-There are articles on the webpage for this package that work through
-examples of Marginalized Piecewise Weibull Frailty Models in R. Please
-consult the following articles:
+## Installation
+
+You can install the development version of mpw from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("swihart/mpw")
+```
+
+## Examples
+
+There are articles on the package webpage
+(<https://swihart.github.io/mpw/>) that work through examples of
+Marginalized Piecewise Weibull Frailty Models in R. Please consult the
+following articles:
 
 - [Weibull-Weibull-Positive
   Stable](https://swihart.github.io/mpw/articles/alpha.html)
@@ -27,19 +40,9 @@ consult the following articles:
 - [Marginalized-Weibull-Two Point (unconstrained
   mean)](https://swihart.github.io/mpw/articles/womega.html)
 
-## Installation
-
-You can install the development version of mpw from
-[GitHub](https://github.com/) with:
-
-``` r
-# install.packages("pak")
-pak::pak("swihart/mpw")
-```
-
-## Examples
-
-These are basic examples.
+What follows below are basic function calls for one group. The articles
+above show a work-flow for calculating and plotting population-average
+and subject-specific hazard ratios (HRs) comparing two groups.
 
 ## PS($\alpha,\alpha,0$) Positive Stable Example
 

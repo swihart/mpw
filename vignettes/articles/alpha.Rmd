@@ -7,6 +7,15 @@ output:
     number_sections: true
 ---
 
+# PS($\alpha,\alpha,0$) Positive Stable Frailty Example
+
+This is the $F_{\alpha}$ referenced in the manuscript:
+
+  * $F_{\alpha}(x) = 1-\exp[-\exp\alpha\eta]$
+
+This is the PS($\alpha,\alpha,0$) Positive Stable Frailty density:
+
+  * $f_{u_{i}}(u_{i} | \alpha) =  - \frac{1}{\pi u_{i}}  \sum_{k=1}^\infty \frac{\Gamma(k \alpha +1)}{k!}  (-u_{i}^{-\alpha})^k \sin{(\alpha k \pi)}$ 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
