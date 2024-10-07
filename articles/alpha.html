@@ -67,6 +67,22 @@
 
     
     
+<div class="section level2">
+<h2 id="psalphaalpha0-positive-stable-frailty-example">PS(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>,</mo><mi>α</mi><mo>,</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha,\alpha,0</annotation></semantics></math>)
+Positive Stable Frailty Example<a class="anchor" aria-label="anchor" href="#psalphaalpha0-positive-stable-frailty-example"></a>
+</h2>
+<p>This is the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mi>α</mi></msub><annotation encoding="application/x-tex">F_{\alpha}</annotation></semantics></math>
+referenced in the manuscript:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>α</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mo>exp</mo><mi>α</mi><mi>η</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">F_{\alpha}(x) = 1-\exp[-\exp\alpha\eta]</annotation></semantics></math></li>
+</ul>
+<p>This is the
+PS(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>,</mo><mi>α</mi><mo>,</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha,\alpha,0</annotation></semantics></math>)
+Positive Stable Frailty density:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><msub><mi>u</mi><mi>i</mi></msub></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>u</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mi>π</mi><msub><mi>u</mi><mi>i</mi></msub></mrow></mfrac><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>∞</mi></msubsup><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>k</mi><mi>!</mi></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><msubsup><mi>u</mi><mi>i</mi><mrow><mo>−</mo><mi>α</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msup><mo>sin</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mi>k</mi><mi>π</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_{u_{i}}(u_{i} | \alpha) =  - \frac{1}{\pi u_{i}}  \sum_{k=1}^\infty \frac{\Gamma(k \alpha +1)}{k!}  (-u_{i}^{-\alpha})^k \sin{(\alpha k \pi)}</annotation></semantics></math></li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://swihart.github.io/mpw/">mpw</a></span><span class="op">)</span></span>
 <span><span class="co">## This data resembles that in Thomas et al</span></span>
@@ -91,19 +107,19 @@ this example.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">H_PARM</span> <span class="op">&lt;-</span> <span class="fl">0.72</span></span>
 <span><span class="va">FRAILTY</span> <span class="op">&lt;-</span> <span class="st">"PS"</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="two-knots">Two knots<a class="anchor" aria-label="anchor" href="#two-knots"></a>
-</h2>
+<div class="section level3">
+<h3 id="two-knots">Two knots<a class="anchor" aria-label="anchor" href="#two-knots"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tvec.in</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">90</span><span class="op">+</span><span class="fl">21</span><span class="op">)</span></span>
 <span><span class="va">tvec.in</span></span>
 <span><span class="co">#&gt; [1]   5 111</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="two-step-fitting-procedure">Two step fitting procedure<a class="anchor" aria-label="anchor" href="#two-step-fitting-procedure"></a>
-</h3>
 <div class="section level4">
-<h4 id="fit-for-placebo-group">1. Fit for placebo group<a class="anchor" aria-label="anchor" href="#fit-for-placebo-group"></a>
+<h4 id="two-step-fitting-procedure">Two step fitting procedure<a class="anchor" aria-label="anchor" href="#two-step-fitting-procedure"></a>
 </h4>
+<div class="section level5">
+<h5 id="fit-for-placebo-group">1. Fit for placebo group<a class="anchor" aria-label="anchor" href="#fit-for-placebo-group"></a>
+</h5>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_F_alpha</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span><span class="va">time</span>, </span>
 <span>                                            knots<span class="op">=</span> <span class="va">tvec.in</span>, </span>
@@ -139,9 +155,9 @@ this example.</p>
 <span><span class="va">g0p</span> <span class="op">=</span> <span class="va">plac_fit_F_alpha</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">delta_vec_p</span> <span class="op">=</span><span class="va">plac_fit_F_alpha</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="fit-for-vaccine-group">2. Fit for vaccine group<a class="anchor" aria-label="anchor" href="#fit-for-vaccine-group"></a>
-</h4>
+<div class="section level5">
+<h5 id="fit-for-vaccine-group">2. Fit for vaccine group<a class="anchor" aria-label="anchor" href="#fit-for-vaccine-group"></a>
+</h5>
 <p>Now take <code>logk0p</code> and <code>g0p</code>, the parameters
 that control the first (leftmost) piece for the placebo group and use
 them for <code>logk0v</code> and <code>g0v</code> when estimating the
@@ -183,9 +199,9 @@ same for both groups (i.e. <em>ramp-up time</em>).</p>
 <span><span class="va">delta_vec_v</span> <span class="op">=</span><span class="va">vacc_fit_F_alpha</span><span class="op">$</span><span class="va">par</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="plot-population-avg-cdf">Plot population avg CDF<a class="anchor" aria-label="anchor" href="#plot-population-avg-cdf"></a>
-</h3>
+<div class="section level4">
+<h4 id="plot-population-avg-cdf">Plot population avg CDF<a class="anchor" aria-label="anchor" href="#plot-population-avg-cdf"></a>
+</h4>
 <ul>
 <li>Quick check of fit</li>
 </ul>
@@ -224,9 +240,9 @@ denote knot placement.</p>
 <p><img src="alpha_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Note from Days 0 to 5 the curves are the same.</p>
 </div>
-<div class="section level3">
-<h3 id="plot-population-avg-hr">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr"></a>
-</h3>
+<div class="section level4">
+<h4 id="plot-population-avg-hr">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr"></a>
+</h4>
 <ul>
 <li>uses parameters from two step fitting procedure</li>
 <li>HR(0) = 1</li>
@@ -260,9 +276,9 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="alpha_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
-<div class="section level3">
-<h3 id="add-subject-specific-hrs">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs"></a>
-</h3>
+<div class="section level4">
+<h4 id="add-subject-specific-hrs">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs"></a>
+</h4>
 <ul>
 <li>should flatten</li>
 </ul>
@@ -304,9 +320,9 @@ vaccine group and dividing them gives the subject-specific hazard ratio
 average HR.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="sixteen-knots">Sixteen knots<a class="anchor" aria-label="anchor" href="#sixteen-knots"></a>
-</h2>
+<div class="section level3">
+<h3 id="sixteen-knots">Sixteen knots<a class="anchor" aria-label="anchor" href="#sixteen-knots"></a>
+</h3>
 <p>By increasing the knots, we get a “higher resolution” fit.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tvec.in</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">14</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">-</span><span class="fl">14</span>,length.out<span class="op">=</span><span class="fl">14</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">-</span><span class="fl">7</span><span class="op">)</span></span>
@@ -314,12 +330,12 @@ average HR.</p>
 <span><span class="co">#&gt;  [1]   5.00000  14.00000  26.92308  39.84615  52.76923  65.69231  78.61538</span></span>
 <span><span class="co">#&gt;  [8]  91.53846 104.46154 117.38462 130.30769 143.23077 156.15385 169.07692</span></span>
 <span><span class="co">#&gt; [15] 182.00000 189.00000</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="two-step-fitting-procedure-1">Two step fitting procedure<a class="anchor" aria-label="anchor" href="#two-step-fitting-procedure-1"></a>
-</h3>
 <div class="section level4">
-<h4 id="fit-for-placebo-group-1">1. Fit for placebo group<a class="anchor" aria-label="anchor" href="#fit-for-placebo-group-1"></a>
+<h4 id="two-step-fitting-procedure-1">Two step fitting procedure<a class="anchor" aria-label="anchor" href="#two-step-fitting-procedure-1"></a>
 </h4>
+<div class="section level5">
+<h5 id="fit-for-placebo-group-1">1. Fit for placebo group<a class="anchor" aria-label="anchor" href="#fit-for-placebo-group-1"></a>
+</h5>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_F_alpha</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span><span class="va">time</span>, </span>
 <span>                                            knots<span class="op">=</span> <span class="va">tvec.in</span>, </span>
@@ -358,9 +374,9 @@ average HR.</p>
 <span><span class="va">g0p</span> <span class="op">=</span> <span class="va">plac_fit_F_alpha</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">delta_vec_p</span> <span class="op">=</span><span class="va">plac_fit_F_alpha</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="fit-for-vaccine-group-1">2. Fit for vaccine group<a class="anchor" aria-label="anchor" href="#fit-for-vaccine-group-1"></a>
-</h4>
+<div class="section level5">
+<h5 id="fit-for-vaccine-group-1">2. Fit for vaccine group<a class="anchor" aria-label="anchor" href="#fit-for-vaccine-group-1"></a>
+</h5>
 <p>Now take <code>logk0p</code> and <code>g0p</code>, the parameters
 that control the first (leftmost) piece for the placebo group and use
 them for <code>logk0v</code> and <code>g0v</code> when estimating the
@@ -404,9 +420,9 @@ same for both groups (i.e. <em>ramp-up time</em>).</p>
 <span><span class="va">delta_vec_v</span> <span class="op">=</span><span class="va">vacc_fit_F_alpha</span><span class="op">$</span><span class="va">par</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level3">
-<h3 id="plot-population-avg-cdf-1">Plot population avg CDF<a class="anchor" aria-label="anchor" href="#plot-population-avg-cdf-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="plot-population-avg-cdf-1">Plot population avg CDF<a class="anchor" aria-label="anchor" href="#plot-population-avg-cdf-1"></a>
+</h4>
 <ul>
 <li>Quick check of fit</li>
 </ul>
@@ -445,9 +461,9 @@ denote knot placement.</p>
 <p><img src="alpha_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>Note from Days 0 to 5 the curves are the same.</p>
 </div>
-<div class="section level3">
-<h3 id="plot-population-avg-hr-1">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="plot-population-avg-hr-1">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr-1"></a>
+</h4>
 <ul>
 <li>uses parameters from two step fitting procedure</li>
 <li>HR(0) = 1</li>
@@ -480,9 +496,9 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="alpha_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
-<div class="section level3">
-<h3 id="add-subject-specific-hrs-1">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="add-subject-specific-hrs-1">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs-1"></a>
+</h4>
 <ul>
 <li>should flatten</li>
 </ul>
@@ -522,6 +538,7 @@ vaccine group and dividing them gives the subject-specific hazard ratio
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 = 0.72 the subject-specific HR is flatter and lower than the population
 average HR.</p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
