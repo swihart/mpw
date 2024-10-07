@@ -28,7 +28,7 @@ We analyze data that looks similar to that of Figure 2 [Thomas et al (2021) *Saf
 
 We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines.
 
-```{r data}
+```{r thomas_data}
 library(mpw)
 ## This data resembles Figure 2 in Thomas et al
 ## https://pubmed.ncbi.nlm.nih.gov/34525277/
@@ -95,7 +95,7 @@ delta_vec_p =plac_fit_F_alpha$par[-1*c(1,2)]
 Now take `logk0p` and `g0p`, the parameters that control the first (leftmost)
 piece for the placebo group and use them for `logk0v` and `g0v` when estimating the pieces for the vaccine group.  This forces the first pieces to be the same for both groups (i.e. *ramp-up time*).
 
-```{r}
+```{r alpha_02_knots_fit}
 fit_F_alpha <- function(x){mean((popavg_dist(time, 
                                             knots= tvec.in, 
                                             logk0=logk0p, 
@@ -121,7 +121,7 @@ delta_vec_v =vacc_fit_F_alpha$par
 
 We use the knots and the original time in `time.dist` to do a quick check of the fit.  We put vertical dashed lines in the plot to denote knot placement.
 
-```{r}
+```{r alpha_02_knots_popavg_dist}
 time.dist <- sort(c(seq(min(c(time, tvec.in)), 
                         max(c(time, tvec.in)), 0.1),
                     tvec.in)
@@ -166,7 +166,7 @@ We use the parameters of the previous fits to estimate the
 population average hazard, which we can fit with `mpw::popavg_haz()`.
 We adjust the time input so that the first element is just above 0.
 
-```{r}
+```{r alpha_02_knots_popavg_haz}
 time.haz <- c(1e-4, time.dist[-1])
 plac.haz <- popavg_haz(      x = time.haz, 
                            knots = tvec.in,
@@ -198,7 +198,7 @@ axis(1, at=c(tvec.in[1]))
 
 The function `mpw::subjspec_haz()` does not require the arguments `frailty` or `h_parm` because it takes the inputs for the b,k, and delta pieces and models the subject-specific (aka conditional) hazard.  Doing this for the placebo group, then the vaccine group and dividing them gives the subject-specific hazard ratio (HR).
 
-```{r}
+```{r alpha_02_knots_subjspec_haz}
 plac.haz.ss <- subjspec_haz(      x = time.haz, 
                            knots = tvec.in,
                            logk0 = logk0p,
@@ -293,7 +293,7 @@ delta_vec_v =vacc_fit_F_alpha$par
 
 We use the knots and the original time in `time.dist` to do a quick check of the fit.  We put vertical dashed lines in the plot to denote knot placement.
 
-```{r}
+```{r alpha_16_knots_popavg_dist}
 time.dist <- sort(c(seq(min(c(time, tvec.in)), 
                         max(c(time, tvec.in)), 0.1),
                     tvec.in)
@@ -338,7 +338,7 @@ We use the parameters of the previous fits to estimate the
 population average hazard, which we can fit with `mpw::popavg_haz()`.
 We adjust the time input so that the first element is just above 0.
 
-```{r}
+```{r alpha_16_knots_popavg_haz}
 time.haz <- c(1e-4, time.dist[-1])
 plac.haz <- popavg_haz(      x = time.haz, 
                            knots = tvec.in,
@@ -369,7 +369,7 @@ axis(1, at=c(tvec.in[1]))
 
 The function `mpw::subjspec_haz()` does not require the arguments `frailty` or `h_parm` because it takes the inputs for the b,k, and delta pieces and models the subject-specific (aka conditional) hazard.  Doing this for the placebo group, then the vaccine group and dividing them gives the subject-specific hazard ratio (HR).
 
-```{r}
+```{r alpha_16_knots_subjspec_haz}
 plac.haz.ss <- subjspec_haz(      x = time.haz, 
                            knots = tvec.in,
                            logk0 = logk0p,
