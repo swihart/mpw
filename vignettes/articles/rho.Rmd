@@ -1,5 +1,7 @@
 ---
-title: "Marginalized-Weibull-Two Point (fixed mean 1)"
+title: | 
+    | Marginalized-Weibull-Two Point
+    | (fixed mean 1)
 ---
 
 ```{r, include = FALSE}
