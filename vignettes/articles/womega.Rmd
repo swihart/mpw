@@ -1,5 +1,6 @@
 ---
-title: "Marginalized-Weibull-Two Point (unconstrained mean)"
+title: "Marginalized-Weibull-Two Point(U)"
+subtitle:  "(unconstrained mean)"
 ---
 
 ```{r, include = FALSE}
