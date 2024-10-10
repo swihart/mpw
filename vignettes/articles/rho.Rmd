@@ -1,5 +1,5 @@
 ---
-title: Marginalized-Weibull-Two Point  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; (fixed mean 1)
+title: Marginalized-Weibull-Two Point (fixed mean 1)
 ---
 
 ```{r, include = FALSE}
