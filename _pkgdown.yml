@@ -6,7 +6,7 @@ articles:
 - title: Main verbs
   navbar: ~
   contents:
-  - alpha
+  - "Weibull-Weibull-Positive Stable"
   - beta
 
 - title: Developer
