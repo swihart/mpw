@@ -6,13 +6,11 @@ articles:
 - title: Main verbs
   navbar: ~
   contents:
-  - one-table
-  - two-table
-  - rowwise
-  - colwise
+  - alpha
+  - beta
 
 - title: Developer
   desc: Vignettes aimed at package developers
   contents:
-  - programming
-  - packages
+  - lambda
+  - rho
