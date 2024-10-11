@@ -6,11 +6,11 @@ articles:
 - title: Main verbs
   navbar: ~
   contents:
-  - "Weibull-Weibull-Positive Stable"
-  - beta
+  - articles/alpha
+  - articles/beta
 
 - title: Developer
   desc: Vignettes aimed at package developers
   contents:
-  - lambda
-  - rho
+  - articles/lambda
+  - articles/rho
