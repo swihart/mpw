@@ -3,16 +3,20 @@ template:
   bootstrap: 5
 
 articles:
-- title: Main verbs
+- title: 1/$\alpha$ approach
   navbar: ~
   contents:
   - articles/alpha
   - articles/beta
 
-- title: Developer
+- title: Exploratory approach
   navbar: ~
   desc: Vignettes aimed at package developers
   contents:
   - articles/lambda
   - articles/rho
+
+- title: Inferential approach
+  desc: Vignettes aimed at package developers
+  contents:
   - articles/womega

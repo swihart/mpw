@@ -23,7 +23,7 @@ Weibull Frailty Models in R.
 
 ## Installation
 
-You can install the development version of mpw from [GitHub](https://github.com/) with:
+You can install the development version of mpw from the [GitHub repo for this package](https://github.com/swihart/mpw) with:
 
 ``` r
 # install.packages("pak")
