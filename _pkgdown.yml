@@ -10,6 +10,7 @@ articles:
   - articles/beta
 
 - title: Developer
+  navbar: ~
   desc: Vignettes aimed at package developers
   contents:
   - articles/lambda
