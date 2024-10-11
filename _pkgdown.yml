@@ -2,3 +2,17 @@ url: https://swihart.github.io/mpw/
 template:
   bootstrap: 5
 
+articles:
+- title: Main verbs
+  navbar: ~
+  contents:
+  - one-table
+  - two-table
+  - rowwise
+  - colwise
+
+- title: Developer
+  desc: Vignettes aimed at package developers
+  contents:
+  - programming
+  - packages
