@@ -3,7 +3,7 @@ template:
   bootstrap: 5
 
 articles:
-- title: 1/$\alpha$ approach
+- title: $\frac{1}{\alpha}$ approach
   navbar: ~
   contents:
   - articles/alpha
