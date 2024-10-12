@@ -1,5 +1,5 @@
 ---
-title: Weibull-Weibull-Positive Stable: $\alpha$ approach
+title: "Weibull-Weibull-Positive Stable"
 output: 
   html_document:
     toc: true # table of content true
