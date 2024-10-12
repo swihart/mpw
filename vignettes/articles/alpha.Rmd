@@ -1,5 +1,5 @@
 ---
-title: "Weibull-Weibull-Positive Stable"
+title: Weibull-Weibull-Positive Stable \(\alpha\)
 output: 
   html_document:
     toc: true # table of content true
