@@ -3,11 +3,16 @@ template:
   bootstrap: 5
 
 articles:
-- title: $\frac{1}{\alpha}$ approach
+- title: Fay MP et al. supporting materials
   navbar: ~
+  desc: The $\frac{1}{\alpha}$ approach used in Fay MP et al.
+  In this approach which utilizes the "Weibull-Weibull-Positive Stable" model,
+  the population (marginal) Weibull is estimated, and
+  then $\frac{1}{\alpha}$ is applied to those estimates
+  to render the individual-level (conditional) Weibull.
   contents:
   - articles/alpha
-  - articles/beta
+
 
 - title: Exploratory approach
   navbar: ~
@@ -20,3 +25,4 @@ articles:
   desc: Vignettes aimed at package developers
   contents:
   - articles/womega
+  - articles/beta
