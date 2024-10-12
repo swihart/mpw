@@ -16,6 +16,7 @@ articles:
   contents:
   - articles/lambda
   - articles/rho
+  - articles/alpha
 
 - title: Inferential approach
   desc: Vignettes aimed at package developers
