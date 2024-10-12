@@ -26,6 +26,7 @@ We analyze data that looks similar to that of Figure 2 [Thomas et al (2021) *Saf
 We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines.
 
 ```{r thomas-data}
+time <- readRDS("time.RDS")
 library(mpw)
 ## This data resembles Figure 2 in Thomas et al
 ## https://pubmed.ncbi.nlm.nih.gov/34525277/

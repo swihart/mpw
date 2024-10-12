@@ -15,7 +15,7 @@ library(mpw)
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
-
+saveRDS(time,"time.RDS")
 ## plot the data points, 
 ## with interpolated lines
 plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF")
