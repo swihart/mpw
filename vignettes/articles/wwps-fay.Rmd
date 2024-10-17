@@ -1,5 +1,5 @@
 ---
-title: "`1 over alpha` W-W-PS approach"
+title: "Fay et al. (2025) supporting materials"
 output: 
   html_document:
     toc: true # table of content true
