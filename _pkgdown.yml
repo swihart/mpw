@@ -3,9 +3,10 @@ template:
   bootstrap: 5
 
 articles:
-- title: Exploratory approach
+- title: Exploratory approaches
   navbar: ~
-  desc: These articles describe how to explore underlying heterogeneity.
+  desc: These articles describe how to explore underlying heterogeneity. They require
+  specifying a value for the heterogeneity parameter `H_PARM`.
   contents:
   - articles/alpha
   - articles/beta
@@ -13,13 +14,13 @@ articles:
   - articles/rho
   - articles/womega
 
-- title: `$\frac{1}{\alpha}$` approach Fay et al. (2025) supporting materials
-  navbar: ~
-  desc: ()In progress) In Fay et al. (2025) *Vaccine Efficacy Estimands for Individual Randomized Field Trials*, the $\frac{1}{\alpha}$ approach is used. In this approach which utilizes the "Weibull-Weibull-Positive Stable" model, the population (marginal) Weibull is estimated, and then $\frac{1}{\alpha}$ is applied to those estimates to render the individual-level (conditional) Weibull. This code recreates Figure 6 in that paper.
+- title: `$\frac{1}{\alpha}$` approaches
+  navbar: 1-over-alpha approach
+  desc: (*In progress*) In Fay et al. (2025) *Vaccine Efficacy Estimands for Individual Randomized Field Trials*, the $\frac{1}{\alpha}$ approach is used. In this approach which utilizes the "Weibull-Weibull-Positive Stable" model, the population (marginal) Weibull is estimated, and then $\frac{1}{\alpha}$ is applied to those estimates to render the individual-level (conditional) Weibull. This code recreates Figure 6 in that paper.
   contents:
   - articles/wwps-fay
 
-- title: Inferential approach
+- title: Inferential approaches
   desc: These articles show how to get confidence interval on underlying heterogeneity (in progress).
   contents:
   - articles/womega
