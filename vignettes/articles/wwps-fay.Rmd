@@ -1,5 +1,5 @@
 ---
-title: "Weibull-Weibull-Positive Stable (Fay et al Supplement Support)"
+title: "Weibull-Weibull-Positive Stable (Marginal, then Conditional)"
 output: 
   html_document:
     toc: true # table of content true
@@ -7,7 +7,16 @@ output:
     number_sections: true
 ---
 
-Fay has an example.
+This example is showcased in Fay et al in support
+of *Vaccine Efficacy Estimands for Individual Randomized Field Trials*.
+
+The Weibull-Weibull-Positive Stable has a feature that the other mpw frailty models do not have: that is, the marginal distribution (Weibull) is the same as the conditional distribution (also Weibull).  This enables 
+a strategy of estimating the mpw on the population data without specifying an alpha (practically, setting it to 1) and then from there one can exactly calculate corresponding conditional models (and HRs, and VEs, etc) using $\frac{1}{\alpha}$ applied to the *marginal* $b$ and $k$ estimates. 
+
+Explicitly, the hazard ratio for an individual $\theta_I$ can be produced by:
+
+$$\frac{ b_1^{1/\alpha} (k_1/\alpha) t^{(k_1/\alpha)-1}}{b_0^{1/\alpha} (k_0/\alpha) t^{(k_0/\alpha)-1}} = \theta_I$$
+
 
 # PS($\alpha,\alpha,0$) Positive Stable Frailty Example
 
