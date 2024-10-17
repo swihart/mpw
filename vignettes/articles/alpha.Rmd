@@ -206,7 +206,7 @@ plac.haz.ss <- subjspec_haz(      x = time.haz,
                               g0 = g0p,
                        delta_vec = delta_vec_p)
 
-vacc.haz.ss <- popavg_haz(      x = time.haz, 
+vacc.haz.ss <- subjspec_haz(      x = time.haz, 
                            knots = tvec.in,
                            logk0 = logk0v,
                               g0 = g0v,
@@ -377,7 +377,7 @@ plac.haz.ss <- subjspec_haz(      x = time.haz,
                               g0 = g0p,
                        delta_vec = delta_vec_p)
 
-vacc.haz.ss <- popavg_haz(      x = time.haz, 
+vacc.haz.ss <- subjspec_haz(      x = time.haz, 
                            knots = tvec.in,
                            logk0 = logk0v,
                               g0 = g0v,
