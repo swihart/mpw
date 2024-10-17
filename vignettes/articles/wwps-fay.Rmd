@@ -11,9 +11,9 @@ This example is showcased in Fay et al in support
 of *Vaccine Efficacy Estimands for Individual Randomized Field Trials*.
 
 The Weibull-Weibull-Positive Stable has a feature that the other mpw frailty models do not have: that is, the marginal distribution (Weibull) is the same as the conditional distribution (also Weibull).  This enables 
-a strategy of estimating the mpw on the population data without specifying an alpha (practically, setting it to 1) and then from there one can exactly calculate corresponding conditional models (and HRs, and VEs, etc) using $\frac{1}{\alpha}$ applied to the *marginal* $b$ and $k$ estimates. 
+a strategy of estimating the mpw on the population data without specifying an $\alpha$ (this is done in practice by setting `alpha=1`) and then from there one can exactly calculate corresponding conditional models (and HRs, and VEs, etc) using $\frac{1}{\alpha}$ applied to the *marginal* $b$ and $k$ estimates. 
 
-Explicitly, the hazard ratio for an individual $\theta_I$ can be produced by:
+Explicitly, the hazard ratio for an individual, $\theta_I$, can be produced by:
 
 $$\frac{ b_1^{1/\alpha} (k_1/\alpha) t^{(k_1/\alpha)-1}}{b_0^{1/\alpha} (k_0/\alpha) t^{(k_0/\alpha)-1}} = \theta_I$$
 
@@ -63,18 +63,19 @@ legend("topleft", c("Placebo", "Vaccine"),
 ```
 
 Set the `h_parm` and `frailty` distribution for this example. Beware that H_PARM has different bounds depending on what value of FRAILTY is selected.
+For this example, we are going to estimate the marginal parameters first and can accomplish this by mitigating the effect of alpha, that is, setting the `H_PARM=1.00`.  
 
 ```{r setup}
-H_PARM <- 0.72
+H_PARM <- 1.00
 FRAILTY <- "PS"
 ```
 
 We first consider two knots which will allow us to model each curve with three pieces.  We set the first piece of each group to be equal so we can get an HR of 1 (more in subsequent sections). This first piece can be specified to be over a short time range where both groups would be considered equal due to the *ramp-up time* of a vaccine.  Below we set the ramp-up time to end 5 days after first dose, the second piece to go from then to 90 days after second dose, and the third piece from then until the end of the study.  We do this by specifying two knot values, as below:
 
 
-## Two knots
+## Knot selection
 ```{r knot02-specific-setup}
-tvec.in <- c(5, 90+21)
+tvec.in<- c(1,28,56,84,112,140,168)
 tvec.in
 ```
 
@@ -168,8 +169,53 @@ legend("topleft", c("Placebo", "Vaccine"),
 axis(1, at=c(tvec.in[1]))
 ```
 
+
+
+
 Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above.
 
+
+
+```{r}
+COL <- c("black","grey")
+LTY <- c(1,1)
+LWD <- c(2,6)
+plot(NA,NA,, type="l", col="black", lwd=2, ylim=c(0,0.08), ylab="Cumulative Incidence",xlab="Day since Receipt of First Dose", 
+        main=c("Specified Knots: ",paste(round(tvec.in,1), collapse=", ")), xlim=range(time))
+
+
+plac.dist <- popavg_dist(      x = time.dist, 
+                           knots = tvec.in,
+                           logk0 = logk0p,
+                              g0 = g0p,
+                       delta_vec = delta_vec_p,
+                          h_parm = H_PARM,
+                         frailty = FRAILTY)
+
+vacc.dist <- popavg_dist(      x = time.dist, 
+                           knots = tvec.in,
+                           logk0 = logk0v,
+                              g0 = g0v,
+                       delta_vec = delta_vec_v,
+                          h_parm = H_PARM,
+                         frailty = FRAILTY)
+
+
+
+  lines(c(0,time.dist), c(0,vacc.dist),  col=COL[2],lty=LTY[2],lwd=LWD[2])
+
+
+
+points(time, F1, col="blue")
+abline(v=tvec.in, lty=2, col="grey")
+
+points(time, F0, col="black")
+
+  lines(c(0,time.dist), c(0,plac.dist),  col=COL[1],lty=LTY[1],lwd=LWD[1])
+legend("topleft",legend=c(expression(F[0](t)),expression(F[1](t))),col=COL,
+       lty=LTY,lwd=LWD)
+
+```
 ### Plot population avg HR
   * uses parameters from two step fitting procedure
   * HR(0) = 1
@@ -237,8 +283,57 @@ legend("topright", c("Population HR", "Subject-specific HR"),
 )
 
 
+
+
+
+
+
 ```
 
+
+```{r}
+COL<- gray(c(0.7,.5,0))
+LTY<-c(1,2,3)
+LWD<-c(6,4,2)
+
+plot(NA,NA,, type="l", col="black", lwd=2, ylim=c(0,1), ylab=expression(VE[h]),xlab="Days since Receipt of First Dose", main=c("Specified knots: ",paste(round(tvec.in,1), collapse=", ")), xlim=range(time))
+
+##set alpha.vec here to plot different conditionals
+alpha.vec <- c(0.4,0.7,0.99)
+
+## now plot
+for(i in 1:length(alpha.vec)){
+  
+  
+  a.in <- alpha.vec[i]
+  
+
+plac.haz <- popavg_haz(      x = time.haz, 
+                           knots = tvec.in,
+                           logk0 = logk0p,
+                              g0 = g0p,
+                       delta_vec = delta_vec_p,
+                          h_parm = 1/a.in,
+                         frailty = FRAILTY)
+
+vacc.haz <- popavg_haz(      x = time.haz, 
+                           knots = tvec.in,
+                           logk0 = logk0v,
+                              g0 = g0v,
+                       delta_vec = delta_vec_v,
+                          h_parm = 1/a.in,
+                         frailty = FRAILTY)
+
+
+
+lines(time.haz, 1-vacc.haz/plac.haz, col=COL[i],lty=LTY[i],lwd=LWD[i])
+
+abline(v=tvec.in, lty=2, col="grey")
+
+}
+legend("bottomright",legend=paste0("alpha=",alpha.vec),lty=LTY,lwd=LWD,col=COL)
+
+```
 The plot above shows that for a positive-stable frailty with $\alpha$ = `r H_PARM` the subject-specific HR is flatter and lower than the population average HR.
 
 ## Sixteen knots
