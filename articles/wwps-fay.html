@@ -33,10 +33,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/wwps-fay.html">Weibull-Weibull-Positive Stable (Marginal, then Conditional)</a></li>
+<li><a class="dropdown-item" href="../articles/alpha.html">Weibull-Weibull-Positive Stable</a></li>
+    <li><a class="dropdown-item" href="../articles/beta.html">Burr-Weibull-Gamma</a></li>
     <li><a class="dropdown-item" href="../articles/lambda.html">Marginalized-Weibull-Inverse Gaussian</a></li>
     <li><a class="dropdown-item" href="../articles/rho.html">Marginalized-Weibull-Two Point (fixed mean 1)</a></li>
-    <li><a class="dropdown-item" href="../articles/alpha.html">Weibull-Weibull-Positive Stable</a></li>
+    <li><a class="dropdown-item" href="../articles/womega.html">Marginalized-Weibull-Two Point (unconstrained mean)</a></li>
+    <li><a class="dropdown-item" href="../articles/wwps-fay.html">Weibull-Weibull-Positive Stable (Marginal, then Conditional)</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
   </ul>
@@ -68,8 +70,16 @@
 
     
     
-<p>This example is showcased in Fay et al in support of <em>Vaccine
-Efficacy Estimands for Individual Randomized Field Trials</em>.</p>
+<p>In Fay et al. (2025) <em>Vaccine Efficacy Estimands for Individual
+Randomized Field Trials</em>, the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mi>α</mi></mfrac><annotation encoding="application/x-tex">\frac{1}{\alpha}</annotation></semantics></math>
+approach is used. In this approach which utilizes the
+“Weibull-Weibull-Positive Stable” model, the population (marginal)
+Weibull is estimated, and then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mi>α</mi></mfrac><annotation encoding="application/x-tex">\frac{1}{\alpha}</annotation></semantics></math>
+is applied to those estimates to render the individual-level
+(conditional) Weibull. This code recreates Figure 6 in that paper using
+<code>mpw</code> calls.</p>
 <p>The Weibull-Weibull-Positive Stable has a feature that the other mpw
 frailty models do not have: that is, the marginal distribution (Weibull)
 is the same as the conditional distribution (also Weibull). This enables
