@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Weibull-Weibull-Positive Stable (Fay et al Supplement Support) • mpw</title>
+<title>Weibull-Weibull-Positive Stable (Marginal, then Conditional) • mpw</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Weibull-Weibull-Positive Stable (Fay et al Supplement Support)">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Weibull-Weibull-Positive Stable (Marginal, then Conditional)">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,7 +33,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/wwps-fay.html">Weibull-Weibull-Positive Stable (Fay et al Supplement Support)</a></li>
+<li><a class="dropdown-item" href="../articles/wwps-fay.html">Weibull-Weibull-Positive Stable (Marginal, then Conditional)</a></li>
     <li><a class="dropdown-item" href="../articles/lambda.html">Marginalized-Weibull-Inverse Gaussian</a></li>
     <li><a class="dropdown-item" href="../articles/rho.html">Marginalized-Weibull-Two Point (fixed mean 1)</a></li>
     <li><a class="dropdown-item" href="../articles/alpha.html">Weibull-Weibull-Positive Stable</a></li>
@@ -59,7 +59,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Weibull-Weibull-Positive Stable (Fay et al Supplement Support)</h1>
+      <h1>Weibull-Weibull-Positive Stable (Marginal, then Conditional)</h1>
             
       
 
@@ -68,7 +68,25 @@
 
     
     
-<p>Fay has an example.</p>
+<p>This example is showcased in Fay et al in support of <em>Vaccine
+Efficacy Estimands for Individual Randomized Field Trials</em>.</p>
+<p>The Weibull-Weibull-Positive Stable has a feature that the other mpw
+frailty models do not have: that is, the marginal distribution (Weibull)
+is the same as the conditional distribution (also Weibull). This enables
+a strategy of estimating the mpw on the population data without
+specifying an alpha (practically, setting it to 1) and then from there
+one can exactly calculate corresponding conditional models (and HRs, and
+VEs, etc) using
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mi>α</mi></mfrac><annotation encoding="application/x-tex">\frac{1}{\alpha}</annotation></semantics></math>
+applied to the <em>marginal</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+estimates.</p>
+<p>Explicitly, the hazard ratio for an individual
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>I</mi></msub><annotation encoding="application/x-tex">\theta_I</annotation></semantics></math>
+can be produced by:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msubsup><mi>b</mi><mn>1</mn><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>k</mi><mn>1</mn></msub><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>t</mi><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>k</mi><mn>1</mn></msub><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><mrow><msubsup><mi>b</mi><mn>0</mn><mrow><mn>1</mn><mi>/</mi><mi>α</mi></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>k</mi><mn>0</mn></msub><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>t</mi><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>k</mi><mn>0</mn></msub><mi>/</mi><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow></mfrac><mo>=</mo><msub><mi>θ</mi><mi>I</mi></msub></mrow><annotation encoding="application/x-tex">\frac{ b_1^{1/\alpha} (k_1/\alpha) t^{(k_1/\alpha)-1}}{b_0^{1/\alpha} (k_0/\alpha) t^{(k_0/\alpha)-1}} = \theta_I</annotation></semantics></math></p>
 <div class="section level2">
 <h2 id="psalphaalpha0-positive-stable-frailty-example">PS(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>,</mo><mi>α</mi><mo>,</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha,\alpha,0</annotation></semantics></math>)
 Positive Stable Frailty Example<a class="anchor" aria-label="anchor" href="#psalphaalpha0-positive-stable-frailty-example"></a>
