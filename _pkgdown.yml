@@ -5,8 +5,7 @@ template:
 articles:
 - title: Exploratory approaches
   navbar: ~
-  desc: These articles describe how to explore underlying heterogeneity. They require
-  specifying a value for the heterogeneity parameter `H_PARM`.
+  desc: These articles describe how to explore underlying heterogeneity. They require specifying a value for the heterogeneity parameter `H_PARM`.
   contents:
   - articles/alpha
   - articles/beta
