@@ -1,5 +1,5 @@
 ---
-title: "Weibull-Weibull-Positive Stable (Marginal, then Conditional)"
+title: "`1 over alpha` W-W-PS approach"
 output: 
   html_document:
     toc: true # table of content true
