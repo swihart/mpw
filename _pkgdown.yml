@@ -4,8 +4,8 @@ template:
 
 articles:
 - title: Exploratory approaches
-  navbar: ~
-  desc: These articles describe how to explore underlying heterogeneity. They require specifying a value for the heterogeneity parameter `H_PARM`.
+  navbar: Exploratory approaches
+  desc: These articles describe how to explore underlying heterogeneity. They require specifying a value for the heterogeneity parameter `h_parm`.
   contents:
   - articles/alpha
   - articles/beta
@@ -20,6 +20,7 @@ articles:
   - articles/wwps-fay
 
 - title: Inferential approaches
+  navbar: Inferential approaches
   desc: These articles show how to get confidence interval on underlying heterogeneity (in progress).
   contents:
   - articles/womega
