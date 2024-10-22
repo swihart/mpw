@@ -18,13 +18,14 @@ $$\frac{ b_1^{1/\alpha} (k_1/\alpha) t^{(k_1/\alpha)-1}}{b_0^{1/\alpha} (k_0/\al
 
 # PS($\alpha,\alpha,0$) Positive Stable Frailty Example
 
-This is the $F_{\alpha}$ referenced in the manuscript:
+This is the $F_{\alpha}$, the marginalized piecewise Weibull CDF:
 
   * $F_{\alpha}(x) = 1-\exp[-\exp\alpha\eta]$
 
-This is the PS($\alpha,\alpha,0$) Positive Stable Frailty density:
+The CDF above is the result of integrating a piecewise weibull frailty model where the frailty has the PS($\alpha,\alpha,0$) Positive Stable Frailty density:
 
   * $f_{u_{i}}(u_{i} | \alpha) =  - \frac{1}{\pi u_{i}}  \sum_{k=1}^\infty \frac{\Gamma(k \alpha +1)}{k!}  (-u_{i}^{-\alpha})^k \sin{(\alpha k \pi)}$
+  
   
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -36,7 +37,7 @@ knitr::opts_chunk$set(
 
 We analyze data that looks similar to that of Figure 2 [Thomas et al (2021) *Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine through 6 Months*](https://pubmed.ncbi.nlm.nih.gov/34525277/). 
 
-We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines.
+<!-- We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines. -->
 
 ```{r thomas-data}
 library(mpw)
@@ -61,14 +62,14 @@ legend("topleft", c("Placebo", "Vaccine"),
 ```
 
 Set the `h_parm` and `frailty` distribution for this example. Beware that H_PARM has different bounds depending on what value of FRAILTY is selected.
-For this example, we are going to estimate the marginal parameters first and can accomplish this by mitigating the effect of alpha, that is, setting the `H_PARM=1.00`.  
+For this example, we are going to estimate the marginal parameters first and can accomplish this by mitigating the effect of alpha, that is, setting the global variable `H_PARM=1.00` which will be passed to the argument `h_parm`.
 
 ```{r setup}
 H_PARM <- 1.00
 FRAILTY <- "PS"
 ```
 
-We first consider two knots which will allow us to model each curve with three pieces.  We set the first piece of each group to be equal so we can get an HR of 1 (more in subsequent sections). This first piece can be specified to be over a short time range where both groups would be considered equal due to the *ramp-up time* of a vaccine.  Below we set the ramp-up time to end 5 days after first dose, the second piece to go from then to 90 days after second dose, and the third piece from then until the end of the study.  We do this by specifying two knot values, as below:
+We first consider two knots which will allow us to model each curve with three pieces.  We set the first piece of each group to be equal so we can get an HR of 1 (more in subsequent sections). This first piece can be specified to be over a short time range where both groups would be considered equal due to the *ramp-up time* of a vaccine.  Below we set the ramp-up time to end 1 day after first dose, the second piece to go from then to 28 days after the first dose, and the third piece from then 56 days after the first dose, etc.
 
 
 ## Knot selection
@@ -132,7 +133,7 @@ delta_vec_v =vacc_fit_F_alpha$par
 
 We use the knots and the original time in `time.dist` to do a quick check of the fit.  We put vertical dashed lines in the plot to denote knot placement.
 
-```{r alpha-02-knots-popavg-dist}
+```{r alpha-02-knots-popavg-dist, eval=FALSE, include=FALSE}
 time.dist <- sort(c(seq(min(c(time, tvec.in)), 
                         max(c(time, tvec.in)), 0.1),
                     tvec.in)
@@ -170,7 +171,7 @@ axis(1, at=c(tvec.in[1]))
 
 
 
-Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above.
+<!-- Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above. -->
 
 
 
@@ -180,6 +181,11 @@ LTY <- c(1,1)
 LWD <- c(2,6)
 plot(NA,NA,, type="l", col="black", lwd=2, ylim=c(0,0.08), ylab="Cumulative Incidence",xlab="Day since Receipt of First Dose", 
         main=c("Specified Knots: ",paste(round(tvec.in,1), collapse=", ")), xlim=range(time))
+
+time.dist <- sort(c(seq(min(c(time, tvec.in)), 
+                        max(c(time, tvec.in)), 0.1),
+                    tvec.in)
+                  )
 
 
 plac.dist <- popavg_dist(      x = time.dist, 
@@ -215,6 +221,9 @@ legend("topleft",legend=c(expression(F[0](t)),expression(F[1](t))),col=COL,
 
 ```
 
+Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above.
+
+
 ### Plot population avg HR
   * uses parameters from two step fitting procedure
   * HR(0) = 1
@@ -249,13 +258,31 @@ abline(v=tvec.in, lty=2, col="grey")
 axis(1, at=c(tvec.in[1]))
 
 ```
+
+Or, plot the VE = 1-HR:
+
+```{r alpha-02-knots-popavg-ve}
+plot  (time.haz, 1-vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
+       ylab="Vaccine Efficacy", lwd=2, ylim=c(-0.05,1.05))
+
+abline(v=tvec.in, lty=2, col="grey")
+
+axis(1, at=c(tvec.in[1]))
+
+```
+
   
-### Add subject-specific HRs
+### Plot subject-specific VEs for different $\alpha$ values
   * should flatten
 
-The function `mpw::subjspec_haz()` does not require the arguments `frailty` or `h_parm` because it takes the inputs for the b,k, and delta pieces and models the subject-specific (aka conditional) hazard.  Doing this for the placebo group, then the vaccine group and dividing them gives the subject-specific hazard ratio (HR).
+In other articles on this website demonstrating `mpw` use cases, adding subject specific curves involves the `mpw::subjspec_haz()` function.  In the $\frac{1}{\alpha}$ approach, we instead use `mpw::popavg_haz()` specifying
+h_parm as 1/alpha to plot the subject specific curve.
 
-```{r alpha-02-knots-subjspec-haz}
+
+<!-- Sidenote: This is because the function `mpw::subjspec_haz()` does not require the arguments `frailty` or `h_parm`. The function takes the inputs for the b,k, and delta pieces and models the subject-specific (aka conditional) hazard assuming they were estimated in the presence of a non-unity `h_parm`. -->
+
+
+```{r alpha-02-knots-subjspec-haz, eval=FALSE, include=FALSE}
 plac.haz.ss <- subjspec_haz(      x = time.haz, 
                            knots = tvec.in,
                            logk0 = logk0p,
@@ -281,14 +308,9 @@ legend("topright", c("Population HR", "Subject-specific HR"),
        lwd=2
 )
 
-
-
-
-
-
-
 ```
 
+So we run a loop for three specific values of alpha:
 
 ```{r}
 COL<- gray(c(0.7,.5,0))
@@ -333,4 +355,4 @@ abline(v=tvec.in, lty=2, col="grey")
 legend("bottomright",legend=paste0("alpha=",alpha.vec),lty=LTY,lwd=LWD,col=COL)
 
 ```
-The plot above shows that for a positive-stable frailty with $\alpha$ = `r H_PARM` the subject-specific HR is flatter and lower than the population average HR.
+The plot above shows that for a positive-stable frailty, as $\alpha$ goes to 0 the subject-specific VE is flatter, approaching VE=1.  As $\alpha$ goes to 1 the VE for an individual approaches that of the population.
