@@ -110,12 +110,13 @@ can be produced by:</p>
 Positive Stable Frailty Example<a class="anchor" aria-label="anchor" href="#psalphaalpha0-positive-stable-frailty-example"></a>
 </h2>
 <p>This is the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mi>α</mi></msub><annotation encoding="application/x-tex">F_{\alpha}</annotation></semantics></math>
-referenced in the manuscript:</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mi>α</mi></msub><annotation encoding="application/x-tex">F_{\alpha}</annotation></semantics></math>,
+the marginalized piecewise Weibull CDF:</p>
 <ul>
 <li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>α</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mo>exp</mo><mi>α</mi><mi>η</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">F_{\alpha}(x) = 1-\exp[-\exp\alpha\eta]</annotation></semantics></math></li>
 </ul>
-<p>This is the
+<p>The CDF above is the result of integrating a piecewise weibull
+frailty model where the frailty has the
 PS(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>,</mo><mi>α</mi><mo>,</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha,\alpha,0</annotation></semantics></math>)
 Positive Stable Frailty density:</p>
 <ul>
@@ -124,8 +125,7 @@ Positive Stable Frailty density:</p>
 <p>We analyze data that looks similar to that of Figure 2 <a href="https://pubmed.ncbi.nlm.nih.gov/34525277/" class="external-link">Thomas et al (2021)
 <em>Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine through 6
 Months</em></a>.</p>
-<p>We plot the data points, color-code the groups, and just connect the
-dots with interpolated, dashed lines.</p>
+<!-- We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines. -->
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://swihart.github.io/mpw/">mpw</a></span><span class="op">)</span></span>
 <span><span class="co">## This data resembles Figure 2 in Thomas et al</span></span>
@@ -150,7 +150,9 @@ dots with interpolated, dashed lines.</p>
 this example. Beware that H_PARM has different bounds depending on what
 value of FRAILTY is selected. For this example, we are going to estimate
 the marginal parameters first and can accomplish this by mitigating the
-effect of alpha, that is, setting the <code>H_PARM=1.00</code>.</p>
+effect of alpha, that is, setting the global variable
+<code>H_PARM=1.00</code> which will be passed to the argument
+<code>h_parm</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">H_PARM</span> <span class="op">&lt;-</span> <span class="fl">1.00</span></span>
 <span><span class="va">FRAILTY</span> <span class="op">&lt;-</span> <span class="st">"PS"</span></span></code></pre></div>
@@ -159,10 +161,9 @@ with three pieces. We set the first piece of each group to be equal so
 we can get an HR of 1 (more in subsequent sections). This first piece
 can be specified to be over a short time range where both groups would
 be considered equal due to the <em>ramp-up time</em> of a vaccine. Below
-we set the ramp-up time to end 5 days after first dose, the second piece
-to go from then to 90 days after second dose, and the third piece from
-then until the end of the study. We do this by specifying two knot
-values, as below:</p>
+we set the ramp-up time to end 1 day after first dose, the second piece
+to go from then to 28 days after the first dose, and the third piece
+from then 56 days after the first dose, etc.</p>
 <div class="section level3">
 <h3 id="knot-selection">Knot selection<a class="anchor" aria-label="anchor" href="#knot-selection"></a>
 </h3>
@@ -266,49 +267,18 @@ same for both groups (i.e. <em>ramp-up time</em>).</p>
 <p>We use the knots and the original time in <code>time.dist</code> to
 do a quick check of the fit. We put vertical dashed lines in the plot to
 denote knot placement.</p>
+<!-- Note from Days 0 to 1 the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above. -->
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">time.dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>                        <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                    <span class="va">tvec.in</span><span class="op">)</span></span>
-<span>                  <span class="op">)</span></span>
-<span></span>
-<span><span class="va">plac.dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.dist</span>, </span>
-<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
-<span>                           logk0 <span class="op">=</span> <span class="va">logk0p</span>,</span>
-<span>                              g0 <span class="op">=</span> <span class="va">g0p</span>,</span>
-<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_p</span>,</span>
-<span>                          h_parm <span class="op">=</span> <span class="va">H_PARM</span>,</span>
-<span>                         frailty <span class="op">=</span> <span class="va">FRAILTY</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">vacc.dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.dist</span>, </span>
-<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
-<span>                           logk0 <span class="op">=</span> <span class="va">logk0v</span>,</span>
-<span>                              g0 <span class="op">=</span> <span class="va">g0v</span>,</span>
-<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_v</span>,</span>
-<span>                          h_parm <span class="op">=</span> <span class="va">H_PARM</span>,</span>
-<span>                         frailty <span class="op">=</span> <span class="va">FRAILTY</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.dist</span>, <span class="va">plac.dist</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"black"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>, ylab<span class="op">=</span><span class="st">"CDF"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time</span>     , <span class="va">F0</span>       , col<span class="op">=</span><span class="st">"black"</span>, pch<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span> <span class="op">(</span><span class="va">time.dist</span>, <span class="va">vacc.dist</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time</span>     , <span class="va">F1</span>, col<span class="op">=</span><span class="st">"blue"</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Vaccine"</span><span class="op">)</span>,</span>
-<span>       col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span><span class="op">)</span>,</span>
-<span>       lty<span class="op">=</span><span class="fl">1</span>,</span>
-<span>       pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/alpha-02-knots-popavg-dist-1.png" width="700"></p>
-<p>Note from Days 0 to 1 the curves are the same. Over this range the HR
-will be 1. Otherwise the fit looks okay – some points are below their
-line and some are above.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"grey"</span><span class="op">)</span></span>
 <span><span class="va">LTY</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">LWD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="cn">NA</span>,<span class="cn">NA</span>,, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"black"</span>, lwd<span class="op">=</span><span class="fl">2</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.08</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"Cumulative Incidence"</span>,xlab<span class="op">=</span><span class="st">"Day since Receipt of First Dose"</span>, </span>
 <span>        main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Specified Knots: "</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">tvec.in</span>,<span class="fl">1</span><span class="op">)</span>, collapse<span class="op">=</span><span class="st">", "</span><span class="op">)</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">time.dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                        <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>                    <span class="va">tvec.in</span><span class="op">)</span></span>
+<span>                  <span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="va">plac.dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.dist</span>, </span>
@@ -342,6 +312,9 @@ line and some are above.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,col<span class="op">=</span><span class="va">COL</span>,</span>
 <span>       lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p>Note from Days 0 to 1 the curves are the same. Over this range the HR
+will be 1. Otherwise the fit looks okay – some points are below their
+line and some are above.</p>
 </div>
 <div class="section level4">
 <h4 id="plot-population-avg-hr">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr"></a>
@@ -353,7 +326,7 @@ line and some are above.</p>
 <p>We use the parameters of the previous fits to estimate the population
 average hazard, which we can fit with <code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code>. We
 adjust the time input so that the first element is just above 0.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">time.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-4</span>, <span class="va">time.dist</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">plac.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
 <span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
@@ -378,46 +351,33 @@ adjust the time input so that the first element is just above 0.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay_files/figure-html/alpha-02-knots-popavg-haz-1.png" width="700"></p>
+<p>Or, plot the VE = 1-HR:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="fl">1</span><span class="op">-</span><span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>,</span>
+<span>       ylab<span class="op">=</span><span class="st">"Vaccine Efficacy"</span>, lwd<span class="op">=</span><span class="fl">2</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">1.05</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="wwps-fay_files/figure-html/alpha-02-knots-popavg-ve-1.png" width="700"></p>
 </div>
 <div class="section level4">
-<h4 id="add-subject-specific-hrs">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs"></a>
+<h4 id="plot-subject-specific-ves-for-different-alpha-values">Plot subject-specific VEs for different
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+values<a class="anchor" aria-label="anchor" href="#plot-subject-specific-ves-for-different-alpha-values"></a>
 </h4>
 <ul>
 <li>should flatten</li>
 </ul>
-<p>The function <code><a href="../reference/subjspec_haz.html">mpw::subjspec_haz()</a></code> does not require the
-arguments <code>frailty</code> or <code>h_parm</code> because it takes
-the inputs for the b,k, and delta pieces and models the subject-specific
-(aka conditional) hazard. Doing this for the placebo group, then the
-vaccine group and dividing them gives the subject-specific hazard ratio
-(HR).</p>
+<p>In other articles on this website demonstrating <code>mpw</code> use
+cases, adding subject specific curves involves the
+<code><a href="../reference/subjspec_haz.html">mpw::subjspec_haz()</a></code> function. In the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mi>α</mi></mfrac><annotation encoding="application/x-tex">\frac{1}{\alpha}</annotation></semantics></math>
+approach, we instead use <code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code> specifying
+h_parm as 1/alpha to plot the subject specific curve.</p>
+<!-- Sidenote: This is because the function `mpw::subjspec_haz()` does not require the arguments `frailty` or `h_parm`. The function takes the inputs for the b,k, and delta pieces and models the subject-specific (aka conditional) hazard assuming they were estimated in the presence of a non-unity `h_parm`. -->
+<p>So we run a loop for three specific values of alpha:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plac.haz.ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subjspec_haz.html">subjspec_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
-<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
-<span>                           logk0 <span class="op">=</span> <span class="va">logk0p</span>,</span>
-<span>                              g0 <span class="op">=</span> <span class="va">g0p</span>,</span>
-<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_p</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">vacc.haz.ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/subjspec_haz.html">subjspec_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
-<span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
-<span>                           logk0 <span class="op">=</span> <span class="va">logk0v</span>,</span>
-<span>                              g0 <span class="op">=</span> <span class="va">g0v</span>,</span>
-<span>                       delta_vec <span class="op">=</span> <span class="va">delta_vec_v</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>,</span>
-<span>       ylab<span class="op">=</span><span class="st">"Hazard Ratio"</span>, lwd<span class="op">=</span><span class="fl">2</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">1.05</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="va">vacc.haz.ss</span><span class="op">/</span><span class="va">plac.haz.ss</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"gold"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>,</span>
-<span>        lwd<span class="op">=</span><span class="fl">2</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Population HR"</span>, <span class="st">"Subject-specific HR"</span><span class="op">)</span>,</span>
-<span>       col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>,<span class="st">"gold"</span><span class="op">)</span>,</span>
-<span>       lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
-<span>       lwd<span class="op">=</span><span class="fl">2</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/alpha-02-knots-subjspec-haz-1.png" width="700"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>,<span class="fl">.5</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">LTY</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">LWD</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span></span>
@@ -459,10 +419,12 @@ vaccine group and dividing them gives the subject-specific hazard ratio
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"alpha="</span>,<span class="va">alpha.vec</span><span class="op">)</span>,lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span>,col<span class="op">=</span><span class="va">COL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay_files/figure-html/unnamed-chunk-4-1.png" width="700">
-The plot above shows that for a positive-stable frailty with
+The plot above shows that for a positive-stable frailty, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-= 1 the subject-specific HR is flatter and lower than the population
-average HR.</p>
+goes to 0 the subject-specific VE is flatter, approaching VE=1. As
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+goes to 1 the VE for an individual approaches that of the
+population.</p>
 </div>
 </div>
 </div>
