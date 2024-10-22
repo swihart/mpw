@@ -310,7 +310,7 @@ legend("topright", c("Population HR", "Subject-specific HR"),
 
 ```
 
-So we run a loop for three specific values of alpha:
+To demonstrate how the individual-level VE might be different than the population-level, the code below runs a loop for three specific values of alpha:
 
 ```{r}
 COL<- gray(c(0.7,.5,0))
@@ -355,4 +355,5 @@ abline(v=tvec.in, lty=2, col="grey")
 legend("bottomright",legend=paste0("alpha=",alpha.vec),lty=LTY,lwd=LWD,col=COL)
 
 ```
-The plot above shows that for a positive-stable frailty, as $\alpha$ goes to 0 the subject-specific VE is flatter, approaching VE=1.  As $\alpha$ goes to 1 the VE for an individual approaches that of the population.
+
+The plot above shows that for a positive-stable frailty, as $\alpha$ goes to 0 the subject-specific VE is flatter, approaching VE=1.  As $\alpha$ goes to 1 the VE for an individual approaches that of the population.  Conceptually, one might conclude VE is waning over time if alpha is 0.99.  One would not conclude that if alpha was 0.40.  In both instances, the same population-level VE would be observed.  Therefore the takeaway is to not make statements about VE looking at population-level curves.
