@@ -376,7 +376,9 @@ cases, adding subject specific curves involves the
 approach, we instead use <code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code> specifying
 h_parm as 1/alpha to plot the subject specific curve.</p>
 <!-- Sidenote: This is because the function `mpw::subjspec_haz()` does not require the arguments `frailty` or `h_parm`. The function takes the inputs for the b,k, and delta pieces and models the subject-specific (aka conditional) hazard assuming they were estimated in the presence of a non-unity `h_parm`. -->
-<p>So we run a loop for three specific values of alpha:</p>
+<p>To demonstrate how the individual-level VE might be different than
+the population-level, the code below runs a loop for three specific
+values of alpha:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>,<span class="fl">.5</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">LTY</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span></span>
@@ -418,13 +420,17 @@ h_parm as 1/alpha to plot the subject specific curve.</p>
 <span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"alpha="</span>,<span class="va">alpha.vec</span><span class="op">)</span>,lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span>,col<span class="op">=</span><span class="va">COL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/unnamed-chunk-4-1.png" width="700">
-The plot above shows that for a positive-stable frailty, as
+<p><img src="wwps-fay_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p>The plot above shows that for a positive-stable frailty, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 goes to 0 the subject-specific VE is flatter, approaching VE=1. As
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-goes to 1 the VE for an individual approaches that of the
-population.</p>
+goes to 1 the VE for an individual approaches that of the population.
+Conceptually, one might conclude VE is waning over time if alpha is
+0.99. One would not conclude that if alpha was 0.40. In both instances,
+the same population-level VE would be observed. Therefore the takeaway
+is to not make statements about VE looking at population-level
+curves.</p>
 </div>
 </div>
 </div>
