@@ -171,7 +171,7 @@ axis(1, at=c(tvec.in[1]))
 
 
 
-<!-- Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above. -->
+<!-- Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Additionally, the fit looks okay -- some points are below their line and some are above. -->
 
 
 
@@ -221,7 +221,7 @@ legend("topleft",legend=c(expression(F[0](t)),expression(F[1](t))),col=COL,
 
 ```
 
-Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Otherwise the fit looks okay -- some points are below their line and some are above.
+Note from Days 0 to `r tvec.in[1]` the curves are the same. Over this range the HR will be 1.  Additionally, the fit looks okay -- some points are below their line and some are above.
 
 
 ### Plot population avg HR
