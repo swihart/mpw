@@ -15,6 +15,9 @@ Explicitly, the hazard ratio for an individual, $\theta_I$, can be produced by:
 
 $$\frac{ b_1^{1/\alpha} (k_1/\alpha) t^{(k_1/\alpha)-1}}{b_0^{1/\alpha} (k_0/\alpha) t^{(k_0/\alpha)-1}} = \theta_I$$
 
+More details for the interested reader can be found in
+[Swihart & Bandyopadhyay (2021)](https://www.sciencedirect.com/science/article/pii/S0169260721001905?casa_token=xYzQZ9UfxGMAAAAA:vFpj08P43bUx_7BTN21cSUksK_WSyQdjIBhWHS7VG8u5ctGB91gDzE8-NJtMblcut67jD6k), particularly in Section 2.1.  
+
 
 # PS($\alpha,\alpha,0$) Positive Stable Frailty Example
 
