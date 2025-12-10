@@ -7,6 +7,8 @@ output:
     number_sections: true
 ---
 
+EDIT IN.
+
 In Fay et al. (2025) *Vaccine Efficacy Estimands for Individual Randomized Field Trials*, the $\frac{1}{\alpha}$ approach is used. In this approach which utilizes the "Weibull-Weibull-Positive Stable" model, the population (marginal) Weibull is estimated, and then $\frac{1}{\alpha}$ is applied to those estimates to render the individual-level (conditional) Weibull. This code recreates Figure 6 in that paper using `mpw` calls.
 
 The Weibull-Weibull-Positive Stable has a feature that the other mpw frailty models do not have: that is, the marginal distribution (Weibull) is the same as the conditional distribution (also Weibull).  This enables a strategy of estimating the mpw on the population data without specifying an $\alpha$ (this is done in practice by setting `alpha=1`) and then from there one can exactly calculate corresponding conditional models (and HRs, and VEs, etc) using $\frac{1}{\alpha}$ applied to the *marginal* $b$ and $k$ estimates. 
