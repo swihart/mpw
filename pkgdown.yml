@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   articles/alpha: alpha.html
@@ -8,7 +8,7 @@ articles:
   articles/rho: rho.html
   articles/womega: womega.html
   articles/wwps-fay: wwps-fay.html
-last_built: 2025-03-13T12:26Z
+last_built: 2025-12-10T20:36Z
 urls:
   reference: https://swihart.github.io/mpw/reference
   article: https://swihart.github.io/mpw/articles

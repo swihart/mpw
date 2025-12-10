@@ -116,7 +116,7 @@ dots with interpolated, dashed lines.</p>
 <span>       lty<span class="op">=</span><span class="fl">1</span>,</span>
 <span>       pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha_files/figure-html/thomas-data-1.png" width="700"></p>
+<p><img src="alpha_files/figure-html/thomas-data-1.png" class="r-plt" width="700"></p>
 <p>Set the <code>h_parm</code> and <code>frailty</code> distribution for
 this example. Beware that H_PARM has different bounds depending on what
 value of FRAILTY is selected.</p>
@@ -266,7 +266,7 @@ denote knot placement.</p>
 <span>       pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha_files/figure-html/alpha-02-knots-popavg-dist-1.png" width="700"></p>
+<p><img src="alpha_files/figure-html/alpha-02-knots-popavg-dist-1.png" class="r-plt" width="700"></p>
 <p>Note from Days 0 to 5 the curves are the same. Over this range the HR
 will be 1. Otherwise the fit looks okay – some points are below their
 line and some are above.</p>
@@ -305,7 +305,7 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha_files/figure-html/alpha-02-knots-popavg-haz-1.png" width="700"></p>
+<p><img src="alpha_files/figure-html/alpha-02-knots-popavg-haz-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="add-subject-specific-hrs">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs"></a>
@@ -344,7 +344,7 @@ vaccine group and dividing them gives the subject-specific hazard ratio
 <span>       lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
 <span>       lwd<span class="op">=</span><span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha_files/figure-html/alpha-02-knots-subjspec-haz-1.png" width="700"></p>
+<p><img src="alpha_files/figure-html/alpha-02-knots-subjspec-haz-1.png" class="r-plt" width="700"></p>
 <p>The plot above shows that for a positive-stable frailty with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 = 0.72 the subject-specific HR is flatter and lower than the population
@@ -493,7 +493,7 @@ denote knot placement.</p>
 <span>       pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha_files/figure-html/alpha-16-knots-popavg-dist-1.png" width="700"></p>
+<p><img src="alpha_files/figure-html/alpha-16-knots-popavg-dist-1.png" class="r-plt" width="700"></p>
 <p>Note from Days 0 to 5 the curves are the same. Comparing with the two
 knot example, the fit is much improved.</p>
 </div>
@@ -530,7 +530,7 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha_files/figure-html/alpha-16-knots-popavg-haz-1.png" width="700"></p>
+<p><img src="alpha_files/figure-html/alpha-16-knots-popavg-haz-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="add-subject-specific-hrs-1">Add subject-specific HRs<a class="anchor" aria-label="anchor" href="#add-subject-specific-hrs-1"></a>
@@ -569,7 +569,7 @@ vaccine group and dividing them gives the subject-specific hazard ratio
 <span>       lty<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
 <span>       lwd<span class="op">=</span><span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha_files/figure-html/alpha-16-knots-subjspec-haz-1.png" width="700"></p>
+<p><img src="alpha_files/figure-html/alpha-16-knots-subjspec-haz-1.png" class="r-plt" width="700"></p>
 <p>The plot above shows that for a positive-stable frailty with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 = 0.72 the subject-specific HR is flatter and lower than the population
@@ -588,7 +588,7 @@ average HR.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
