@@ -7,8 +7,9 @@ articles:
   articles/lambda: lambda.html
   articles/rho: rho.html
   articles/womega: womega.html
+  articles/wwps-fay-ipd: wwps-fay-ipd.html
   articles/wwps-fay: wwps-fay.html
-last_built: 2025-12-10T20:36Z
+last_built: 2025-12-10T20:50Z
 urls:
   reference: https://swihart.github.io/mpw/reference
   article: https://swihart.github.io/mpw/articles

@@ -1,4 +1,4 @@
-# Fay et al. (2025) supporting materials
+# Fay et al. (2025) supporting materials -- IPD version
 
 In Fay et al. (2025) *Vaccine Efficacy Estimands for Individual
 Randomized Field Trials*, the $\frac{1}{\alpha}$ approach is used. In
@@ -64,7 +64,7 @@ legend("topleft", c("Placebo", "Vaccine"),
 )
 ```
 
-![](wwps-fay_files/figure-html/thomas-data-1.png)
+![](wwps-fay-ipd_files/figure-html/thomas-data-1.png)
 
 Set the `h_parm` and `frailty` distribution for this example. Beware
 that H_PARM has different bounds depending on what value of FRAILTY is
@@ -233,7 +233,7 @@ legend("topleft",legend=c(expression(F[0](t)),expression(F[1](t))),col=COL,
        lty=LTY,lwd=LWD)
 ```
 
-![](wwps-fay_files/figure-html/unnamed-chunk-3-1.png)
+![](wwps-fay-ipd_files/figure-html/unnamed-chunk-3-1.png)
 
 Note from Days 0 to 1 the curves are the same. Over this range the HR
 will be 1. Additionally, the fit looks okay – some points are below
@@ -275,7 +275,7 @@ abline(v=tvec.in, lty=2, col="grey")
 axis(1, at=c(tvec.in[1]))
 ```
 
-![](wwps-fay_files/figure-html/alpha-02-knots-popavg-haz-1.png)
+![](wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-haz-1.png)
 
 Or, plot the VE = 1-HR:
 
@@ -288,7 +288,7 @@ abline(v=tvec.in, lty=2, col="grey")
 axis(1, at=c(tvec.in[1]))
 ```
 
-![](wwps-fay_files/figure-html/alpha-02-knots-popavg-ve-1.png)
+![](wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-ve-1.png)
 
 #### Plot subject-specific VEs for different $\alpha$ values
 
@@ -348,7 +348,7 @@ abline(v=tvec.in, lty=2, col="grey")
 legend("bottomright",legend=paste0("alpha=",alpha.vec),lty=LTY,lwd=LWD,col=COL)
 ```
 
-![](wwps-fay_files/figure-html/unnamed-chunk-4-1.png)
+![](wwps-fay-ipd_files/figure-html/unnamed-chunk-4-1.png)
 
 The plot above shows that for a positive-stable frailty, as $\alpha$
 goes to 0 the subject-specific VE is flatter, approaching VE=1. As
