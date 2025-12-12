@@ -18,7 +18,8 @@ URL: https://swihart.github.io/mpw/
 Config/Needs/website: rmarkdown
 Suggests:
   survminer,
-  survival
+  survival,
+  data.table
 Depends: 
     R (>= 3.5)
 LazyData: true
