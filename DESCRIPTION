@@ -16,6 +16,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 URL: https://swihart.github.io/mpw/
 Config/Needs/website: rmarkdown
+Suggests:
+  survminer,
+  survival
 Depends: 
     R (>= 3.5)
 LazyData: true
