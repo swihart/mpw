@@ -43,8 +43,54 @@ We analyze data that looks similar to that of Figure 2 [Thomas et al
 (2021) *Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine
 through 6 Months*](https://pubmed.ncbi.nlm.nih.gov/34525277/).
 
+We accomplished creating the dataset in this package, `ipd_data` by
+using the R package `IPDfromKM`.
+
+We load the data and do a couple of quick checks before proceeding with
+the core of our example.
+
 ``` r
+library(survminer)
+library(survival)
 library(mpw)
+
+data(ipd_data)
+dim(ipd_data)
+#> [1] 44939     3
+head(ipd_data)
+#>   time status treat
+#> 1  0.5      0     0
+#> 2  1.0      1     0
+#> 3  1.0      1     0
+#> 4  1.5      0     0
+#> 5  1.5      0     0
+#> 6  2.0      1     0
+
+
+fit <- survfit(Surv(time, status) ~ treat,
+               data = ipd_data)
+## zoomed in, inset, 11days
+# Visualize with survminer
+ggsurvplot(fit, data = ipd_data, risk.table = TRUE, 
+           ylim=c(1,0.993), xlim=c(0,28), break.time.by=11)
+```
+
+![](wwps-fay-ipd_files/figure-html/thomas-data-1.png)
+
+``` r
+
+# Visualize with survminer
+## full view; every 14 days
+ggsurvplot(fit, data = ipd_data, risk.table = TRUE, 
+           ylim=c(1,0.925), break.time.by=14,
+           fontsize=3)
+```
+
+![](wwps-fay-ipd_files/figure-html/thomas-data-2.png)
+
+``` r
+
+
 ## This data resembles Figure 2 in Thomas et al
 ## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
@@ -64,7 +110,7 @@ legend("topleft", c("Placebo", "Vaccine"),
 )
 ```
 
-![](wwps-fay-ipd_files/figure-html/thomas-data-1.png)
+![](wwps-fay-ipd_files/figure-html/thomas-data-3.png)
 
 Set the `h_parm` and `frailty` distribution for this example. Beware
 that H_PARM has different bounds depending on what value of FRAILTY is
