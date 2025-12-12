@@ -98,18 +98,18 @@ ggsurvplot(fit, data = ipd_data, risk.table = TRUE,
 ``` r
 
 
-time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
-F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
-F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
+# time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
+# F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
+# F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
 
 ## plot the data points, 
 ## with interpolated lines
 # plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF", lty=2)
 # points(time, F0, col="black", pch=15)
-# lines (time, F1, col="blue", lty=2)
-# points(time, F1, col="blue", pch=16)
+# lines (time, F1, col="#FF4500", lty=2)
+# points(time, F1, col="#FF4500", pch=16)
 # legend("topleft", c("Placebo", "Vaccine"),
-#        col=c("black","blue"),
+#        col=c("black","#FF4500"),
 #        lty=1,
 #        pch=c(15,16)
 # )
@@ -291,7 +291,7 @@ ilspv
 end.one.iter <- Sys.time()
 dur.one.iter <- end.one.iter - beg.one.iter
 dur.one.iter
-#> Time difference of 1.791815 secs
+#> Time difference of 1.791036 secs
 ```
 
 We include this code chunk below but do not run it. We take the
@@ -417,9 +417,32 @@ first pieces to be the same for both groups (i.e. *ramp-up time*).
 
 ``` r
 
-logk0v = start_parms_val[1]
-g0v = start_parms_val[2]
-delta_vec_v = start_parms_val[ (3+LTVEC):(2*LTVEC+2)]
+# logk0v = start_parms_val[1]
+# g0v = start_parms_val[2]
+# delta_vec_v = start_parms_val[ (3+LTVEC):(2*LTVEC+2)]
+
+
+
+
+logk0v = estimates_from_integrated_likelihood$par[1]
+g0v = estimates_from_integrated_likelihood$par[2]
+delta_vec_v = estimates_from_integrated_likelihood$par[ (3+LTVEC):(2*LTVEC+2)]
+
+
+
+time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
+
+#F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
+#F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
+
+# F0 <- 1-c(ipd_plac$Points$surv[ipd_plac$Points$time %in% time])
+# F1 <- 1-c(ipd_vacc$Points$surv[ipd_vacc$Points$time %in% time])
+
+time_plac <- ipd_plac$Points$time
+F0 <- 1-c(ipd_plac$Points$surv)
+
+time_vacc <- ipd_vacc$Points$time
+F1 <- 1-c(ipd_vacc$Points$surv)
 ```
 
 #### Plot population avg CDF
@@ -431,17 +454,10 @@ check of the fit. We put vertical dashed lines in the plot to denote
 knot placement.
 
 ``` r
-COL <- c("black","grey")
-LTY <- c(1,1)
-LWD <- c(2,6)
-plot(NA,NA,, type="l", col="black", lwd=2, ylim=c(0,0.08), ylab="Cumulative Incidence",xlab="Day since Receipt of First Dose", 
-        main=c("Specified Knots: ",paste(round(tvec.in,1), collapse=", ")), xlim=range(time))
-
 time.dist <- sort(c(seq(min(c(time, tvec.in)), 
                         max(c(time, tvec.in)), 0.1),
                     tvec.in)
                   )
-
 
 plac.dist <- popavg_dist(      x = time.dist, 
                            knots = tvec.in,
@@ -458,24 +474,21 @@ vacc.dist <- popavg_dist(      x = time.dist,
                        delta_vec = delta_vec_v,
                           h_parm = H_PARM,
                          frailty = FRAILTY)
-
-
-
-  lines(c(0,time.dist), c(0,vacc.dist),  col=COL[2],lty=LTY[2],lwd=LWD[2])
-
-
-
-#points(time, F1, col="blue")
+  
+plot  (time.dist, plac.dist, type="l", col="#2E9FDF", xlab="Days", ylab="CDF")
+points(time_plac     , F0       , col="#2E9FDF", pch=15)
+lines (time.dist, vacc.dist, col="#FF4500")
+points(time_vacc     , F1, col="#FF4500", pch=16)
 abline(v=tvec.in, lty=2, col="grey")
-
-#points(time, F0, col="black")
-
-  lines(c(0,time.dist), c(0,plac.dist),  col=COL[1],lty=LTY[1],lwd=LWD[1])
-legend("topleft",legend=c(expression(F[0](t)),expression(F[1](t))),col=COL,
-       lty=LTY,lwd=LWD)
+legend("topleft", c("Placebo", "BNT162b2"),
+       col=c("#2E9FDF","#FF4500"),
+       lty=1,
+       pch=c(15,16)
+)
+axis(1, at=c(tvec.in[1]))
 ```
 
-![](wwps-fay-ipd_files/figure-html/unnamed-chunk-9-1.png)
+![](wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-dist-1.png)
 
 Note from Days 0 to 1 the curves are the same. Over this range the HR
 will be 1. Additionally, the fit looks okay – some points are below
@@ -552,7 +565,7 @@ COL<- gray(c(0.7,.5,0))
 LTY<-c(1,2,3)
 LWD<-c(6,4,2)
 
-plot(NA,NA,, type="l", col="black", lwd=2, ylim=c(0,1), ylab=expression(VE[h]),xlab="Days since Receipt of First Dose", main=c("Specified knots: ",paste(round(tvec.in,1), collapse=", ")), xlim=range(time))
+plot(NA,NA,, type="l", col="#2E9FDF", lwd=2, ylim=c(0,1), ylab=expression(VE[h]),xlab="Days since Receipt of First Dose", main=c("Specified knots: ",paste(round(tvec.in,1), collapse=", ")), xlim=range(time))
 
 ##set alpha.vec here to plot different conditionals
 alpha.vec <- c(0.4,0.7,0.99)
@@ -587,10 +600,10 @@ lines(time.haz, 1-vacc.haz/plac.haz, col=COL[i],lty=LTY[i],lwd=LWD[i])
 abline(v=tvec.in, lty=2, col="grey")
 
 }
-legend("bottomright",legend=paste0("alpha=",alpha.vec),lty=LTY,lwd=LWD,col=COL)
+legend("bottomright",legend=paste0("alpha=",c("0.40","0.70","0.99")),lty=LTY,lwd=LWD,col=COL)
 ```
 
-![](wwps-fay-ipd_files/figure-html/unnamed-chunk-10-1.png)
+![](wwps-fay-ipd_files/figure-html/unnamed-chunk-12-1.png)
 
 The plot above shows that for a positive-stable frailty, as $\alpha$
 goes to 0 the subject-specific VE is flatter, approaching VE=1. As
