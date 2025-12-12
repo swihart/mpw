@@ -139,6 +139,8 @@ with the core of our example.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://swihart.github.io/mpw/">mpw</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="co">## This data resembles Figure 2 in Thomas et al</span></span>
+<span><span class="co">## https://pubmed.ncbi.nlm.nih.gov/34525277/</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ipd_data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">ipd_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 44939     3</span></span>
@@ -175,24 +177,21 @@ with the core of our example.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span></span>
-<span><span class="co">## This data resembles Figure 2 in Thomas et al</span></span>
-<span><span class="co">## https://pubmed.ncbi.nlm.nih.gov/34525277/</span></span>
 <span><span class="va">time</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">14</span>,<span class="fl">28</span>,<span class="fl">42</span>,<span class="fl">56</span>,<span class="fl">70</span>,<span class="fl">84</span>,<span class="fl">98</span>,<span class="fl">112</span>,<span class="fl">126</span>,<span class="fl">140</span>,<span class="fl">154</span>,<span class="fl">168</span>,<span class="fl">182</span>,<span class="fl">196</span><span class="op">)</span></span>
 <span><span class="va">F1</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.18</span>,<span class="fl">.19</span>,<span class="fl">.22</span>,<span class="fl">.25</span>,<span class="fl">.27</span>,<span class="fl">.28</span>,<span class="fl">.34</span>,<span class="fl">.44</span>,<span class="fl">.50</span>,<span class="fl">.60</span>,<span class="fl">.72</span>,<span class="fl">.75</span>,<span class="fl">.81</span>,<span class="fl">.93</span><span class="op">)</span><span class="op">/</span><span class="fl">100</span></span>
 <span><span class="va">F0</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.29</span>,<span class="fl">.60</span>,<span class="fl">1</span>,<span class="fl">1.38</span>,<span class="fl">1.75</span>,<span class="fl">2.25</span>,<span class="fl">2.97</span>,<span class="fl">3.50</span>,<span class="fl">4.25</span>,<span class="fl">4.94</span>,<span class="fl">5.53</span>,<span class="fl">6.00</span>,<span class="fl">6.31</span>,<span class="fl">6.94</span><span class="op">)</span><span class="op">/</span><span class="fl">100</span></span>
 <span></span>
 <span><span class="co">## plot the data points, </span></span>
 <span><span class="co">## with interpolated lines</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time</span>, <span class="va">F0</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"black"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>, ylab<span class="op">=</span><span class="st">"CDF"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">F0</span>, col<span class="op">=</span><span class="st">"black"</span>, pch<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span> <span class="op">(</span><span class="va">time</span>, <span class="va">F1</span>, col<span class="op">=</span><span class="st">"blue"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">F1</span>, col<span class="op">=</span><span class="st">"blue"</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Vaccine"</span><span class="op">)</span>,</span>
-<span>       col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span><span class="op">)</span>,</span>
-<span>       lty<span class="op">=</span><span class="fl">1</span>,</span>
-<span>       pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay-ipd_files/figure-html/thomas-data-3.png" class="r-plt" width="700"></p>
+<span><span class="co"># plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF", lty=2)</span></span>
+<span><span class="co"># points(time, F0, col="black", pch=15)</span></span>
+<span><span class="co"># lines (time, F1, col="blue", lty=2)</span></span>
+<span><span class="co"># points(time, F1, col="blue", pch=16)</span></span>
+<span><span class="co"># legend("topleft", c("Placebo", "Vaccine"),</span></span>
+<span><span class="co">#        col=c("black","blue"),</span></span>
+<span><span class="co">#        lty=1,</span></span>
+<span><span class="co">#        pch=c(15,16)</span></span>
+<span><span class="co"># )</span></span></code></pre></div>
 <p>Set the <code>h_parm</code> and <code>frailty</code> distribution for
 this example. Beware that H_PARM has different bounds depending on what
 value of FRAILTY is selected. For this example, we are going to estimate
@@ -201,7 +200,7 @@ effect of alpha, that is, setting the global variable
 <code>H_PARM=1.00</code> which will be passed to the argument
 <code>h_parm</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">H_PARM</span> <span class="op">&lt;-</span> <span class="fl">1.00</span></span>
+<code class="sourceCode R"><span><span class="va">ALPHA_FIXED</span> <span class="op">&lt;-</span> <span class="va">H_PARM</span> <span class="op">&lt;-</span> <span class="fl">1.00</span></span>
 <span><span class="va">FRAILTY</span> <span class="op">&lt;-</span> <span class="st">"PS"</span></span></code></pre></div>
 <p>We first consider two knots which will allow us to model each curve
 with three pieces. We set the first piece of each group to be equal so
@@ -219,46 +218,162 @@ from then 56 days after the first dose, etc.</p>
 <span><span class="va">tvec.in</span></span>
 <span><span class="co">#&gt; [1]   1  28  56  84 112 140 168</span></span></code></pre></div>
 <div class="section level4">
+<h4 id="fit-the-likelihood-to-ipd-data">Fit the Likelihood to IPD data<a class="anchor" aria-label="anchor" href="#fit-the-likelihood-to-ipd-data"></a>
+</h4>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
+<span><span class="co">## the approach this script uses to build the likelihood</span></span>
+<span><span class="co">## uses data.table</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/setDT.html" class="external-link">setDT</a></span><span class="op">(</span><span class="va">ipd_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ipd_data</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">NROW</a></span><span class="op">(</span><span class="va">ipd_data</span><span class="op">)</span></span>
+<span><span class="va">time</span> <span class="op">&lt;-</span> <span class="va">ipd_data</span><span class="op">$</span><span class="va">time</span></span>
+<span><span class="va">status</span> <span class="op">&lt;-</span> <span class="va">ipd_data</span><span class="op">$</span><span class="va">status</span></span>
+<span><span class="va">treat</span> <span class="op">&lt;-</span> <span class="va">ipd_data</span><span class="op">$</span><span class="va">treat</span></span>
+<span><span class="va">one_minus_treat</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="va">treat</span></span>
+<span></span>
+<span><span class="co">## print the tvec.in (knots) selected:</span></span>
+<span><span class="va">tvec.in</span></span>
+<span><span class="co">#&gt; [1]   1  28  56  84 112 140 168</span></span>
+<span><span class="va">LTVEC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">)</span></span>
+<span><span class="va">LTVEC</span></span>
+<span><span class="co">#&gt; [1] 7</span></span></code></pre></div>
+<p>Likelihood:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## this approach is similar to Swihart &amp; Bandyopadhyay 2021</span></span>
+<span><span class="va">integrated_likelihood</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">parms</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">logk0</span>  <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="fl">1</span><span class="op">]</span>; <span class="co"># shared shape (piece 1)</span></span>
+<span>  <span class="va">g0</span>  <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="fl">2</span><span class="op">]</span>; <span class="co"># shared scale (piece 1)</span></span>
+<span>  <span class="va">delta_p</span> <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="fl">3</span><span class="op">:</span><span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="op">(</span><span class="va">LTVEC</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>;</span>
+<span>  </span>
+<span>  <span class="va">delta_v</span> <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="va">LTVEC</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">LTVEC</span><span class="op">+</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
+<span>  </span>
+<span>  <span class="co">## use fast data.table to only compute if needed</span></span>
+<span>  <span class="va">ipd_data</span><span class="op">[</span>, <span class="va">haz_p</span> <span class="op">:=</span></span>
+<span>             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">status</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">treat</span><span class="op">==</span><span class="fl">0</span>, </span>
+<span>                    </span>
+<span>                    <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time</span>, </span>
+<span>                                     knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                                     logk0 <span class="op">=</span> <span class="va">logk0</span>,</span>
+<span>                                     g0 <span class="op">=</span> <span class="va">g0</span>,</span>
+<span>                                     delta_vec <span class="op">=</span> <span class="va">delta_p</span>,</span>
+<span>                                     h_parm <span class="op">=</span> <span class="va">ALPHA_FIXED</span>,</span>
+<span>                                     frailty <span class="op">=</span> <span class="st">"PS"</span><span class="op">)</span>,</span>
+<span>                    <span class="fl">1</span><span class="op">)</span>,</span>
+<span>           by<span class="op">=</span><span class="va">id</span></span>
+<span>  <span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="va">ipd_data</span><span class="op">[</span>, <span class="va">haz_v</span> <span class="op">:=</span></span>
+<span>             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">status</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">treat</span><span class="op">==</span><span class="fl">1</span>, </span>
+<span>                    </span>
+<span>                    <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time</span>,</span>
+<span>                                     knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                                     logk0 <span class="op">=</span> <span class="va">logk0</span>,</span>
+<span>                                     g0 <span class="op">=</span> <span class="va">g0</span>,</span>
+<span>                                     delta_vec <span class="op">=</span> <span class="va">delta_v</span>,</span>
+<span>                                     h_parm <span class="op">=</span> <span class="va">ALPHA_FIXED</span>,</span>
+<span>                                     frailty <span class="op">=</span> <span class="st">"PS"</span><span class="op">)</span>,</span>
+<span>                    <span class="fl">1</span><span class="op">)</span>,</span>
+<span>           by<span class="op">=</span><span class="va">id</span></span>
+<span>  <span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="va">ipd_data</span><span class="op">[</span>, <span class="va">surv_p</span> <span class="op">:=</span></span>
+<span>             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">treat</span><span class="op">==</span><span class="fl">0</span>, </span>
+<span>                    </span>
+<span>                    <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time</span>, </span>
+<span>                                         knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                                         logk0 <span class="op">=</span> <span class="va">logk0</span>,</span>
+<span>                                         g0 <span class="op">=</span> <span class="va">g0</span>,</span>
+<span>                                         delta_vec <span class="op">=</span> <span class="va">delta_p</span>,</span>
+<span>                                         h_parm <span class="op">=</span> <span class="va">ALPHA_FIXED</span>,</span>
+<span>                                         frailty <span class="op">=</span> <span class="st">"PS"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                    <span class="fl">1</span><span class="op">)</span>,</span>
+<span>           by<span class="op">=</span><span class="va">id</span></span>
+<span>  <span class="op">]</span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class="va">ipd_data</span><span class="op">[</span>, <span class="va">surv_v</span> <span class="op">:=</span></span>
+<span>             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">treat</span><span class="op">==</span><span class="fl">1</span>, </span>
+<span>                    </span>
+<span>                    <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time</span>, </span>
+<span>                                         knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
+<span>                                         logk0 <span class="op">=</span> <span class="va">logk0</span>,</span>
+<span>                                         g0 <span class="op">=</span> <span class="va">g0</span>,</span>
+<span>                                         delta_vec <span class="op">=</span> <span class="va">delta_v</span>,</span>
+<span>                                         h_parm <span class="op">=</span> <span class="va">ALPHA_FIXED</span>,</span>
+<span>                                         frailty <span class="op">=</span> <span class="st">"PS"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                    <span class="fl">1</span><span class="op">)</span>,</span>
+<span>           by<span class="op">=</span><span class="va">id</span></span>
+<span>  <span class="op">]</span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class="va">ipd_data</span><span class="op">[</span>, <span class="va">likelihood_contribution</span><span class="op">:=</span><span class="va">surv_p</span><span class="op">*</span><span class="va">haz_p</span><span class="op">*</span><span class="va">surv_v</span><span class="op">*</span><span class="va">haz_v</span><span class="op">]</span></span>
+<span>  <span class="va">k0</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">logk0</span><span class="op">)</span>;</span>
+<span>  <span class="va">nll</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span></span>
+<span>        <span class="va">ipd_data</span><span class="op">$</span><span class="va">likelihood_contribution</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="co">## penalize shapes less than 0 </span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">k0</span>,</span>
+<span>          <span class="va">k0</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">delta_p</span><span class="op">)</span>,</span>
+<span>          <span class="va">k0</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">delta_v</span><span class="op">)</span></span>
+<span>    <span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span>
+<span>  <span class="co">## penalize shapes less than 0 </span></span>
+<span>  <span class="co"># sum(abs(c(k0,</span></span>
+<span>  <span class="co">#   k0+cumsum(delta_p),</span></span>
+<span>  <span class="co">#   k0+cumsum(delta_v)</span></span>
+<span>  <span class="co"># )[c(k0,</span></span>
+<span>  <span class="co">#   k0+cumsum(delta_p),</span></span>
+<span>  <span class="co">#   k0+cumsum(delta_v)</span></span>
+<span>  <span class="co"># ) &lt; 0])) </span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class="co">#print(head(ipd_data))</span></span>
+<span>  <span class="va">nll</span>      </span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="set-starting-values-and-test-one-evaluation-of-likelihood">set starting values and test one evaluation of likelihood<a class="anchor" aria-label="anchor" href="#set-starting-values-and-test-one-evaluation-of-likelihood"></a>
+</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">## set the starting values for the optimization</span></span>
+<span><span class="co">## the first two elements are for the first</span></span>
+<span><span class="co">## (shared) piece; the 2nd row for the </span></span>
+<span><span class="co">## deltas for one group</span></span>
+<span><span class="co">## the 3rd row deltas for the other</span></span>
+<span></span>
+<span><span class="va">start_parms_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="fl">0.6</span>, <span class="op">-</span><span class="fl">9.6</span>, <span class="co">## first piece (shared)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="va">LTVEC</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="va">LTVEC</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co">## test how long a computation of likelihood takes at starting values</span></span>
+<span><span class="co">## one compuation?  takes a minute...</span></span>
+<span><span class="va">beg.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">ilspv</span> <span class="op">&lt;-</span> <span class="fu">integrated_likelihood</span><span class="op">(</span><span class="va">start_parms_val</span><span class="op">)</span></span>
+<span><span class="va">ilspv</span></span>
+<span><span class="co">#&gt; [1] 37108.3</span></span>
+<span><span class="va">end.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">dur.one.iter</span> <span class="op">&lt;-</span> <span class="va">end.one.iter</span> <span class="op">-</span> <span class="va">beg.one.iter</span></span>
+<span><span class="va">dur.one.iter</span></span>
+<span><span class="co">#&gt; Time difference of 1.781077 secs</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="old-stuff">OLD STUFF<a class="anchor" aria-label="anchor" href="#old-stuff"></a>
+</h4>
+</div>
+<div class="section level4">
 <h4 id="two-step-fitting-procedure">Two step fitting procedure<a class="anchor" aria-label="anchor" href="#two-step-fitting-procedure"></a>
 </h4>
 <div class="section level5">
 <h5 id="fit-for-placebo-group">1. Fit for placebo group<a class="anchor" aria-label="anchor" href="#fit-for-placebo-group"></a>
 </h5>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit_F_alpha</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span><span class="va">time</span>, </span>
-<span>                                            knots<span class="op">=</span> <span class="va">tvec.in</span>, </span>
-<span>                                            logk0<span class="op">=</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, </span>
-<span>                                            g0<span class="op">=</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, </span>
-<span>                                            delta_vec<span class="op">=</span><span class="va">x</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>                                            h_parm <span class="op">=</span> <span class="va">H_PARM</span>,</span>
-<span>                                            frailty<span class="op">=</span><span class="va">FRAILTY</span><span class="op">)</span>  <span class="op">-</span> <span class="va">F0</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">}</span></span>
-<span></span>
-<span><span class="va">init.vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2.4</span><span class="op">)</span>, <span class="op">-</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span> <span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">plac_fit_F_alpha</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></span><span class="op">(</span><span class="va">init.vals</span>, <span class="va">fit_F_alpha</span>,</span>
-<span>        method<span class="op">=</span><span class="st">"Nelder-Mead"</span>,</span>
-<span>        control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxit<span class="op">=</span><span class="fl">1e8</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plac_fit_F_alpha</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $par</span></span>
-<span><span class="co">#&gt; [1]  0.1602199 -9.4498573  0.1816194 -0.6323941  1.1084249 -0.6612064  0.5807145</span></span>
-<span><span class="co">#&gt; [8] -0.8614969  0.2335560</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $value</span></span>
-<span><span class="co">#&gt; [1] 9.918573e-07</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $counts</span></span>
-<span><span class="co">#&gt; function gradient </span></span>
-<span><span class="co">#&gt;      479       NA </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $convergence</span></span>
-<span><span class="co">#&gt; [1] 0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $message</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span></span>
-<span><span class="va">logk0p</span> <span class="op">=</span> <span class="va">plac_fit_F_alpha</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span><span class="va">g0p</span> <span class="op">=</span> <span class="va">plac_fit_F_alpha</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
-<span><span class="va">delta_vec_p</span> <span class="op">=</span><span class="va">plac_fit_F_alpha</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
 <div class="section level5">
 <h5 id="fit-for-vaccine-group">2. Fit for vaccine group<a class="anchor" aria-label="anchor" href="#fit-for-vaccine-group"></a>
@@ -268,41 +383,11 @@ that control the first (leftmost) piece for the placebo group and use
 them for <code>logk0v</code> and <code>g0v</code> when estimating the
 pieces for the vaccine group. This forces the first pieces to be the
 same for both groups (i.e. <em>ramp-up time</em>).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit_F_alpha</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="../reference/popavg_dist.html">popavg_dist</a></span><span class="op">(</span><span class="va">time</span>, </span>
-<span>                                            knots<span class="op">=</span> <span class="va">tvec.in</span>, </span>
-<span>                                            logk0<span class="op">=</span><span class="va">logk0p</span>, </span>
-<span>                                            g0<span class="op">=</span><span class="va">g0p</span>, </span>
-<span>                                            delta_vec<span class="op">=</span><span class="va">x</span>,</span>
-<span>                                            h_parm <span class="op">=</span> <span class="va">H_PARM</span>,</span>
-<span>                                            frailty<span class="op">=</span><span class="va">FRAILTY</span><span class="op">)</span>  <span class="op">-</span> <span class="va">F1</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">}</span></span>
-<span></span>
-<span><span class="va">init.vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span> <span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">vacc_fit_F_alpha</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></span><span class="op">(</span><span class="va">init.vals</span>, <span class="va">fit_F_alpha</span>,</span>
-<span>        method<span class="op">=</span><span class="st">"Nelder-Mead"</span>,</span>
-<span>        control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxit<span class="op">=</span><span class="fl">1e8</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vacc_fit_F_alpha</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $par</span></span>
-<span><span class="co">#&gt; [1] -0.18224579 -0.82329339  0.23464110  1.05260310  0.01773164 -0.06979188</span></span>
-<span><span class="co">#&gt; [7] -0.30021721</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $value</span></span>
-<span><span class="co">#&gt; [1] 6.401134e-08</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $counts</span></span>
-<span><span class="co">#&gt; function gradient </span></span>
-<span><span class="co">#&gt;      436       NA </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $convergence</span></span>
-<span><span class="co">#&gt; [1] 0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $message</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span></span>
-<span><span class="va">logk0v</span> <span class="op">=</span> <span class="va">logk0p</span></span>
-<span><span class="va">g0v</span> <span class="op">=</span> <span class="va">g0p</span></span>
-<span><span class="va">delta_vec_v</span> <span class="op">=</span><span class="va">vacc_fit_F_alpha</span><span class="op">$</span><span class="va">par</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">logk0v</span> <span class="op">=</span> <span class="va">start_parms_val</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">g0v</span> <span class="op">=</span> <span class="va">start_parms_val</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="va">delta_vec_v</span> <span class="op">=</span> <span class="va">start_parms_val</span><span class="op">[</span> <span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="va">LTVEC</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">LTVEC</span><span class="op">+</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level4">
@@ -315,7 +400,7 @@ same for both groups (i.e. <em>ramp-up time</em>).</p>
 do a quick check of the fit. We put vertical dashed lines in the plot to
 denote knot placement.</p>
 <!-- Note from Days 0 to 1 the curves are the same. Over this range the HR will be 1.  Additionally, the fit looks okay -- some points are below their line and some are above. -->
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"grey"</span><span class="op">)</span></span>
 <span><span class="va">LTY</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">LWD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">6</span><span class="op">)</span></span>
@@ -350,15 +435,15 @@ denote knot placement.</p>
 <span></span>
 <span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">F1</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></span>
+<span><span class="co">#points(time, F1, col="blue")</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">F0</span>, col<span class="op">=</span><span class="st">"black"</span><span class="op">)</span></span>
+<span><span class="co">#points(time, F0, col="black")</span></span>
 <span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">time.dist</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">plac.dist</span><span class="op">)</span>,  col<span class="op">=</span><span class="va">COL</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,lty<span class="op">=</span><span class="va">LTY</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,col<span class="op">=</span><span class="va">COL</span>,</span>
 <span>       lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700"></p>
 <p>Note from Days 0 to 1 the curves are the same. Over this range the HR
 will be 1. Additionally, the fit looks okay – some points are below
 their line and some are above.</p>
@@ -373,7 +458,7 @@ their line and some are above.</p>
 <p>We use the parameters of the previous fits to estimate the population
 average hazard, which we can fit with <code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code>. We
 adjust the time input so that the first element is just above 0.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">time.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-4</span>, <span class="va">time.dist</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">plac.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
 <span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
@@ -399,7 +484,7 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-haz-1.png" class="r-plt" width="700"></p>
 <p>Or, plot the VE = 1-HR:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="fl">1</span><span class="op">-</span><span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>,</span>
 <span>       ylab<span class="op">=</span><span class="st">"Vaccine Efficacy"</span>, lwd<span class="op">=</span><span class="fl">2</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">1.05</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -426,7 +511,7 @@ h_parm as 1/alpha to plot the subject specific curve.</p>
 <p>To demonstrate how the individual-level VE might be different than
 the population-level, the code below runs a loop for three specific
 values of alpha:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>,<span class="fl">.5</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">LTY</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">LWD</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span></span>
@@ -467,7 +552,7 @@ values of alpha:</p>
 <span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"alpha="</span>,<span class="va">alpha.vec</span><span class="op">)</span>,lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span>,col<span class="op">=</span><span class="va">COL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
 <p>The plot above shows that for a positive-stable frailty, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 goes to 0 the subject-specific VE is flatter, approaching VE=1. As

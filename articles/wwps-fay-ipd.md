@@ -54,6 +54,8 @@ library(survminer)
 library(survival)
 library(mpw)
 
+## This data resembles Figure 2 in Thomas et al
+## https://pubmed.ncbi.nlm.nih.gov/34525277/
 data(ipd_data)
 dim(ipd_data)
 #> [1] 44939     3
@@ -96,26 +98,22 @@ ggsurvplot(fit, data = ipd_data, risk.table = TRUE,
 ``` r
 
 
-## This data resembles Figure 2 in Thomas et al
-## https://pubmed.ncbi.nlm.nih.gov/34525277/
 time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
 F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
 F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
 
 ## plot the data points, 
 ## with interpolated lines
-plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF", lty=2)
-points(time, F0, col="black", pch=15)
-lines (time, F1, col="blue", lty=2)
-points(time, F1, col="blue", pch=16)
-legend("topleft", c("Placebo", "Vaccine"),
-       col=c("black","blue"),
-       lty=1,
-       pch=c(15,16)
-)
+# plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF", lty=2)
+# points(time, F0, col="black", pch=15)
+# lines (time, F1, col="blue", lty=2)
+# points(time, F1, col="blue", pch=16)
+# legend("topleft", c("Placebo", "Vaccine"),
+#        col=c("black","blue"),
+#        lty=1,
+#        pch=c(15,16)
+# )
 ```
-
-![](wwps-fay-ipd_files/figure-html/thomas-data-3.png)
 
 Set the `h_parm` and `frailty` distribution for this example. Beware
 that H_PARM has different bounds depending on what value of FRAILTY is
@@ -125,7 +123,7 @@ alpha, that is, setting the global variable `H_PARM=1.00` which will be
 passed to the argument `h_parm`.
 
 ``` r
-H_PARM <- 1.00
+ALPHA_FIXED <- H_PARM <- 1.00
 FRAILTY <- "PS"
 ```
 
@@ -146,46 +144,161 @@ tvec.in
 #> [1]   1  28  56  84 112 140 168
 ```
 
+#### Fit the Likelihood to IPD data
+
+``` r
+library(data.table)
+## the approach this script uses to build the likelihood
+## uses data.table
+data.table::setDT(ipd_data)
+
+ipd_data$id <- 1:NROW(ipd_data)
+time <- ipd_data$time
+status <- ipd_data$status
+treat <- ipd_data$treat
+one_minus_treat <- 1-treat
+
+## print the tvec.in (knots) selected:
+tvec.in
+#> [1]   1  28  56  84 112 140 168
+LTVEC <- length(tvec.in)
+LTVEC
+#> [1] 7
+```
+
+Likelihood:
+
+``` r
+## this approach is similar to Swihart & Bandyopadhyay 2021
+integrated_likelihood <- function(parms){
+  
+  logk0  <- parms[ 1]; # shared shape (piece 1)
+  g0  <- parms[ 2]; # shared scale (piece 1)
+  delta_p <- parms[ 3:(3+(LTVEC-1))];
+  
+  delta_v <- parms[ (3+LTVEC):(2*LTVEC+2)];
+  
+  ## use fast data.table to only compute if needed
+  ipd_data[, haz_p :=
+             ifelse(status==1 & treat==0, 
+                    
+                    popavg_haz(      x = time, 
+                                     knots = tvec.in,
+                                     logk0 = logk0,
+                                     g0 = g0,
+                                     delta_vec = delta_p,
+                                     h_parm = ALPHA_FIXED,
+                                     frailty = "PS"),
+                    1),
+           by=id
+  ]
+  
+  ipd_data[, haz_v :=
+             ifelse(status==1 & treat==1, 
+                    
+                    popavg_haz(      x = time,
+                                     knots = tvec.in,
+                                     logk0 = logk0,
+                                     g0 = g0,
+                                     delta_vec = delta_v,
+                                     h_parm = ALPHA_FIXED,
+                                     frailty = "PS"),
+                    1),
+           by=id
+  ]
+  
+  ipd_data[, surv_p :=
+             ifelse(treat==0, 
+                    
+                    (1-popavg_dist(      x = time, 
+                                         knots = tvec.in,
+                                         logk0 = logk0,
+                                         g0 = g0,
+                                         delta_vec = delta_p,
+                                         h_parm = ALPHA_FIXED,
+                                         frailty = "PS")),
+                    1),
+           by=id
+  ]
+  
+  
+  ipd_data[, surv_v :=
+             ifelse(treat==1, 
+                    
+                    (1-popavg_dist(      x = time, 
+                                         knots = tvec.in,
+                                         logk0 = logk0,
+                                         g0 = g0,
+                                         delta_vec = delta_v,
+                                         h_parm = ALPHA_FIXED,
+                                         frailty = "PS")),
+                    1),
+           by=id
+  ]
+  
+  
+  ipd_data[, likelihood_contribution:=surv_p*haz_p*surv_v*haz_v]
+  k0 = exp(logk0);
+  nll <- 
+    -sum(
+      log(
+        ipd_data$likelihood_contribution
+      )
+    ) + 
+    ## penalize shapes less than 0 
+    any(c(k0,
+          k0+cumsum(delta_p),
+          k0+cumsum(delta_v)
+    ) < 0) * 1e6
+  ## penalize shapes less than 0 
+  # sum(abs(c(k0,
+  #   k0+cumsum(delta_p),
+  #   k0+cumsum(delta_v)
+  # )[c(k0,
+  #   k0+cumsum(delta_p),
+  #   k0+cumsum(delta_v)
+  # ) < 0])) 
+  
+  
+  #print(head(ipd_data))
+  nll      
+}
+```
+
+### set starting values and test one evaluation of likelihood
+
+``` r
+
+## set the starting values for the optimization
+## the first two elements are for the first
+## (shared) piece; the 2nd row for the 
+## deltas for one group
+## the 3rd row deltas for the other
+
+start_parms_val <- c(
+  0.6, -9.6, ## first piece (shared)
+  rep(0.01, LTVEC),
+  rep(0.0, LTVEC)
+)
+
+
+## test how long a computation of likelihood takes at starting values
+## one compuation?  takes a minute...
+beg.one.iter <- Sys.time()
+ilspv <- integrated_likelihood(start_parms_val)
+ilspv
+#> [1] 37108.3
+end.one.iter <- Sys.time()
+dur.one.iter <- end.one.iter - beg.one.iter
+dur.one.iter
+#> Time difference of 1.781077 secs
+```
+
+#### OLD STUFF
+
 #### Two step fitting procedure
 
 ##### 1. Fit for placebo group
-
-``` r
-fit_F_alpha <- function(x){mean((popavg_dist(time, 
-                                            knots= tvec.in, 
-                                            logk0=x[1], 
-                                            g0=x[2], 
-                                            delta_vec=x[-c(1,2)],
-                                            h_parm = H_PARM,
-                                            frailty=FRAILTY)  - F0)^2) }
-
-init.vals <- c(log(2.4), -10, rep( 0,length(tvec.in)))
-plac_fit_F_alpha <- 
-  optim(init.vals, fit_F_alpha,
-        method="Nelder-Mead",
-        control=list(maxit=1e8))
-print(plac_fit_F_alpha)
-#> $par
-#> [1]  0.1602199 -9.4498573  0.1816194 -0.6323941  1.1084249 -0.6612064  0.5807145
-#> [8] -0.8614969  0.2335560
-#> 
-#> $value
-#> [1] 9.918573e-07
-#> 
-#> $counts
-#> function gradient 
-#>      479       NA 
-#> 
-#> $convergence
-#> [1] 0
-#> 
-#> $message
-#> NULL
-
-logk0p = plac_fit_F_alpha$par[1]
-g0p = plac_fit_F_alpha$par[2]
-delta_vec_p =plac_fit_F_alpha$par[-1*c(1,2)]
-```
 
 ##### 2. Fit for vaccine group
 
@@ -195,40 +308,10 @@ Now take `logk0p` and `g0p`, the parameters that control the first
 first pieces to be the same for both groups (i.e. *ramp-up time*).
 
 ``` r
-fit_F_alpha <- function(x){mean((popavg_dist(time, 
-                                            knots= tvec.in, 
-                                            logk0=logk0p, 
-                                            g0=g0p, 
-                                            delta_vec=x,
-                                            h_parm = H_PARM,
-                                            frailty=FRAILTY)  - F1)^2) }
 
-init.vals <- rep( 0,length(tvec.in))
-vacc_fit_F_alpha <- 
-  optim(init.vals, fit_F_alpha,
-        method="Nelder-Mead",
-        control=list(maxit=1e8))
-print(vacc_fit_F_alpha)
-#> $par
-#> [1] -0.18224579 -0.82329339  0.23464110  1.05260310  0.01773164 -0.06979188
-#> [7] -0.30021721
-#> 
-#> $value
-#> [1] 6.401134e-08
-#> 
-#> $counts
-#> function gradient 
-#>      436       NA 
-#> 
-#> $convergence
-#> [1] 0
-#> 
-#> $message
-#> NULL
-
-logk0v = logk0p
-g0v = g0p
-delta_vec_v =vacc_fit_F_alpha$par
+logk0v = start_parms_val[1]
+g0v = start_parms_val[2]
+delta_vec_v = start_parms_val[ (3+LTVEC):(2*LTVEC+2)]
 ```
 
 #### Plot population avg CDF
@@ -274,17 +357,17 @@ vacc.dist <- popavg_dist(      x = time.dist,
 
 
 
-points(time, F1, col="blue")
+#points(time, F1, col="blue")
 abline(v=tvec.in, lty=2, col="grey")
 
-points(time, F0, col="black")
+#points(time, F0, col="black")
 
   lines(c(0,time.dist), c(0,plac.dist),  col=COL[1],lty=LTY[1],lwd=LWD[1])
 legend("topleft",legend=c(expression(F[0](t)),expression(F[1](t))),col=COL,
        lty=LTY,lwd=LWD)
 ```
 
-![](wwps-fay-ipd_files/figure-html/unnamed-chunk-3-1.png)
+![](wwps-fay-ipd_files/figure-html/unnamed-chunk-6-1.png)
 
 Note from Days 0 to 1 the curves are the same. Over this range the HR
 will be 1. Additionally, the fit looks okay – some points are below
@@ -399,7 +482,7 @@ abline(v=tvec.in, lty=2, col="grey")
 legend("bottomright",legend=paste0("alpha=",alpha.vec),lty=LTY,lwd=LWD,col=COL)
 ```
 
-![](wwps-fay-ipd_files/figure-html/unnamed-chunk-4-1.png)
+![](wwps-fay-ipd_files/figure-html/unnamed-chunk-7-1.png)
 
 The plot above shows that for a positive-stable frailty, as $\alpha$
 goes to 0 the subject-specific VE is flatter, approaching VE=1. As
