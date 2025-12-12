@@ -39,15 +39,22 @@ Frailty density:
 
 - $f_{u_{i}}\left( u_{i}|\alpha \right) = - \frac{1}{\pi u_{i}}\sum_{k = 1}^{\infty}\frac{\Gamma(k\alpha + 1)}{k!}\left( - u_{i}^{- \alpha} \right)^{k}\sin(\alpha k\pi)$
 
+## IPD data from a KM curve
+
 We analyze data that looks similar to that of Figure 2 [Thomas et al
 (2021) *Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine
 through 6 Months*](https://pubmed.ncbi.nlm.nih.gov/34525277/).
 
-We accomplished creating the dataset in this package, `ipd_data` by
-using the R package `IPDfromKM`.
+We accomplished creating the dataset in this package, `ipd_data`, by
+using the R package `IPDfromKM`. Feeding screen shots of the original
+Figure 2 (rotated and flipped so that they looked like survival curves)
+into `IPDfromKM`, and then using the point and click feature for both
+inset curve and full curve for each group. The results of this data are
+saved as `ipd_data` in this package (mpw) and can be loaded and
+analyzed, just as we do in this document.
 
-We load the data and do a couple of quick checks before proceeding with
-the core of our example.
+Below, we load `ipd_data` and do a couple of quick checks with
+`survminer` before proceeding with the core of our example.
 
 ``` r
 library(survminer)
@@ -67,7 +74,6 @@ head(ipd_data)
 #> 4  1.5      0     0
 #> 5  1.5      0     0
 #> 6  2.0      1     0
-
 
 fit <- survfit(Surv(time, status) ~ treat,
                data = ipd_data)
@@ -95,26 +101,6 @@ ggsurvplot(fit, data = ipd_data, risk.table = TRUE,
 
 ![](wwps-fay-ipd_files/figure-html/thomas-data-2.png)
 
-``` r
-
-
-# time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
-# F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
-# F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
-
-## plot the data points, 
-## with interpolated lines
-# plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF", lty=2)
-# points(time, F0, col="black", pch=15)
-# lines (time, F1, col="#FF4500", lty=2)
-# points(time, F1, col="#FF4500", pch=16)
-# legend("topleft", c("Placebo", "Vaccine"),
-#        col=c("black","#FF4500"),
-#        lty=1,
-#        pch=c(15,16)
-# )
-```
-
 Set the `h_parm` and `frailty` distribution for this example. Beware
 that H_PARM has different bounds depending on what value of FRAILTY is
 selected. For this example, we are going to estimate the marginal
@@ -127,16 +113,17 @@ ALPHA_FIXED <- H_PARM <- 1.00
 FRAILTY <- "PS"
 ```
 
-We first consider two knots which will allow us to model each curve with
-three pieces. We set the first piece of each group to be equal so we can
-get an HR of 1 (more in subsequent sections). This first piece can be
-specified to be over a short time range where both groups would be
-considered equal due to the *ramp-up time* of a vaccine. Below we set
-the ramp-up time to end 1 day after first dose, the second piece to go
-from then to 28 days after the first dose, and the third piece from then
-56 days after the first dose, etc.
+We set the first piece of each group to be equal so we can get an HR of
+1 (more in subsequent sections). This first piece can be specified to be
+over a short time range where both groups would be considered equal due
+to the *ramp-up time* of a vaccine. Below we set the ramp-up time to end
+1 day after first dose, the second piece to go from then to 28 days
+after the first dose, and the third piece from then 56 days after the
+first dose, etc. The pieces are determined by the knots, which we select
+in the next section to match up with the periods of time listed in the
+Figure 2 of Thomas et al(2020).
 
-### Knot selection
+## Knot selection
 
 ``` r
 tvec.in<- c(1,28,56,84,112,140,168)
@@ -144,7 +131,9 @@ tvec.in
 #> [1]   1  28  56  84 112 140 168
 ```
 
-#### Fit the Likelihood to IPD data
+## Fit the Likelihood to IPD data
+
+We set up some global variables from the data:
 
 ``` r
 library(data.table)
@@ -166,7 +155,8 @@ LTVEC
 #> [1] 7
 ```
 
-Likelihood:
+This is the likelihood that can be optimized using IPD data. This
+approach is similar to Swihart & Bandyopadhyay (2021).
 
 ``` r
 ## this approach is similar to Swihart & Bandyopadhyay 2021
@@ -265,7 +255,7 @@ integrated_likelihood <- function(parms){
 }
 ```
 
-### set starting values and test one evaluation of likelihood
+## set starting values and test one evaluation of likelihood
 
 ``` r
 
@@ -291,11 +281,12 @@ ilspv
 end.one.iter <- Sys.time()
 dur.one.iter <- end.one.iter - beg.one.iter
 dur.one.iter
-#> Time difference of 1.791036 secs
+#> Time difference of 1.787412 secs
 ```
 
-We include this code chunk below but do not run it. We take the
-resultant estimates from the `$par` to demonstrate our point.
+We include this code chunk below but do not run it (we saved its output,
+accessed in the following chunk). We take the resultant estimates from
+the `$par` to demonstrate our point.
 
 ``` r
 
@@ -317,67 +308,7 @@ dur.all.iter <- end.all.iter - beg.all.iter
 dur.all.iter
 ```
 
-Here’s the saved object:
-
-``` r
-## > dput(estimates_from_integrated_likelihood)
-estimates_from_integrated_likelihood <-
-list(par = c(0.152353295766645, -9.29170555007139, 0.106891433620299, 
--0.136059602259565, 0.168511532499485, 0.215710900101426, -0.0812718060180775, 
--0.315370884660848, -0.236712547663703, -0.207309280434875, -0.867076653923816, 
-0.418596286367761, 0.318719583458342, 0.561423073791174, 0.264441255322591, 
-0.504041894544567), value = 11743.5557393676, counts = c(`function` = 585L, 
-gradient = NA), convergence = 0L, message = NULL, hessian = structure(c(46726.4228941531, 
-7588.91415762264, 35489.1029558075, 12729.8868162598, 7887.03743114638, 
-5037.04853463205, 3088.04326050449, 1741.54023261508, 746.805569178832, 
-4620.23907903131, 1915.53882314111, 940.026757234591, 566.068177704437, 
-324.305618050857, 159.556260769023, 43.6977356912394, 7588.91415762264, 
-1284.10950310354, 5837.30741664112, 2007.53645276563, 1213.98571127429, 
-754.938053205478, 449.127310730546, 245.601941514906, 101.32384386452, 
-679.144186960912, 230.875468787417, 138.203271944803, 84.8153354127135, 
-49.0339689349639, 24.7462162406009, 6.92689218340092, 35489.1029558075, 
-5837.30741664112, 30473.811164029, 10930.9099361781, 6772.44860253268, 
-4325.21308266587, 2651.63563562965, 1495.42477038267, 641.267406535917, 
-0, 0, 0, 0, 0, 0, 0, 12729.8868162598, 2007.53645276563, 10930.9099361781, 
-4241.34615741423, 2727.17285815816, 1809.58945975362, 1155.06194106274, 
-677.026928769919, 303.628045003279, 0, 0, 0, 0, 0, 0, 0, 7887.03743114638, 
-1213.98571127429, 6772.44860253268, 2727.17285815816, 1885.69966212526, 
-1286.30001336205, 843.748751321982, 506.782537740946, 233.396000567154, 
-0, 0, -4.54747350886464e-07, 0, 0, 0, 0, 5037.04853463205, 754.938053205478, 
-4325.21308266587, 1809.58945975362, 1286.30001336205, 980.193503892224, 
-661.64994814244, 407.200678637309, 192.308155419596, 0, 0, -4.54747350886464e-07, 
-0, 0, 0, 0, 3088.04326050449, 449.127310730546, 2651.63563562965, 
-1155.06194106274, 843.748751321982, 661.64994814244, 532.439771177451, 
-336.547421284195, 163.159583735251, 0, 0, 4.54747350886464e-07, 
-0, 0, 0, 0, 1741.54023261508, 245.601941514906, 1495.42477038267, 
-677.026928769919, 506.782537740946, 407.200678637309, 336.547421284195, 
-281.739328329422, 140.54930443308, 0, 0, 4.54747350886464e-07, 
-0, 0, 0, 0, 746.805569178832, 101.32384386452, 641.267406535917, 
-303.628045003279, 233.396000567154, 192.308155419596, 163.159583735251, 
-140.54930443308, 122.071693112957, 0, 0, 4.54747350886464e-07, 
-0, 0, 0, 0, 4620.23907903131, 679.144186960912, 0, 0, 0, 0, 0, 
-0, 0, 3967.30226702857, 1644.82767740992, 807.181005711755, 486.069544876955, 
-278.474720744271, 137.003375130007, 37.5175109184056, 1915.53882314111, 
-230.875468787417, 0, 0, 0, 0, 0, 0, 0, 1644.82767740992, 875.477099725686, 
-346.638276369049, 203.432355647237, 115.075495159545, 54.5399007023661, 
-14.4286423164885, 940.026757234591, 138.203271944803, 0, 0, -4.54747350886464e-07, 
--4.54747350886464e-07, 4.54747350886464e-07, 4.54747350886464e-07, 
-4.54747350886464e-07, 807.181005711755, 346.638276369049, 250.846941526106, 
-144.640387588879, 81.0865017228934, 37.3870957446343, 9.63004004006507, 
-566.068177704437, 84.8153354127135, 0, 0, 0, 0, 0, 0, 0, 486.069544876955, 
-203.432355647237, 144.640387588879, 110.247605789482, 61.2064081906283, 
-27.3484943136282, 6.81838355376385, 324.305618050857, 49.0339689349639, 
-0, 0, 0, 0, 0, 0, 0, 278.474720744271, 115.075495159545, 81.0865017228934, 
-61.2064081906283, 47.09732502306, 20.2343594537524, 4.82133191326284, 
-159.556260769023, 24.7462162406009, 0, 0, 0, 0, 0, 0, 0, 137.003375130007, 
-54.5399007023661, 37.3870957446343, 27.3484943136282, 20.2343594537524, 
-14.7110495163361, 3.27586622006493, 43.6977356912394, 6.92689218340092, 
-0, 0, 0, 0, 0, 0, 0, 37.5175109184056, 14.4286423164885, 9.63004004006507, 
-6.81838355376385, 4.82133191326284, 3.27586622006493, 2.01954662770731
-), dim = c(16L, 16L)))
-```
-
-And here the starting and the estimated parameters side by side:
+Here the starting and the estimated parameters side by side:
 
 ``` r
 cbind(start_parms_val,
@@ -402,50 +333,40 @@ cbind(start_parms_val,
 #> [16,]            0.00  0.50404189
 ```
 
-#### OLD STUFF
-
-#### Two step fitting procedure
-
-##### 1. Fit for placebo group
-
-##### 2. Fit for vaccine group
-
-Now take `logk0p` and `g0p`, the parameters that control the first
-(leftmost) piece for the placebo group and use them for `logk0v` and
-`g0v` when estimating the pieces for the vaccine group. This forces the
-first pieces to be the same for both groups (i.e. *ramp-up time*).
+## Fit for the placebo group
 
 ``` r
+# starting values:
+# logk0p = start_parms_val[1]
+# g0p = start_parms_val[2]
+# delta_vec_p = start_parms_val[ 3:(3+(LTVEC-1))]
 
+# estimated values:
+logk0p = estimates_from_integrated_likelihood$par[1]
+g0p = estimates_from_integrated_likelihood$par[2]
+delta_vec_p = estimates_from_integrated_likelihood$par[ 3:(3+(LTVEC-1))]
+```
+
+## Fit for vaccine group
+
+Notice `logk0p`=`logk0v` and `g0p`=`g0v`, the parameters that control
+the first (leftmost) piece for the placebo group (p) and the vaccine
+group (v). This parameterization forces the first pieces to be the same
+for both groups (i.e. *ramp-up time*).
+
+``` r
+# starting values:
 # logk0v = start_parms_val[1]
 # g0v = start_parms_val[2]
 # delta_vec_v = start_parms_val[ (3+LTVEC):(2*LTVEC+2)]
 
-
-
-
+# estimated values:
 logk0v = estimates_from_integrated_likelihood$par[1]
 g0v = estimates_from_integrated_likelihood$par[2]
 delta_vec_v = estimates_from_integrated_likelihood$par[ (3+LTVEC):(2*LTVEC+2)]
-
-
-
-time<- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)
-
-#F1  <- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100
-#F0  <- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100
-
-# F0 <- 1-c(ipd_plac$Points$surv[ipd_plac$Points$time %in% time])
-# F1 <- 1-c(ipd_vacc$Points$surv[ipd_vacc$Points$time %in% time])
-
-time_plac <- ipd_plac$Points$time
-F0 <- 1-c(ipd_plac$Points$surv)
-
-time_vacc <- ipd_vacc$Points$time
-F1 <- 1-c(ipd_vacc$Points$surv)
 ```
 
-#### Plot population avg CDF
+## Plot population avg CDF
 
 - Quick check of fit
 
@@ -475,7 +396,8 @@ vacc.dist <- popavg_dist(      x = time.dist,
                           h_parm = H_PARM,
                          frailty = FRAILTY)
   
-plot  (time.dist, plac.dist, type="l", col="#2E9FDF", xlab="Days", ylab="CDF")
+plot  (time.dist, plac.dist, type="l", col="#2E9FDF", ylim=c(0,0.08), ylab="Cumulative Incidence",xlab="Day since Receipt of First Dose", 
+        main=c("Specified Knots: ",paste(round(tvec.in,1), collapse=", ")), xlim=range(time))
 points(time_plac     , F0       , col="#2E9FDF", pch=15)
 lines (time.dist, vacc.dist, col="#FF4500")
 points(time_vacc     , F1, col="#FF4500", pch=16)
@@ -494,7 +416,7 @@ Note from Days 0 to 1 the curves are the same. Over this range the HR
 will be 1. Additionally, the fit looks okay – some points are below
 their line and some are above.
 
-#### Plot population avg HR
+## Plot population avg HR
 
 - uses parameters from two step fitting procedure
 - HR(0) = 1
@@ -534,6 +456,8 @@ axis(1, at=c(tvec.in[1]))
 
 Or, plot the VE = 1-HR:
 
+## Plot population avg VE=1-HR
+
 ``` r
 plot  (time.haz, 1-vacc.haz/plac.haz, type="l", col="purple", xlab="Days",
        ylab="Vaccine Efficacy", lwd=2, ylim=c(-0.05,1.05))
@@ -545,9 +469,12 @@ axis(1, at=c(tvec.in[1]))
 
 ![](wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-ve-1.png)
 
-#### Plot subject-specific VEs for different $\alpha$ values
+A nice feature of this analysis is that we can surmise the heterogeneity
+and make a point in the next section.
 
-- should flatten
+## Plot subject-specific VEs for different $\alpha$ values
+
+- The VE should flatten to 1 as $\left. \alpha\rightarrow 0 \right.$
 
 In other articles on this website demonstrating `mpw` use cases, adding
 subject specific curves involves the
@@ -573,10 +500,8 @@ alpha.vec <- c(0.4,0.7,0.99)
 ## now plot
 for(i in 1:length(alpha.vec)){
   
-  
   a.in <- alpha.vec[i]
   
-
 plac.haz <- popavg_haz(      x = time.haz, 
                            knots = tvec.in,
                            logk0 = logk0p,
@@ -593,23 +518,20 @@ vacc.haz <- popavg_haz(      x = time.haz,
                           h_parm = 1/a.in,
                          frailty = FRAILTY)
 
-
-
 lines(time.haz, 1-vacc.haz/plac.haz, col=COL[i],lty=LTY[i],lwd=LWD[i])
 
 abline(v=tvec.in, lty=2, col="grey")
-
 }
 legend("bottomright",legend=paste0("alpha=",c("0.40","0.70","0.99")),lty=LTY,lwd=LWD,col=COL)
 ```
 
-![](wwps-fay-ipd_files/figure-html/unnamed-chunk-12-1.png)
+![](wwps-fay-ipd_files/figure-html/unnamed-chunk-14-1.png)
 
 The plot above shows that for a positive-stable frailty, as $\alpha$
-goes to 0 the subject-specific VE is flatter, approaching VE=1. As
-$\alpha$ goes to 1 the VE for an individual approaches that of the
-population. Conceptually, one might conclude VE is waning over time if
-alpha is 0.99. One would not conclude that if alpha was 0.40. In both
-instances, the same population-level VE would be observed. Therefore the
-takeaway is to not make statements about VE looking at population-level
-curves.
+goes to 0 the subject-specific VE is flatter, approaching VE=1. Going
+the opposite direction, as $\alpha$ goes to 1 the VE for an individual
+approaches that of the population VE. Conceptually, one might conclude
+VE is waning over time if alpha is 0.99. One would not conclude that if
+alpha was 0.40. **In both instances, the same population-level VE would
+be observed.** Therefore the takeaway is to not make statements about VE
+looking at population-level curves.

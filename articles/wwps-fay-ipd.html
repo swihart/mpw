@@ -126,13 +126,24 @@ Positive Stable Frailty density:</p>
 <ul>
 <li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><msub><mi>u</mi><mi>i</mi></msub></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>u</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">|</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mrow><mi>π</mi><msub><mi>u</mi><mi>i</mi></msub></mrow></mfrac><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>∞</mi></msubsup><mfrac><mrow><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mi>α</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>k</mi><mi>!</mi></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><msubsup><mi>u</mi><mi>i</mi><mrow><mo>−</mo><mi>α</mi></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mi>k</mi></msup><mo>sin</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mi>k</mi><mi>π</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f_{u_{i}}(u_{i} | \alpha) =  - \frac{1}{\pi u_{i}}  \sum_{k=1}^\infty \frac{\Gamma(k \alpha +1)}{k!}  (-u_{i}^{-\alpha})^k \sin{(\alpha k \pi)}</annotation></semantics></math></li>
 </ul>
+</div>
+<div class="section level2">
+<h2 id="ipd-data-from-a-km-curve">IPD data from a KM curve<a class="anchor" aria-label="anchor" href="#ipd-data-from-a-km-curve"></a>
+</h2>
 <p>We analyze data that looks similar to that of Figure 2 <a href="https://pubmed.ncbi.nlm.nih.gov/34525277/" class="external-link">Thomas et al (2021)
 <em>Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine through 6
 Months</em></a>.</p>
 <p>We accomplished creating the dataset in this package,
-<code>ipd_data</code> by using the R package <code>IPDfromKM</code>.</p>
-<p>We load the data and do a couple of quick checks before proceeding
-with the core of our example.</p>
+<code>ipd_data</code>, by using the R package <code>IPDfromKM</code>.
+Feeding screen shots of the original Figure 2 (rotated and flipped so
+that they looked like survival curves) into <code>IPDfromKM</code>, and
+then using the point and click feature for both inset curve and full
+curve for each group. The results of this data are saved as
+<code>ipd_data</code> in this package (mpw) and can be loaded and
+analyzed, just as we do in this document.</p>
+<p>Below, we load <code>ipd_data</code> and do a couple of quick checks
+with <code>survminer</code> before proceeding with the core of our
+example.</p>
 <!-- We plot the data points, color-code the groups, and just connect the dots with interpolated, dashed lines. -->
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/survminer/index.html" class="external-link">survminer</a></span><span class="op">)</span></span>
@@ -152,7 +163,6 @@ with the core of our example.</p>
 <span><span class="co">#&gt; 4  1.5      0     0</span></span>
 <span><span class="co">#&gt; 5  1.5      0     0</span></span>
 <span><span class="co">#&gt; 6  2.0      1     0</span></span>
-<span></span>
 <span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html" class="external-link">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">treat</span>,</span>
 <span>               data <span class="op">=</span> <span class="va">ipd_data</span><span class="op">)</span></span>
@@ -174,24 +184,6 @@ with the core of our example.</p>
 <span>           legend.labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"BNT162b2"</span><span class="op">)</span>,</span>
 <span>           palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#2E9FDF"</span>,<span class="st">"#FF4500"</span> <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay-ipd_files/figure-html/thomas-data-2.png" class="r-plt" width="700"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span></span>
-<span><span class="co"># time&lt;- c(0,14,28,42,56,70,84,98,112,126,140,154,168,182,196)</span></span>
-<span><span class="co"># F1  &lt;- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100</span></span>
-<span><span class="co"># F0  &lt;- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100</span></span>
-<span></span>
-<span><span class="co">## plot the data points, </span></span>
-<span><span class="co">## with interpolated lines</span></span>
-<span><span class="co"># plot  (time, F0, type="l", col="black", xlab="Days", ylab="CDF", lty=2)</span></span>
-<span><span class="co"># points(time, F0, col="black", pch=15)</span></span>
-<span><span class="co"># lines (time, F1, col="#FF4500", lty=2)</span></span>
-<span><span class="co"># points(time, F1, col="#FF4500", pch=16)</span></span>
-<span><span class="co"># legend("topleft", c("Placebo", "Vaccine"),</span></span>
-<span><span class="co">#        col=c("black","#FF4500"),</span></span>
-<span><span class="co">#        lty=1,</span></span>
-<span><span class="co">#        pch=c(15,16)</span></span>
-<span><span class="co"># )</span></span></code></pre></div>
 <p>Set the <code>h_parm</code> and <code>frailty</code> distribution for
 this example. Beware that H_PARM has different bounds depending on what
 value of FRAILTY is selected. For this example, we are going to estimate
@@ -199,28 +191,32 @@ the marginal parameters first and can accomplish this by mitigating the
 effect of alpha, that is, setting the global variable
 <code>H_PARM=1.00</code> which will be passed to the argument
 <code>h_parm</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ALPHA_FIXED</span> <span class="op">&lt;-</span> <span class="va">H_PARM</span> <span class="op">&lt;-</span> <span class="fl">1.00</span></span>
 <span><span class="va">FRAILTY</span> <span class="op">&lt;-</span> <span class="st">"PS"</span></span></code></pre></div>
-<p>We first consider two knots which will allow us to model each curve
-with three pieces. We set the first piece of each group to be equal so
-we can get an HR of 1 (more in subsequent sections). This first piece
-can be specified to be over a short time range where both groups would
-be considered equal due to the <em>ramp-up time</em> of a vaccine. Below
-we set the ramp-up time to end 1 day after first dose, the second piece
-to go from then to 28 days after the first dose, and the third piece
-from then 56 days after the first dose, etc.</p>
-<div class="section level3">
-<h3 id="knot-selection">Knot selection<a class="anchor" aria-label="anchor" href="#knot-selection"></a>
-</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>We set the first piece of each group to be equal so we can get an HR
+of 1 (more in subsequent sections). This first piece can be specified to
+be over a short time range where both groups would be considered equal
+due to the <em>ramp-up time</em> of a vaccine. Below we set the ramp-up
+time to end 1 day after first dose, the second piece to go from then to
+28 days after the first dose, and the third piece from then 56 days
+after the first dose, etc. The pieces are determined by the knots, which
+we select in the next section to match up with the periods of time
+listed in the Figure 2 of Thomas et al(2020).</p>
+</div>
+<div class="section level2">
+<h2 id="knot-selection">Knot selection<a class="anchor" aria-label="anchor" href="#knot-selection"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tvec.in</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">28</span>,<span class="fl">56</span>,<span class="fl">84</span>,<span class="fl">112</span>,<span class="fl">140</span>,<span class="fl">168</span><span class="op">)</span></span>
 <span><span class="va">tvec.in</span></span>
 <span><span class="co">#&gt; [1]   1  28  56  84 112 140 168</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="fit-the-likelihood-to-ipd-data">Fit the Likelihood to IPD data<a class="anchor" aria-label="anchor" href="#fit-the-likelihood-to-ipd-data"></a>
-</h4>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+</div>
+<div class="section level2">
+<h2 id="fit-the-likelihood-to-ipd-data">Fit the Likelihood to IPD data<a class="anchor" aria-label="anchor" href="#fit-the-likelihood-to-ipd-data"></a>
+</h2>
+<p>We set up some global variables from the data:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="co">## the approach this script uses to build the likelihood</span></span>
 <span><span class="co">## uses data.table</span></span>
@@ -238,8 +234,9 @@ from then 56 days after the first dose, etc.</p>
 <span><span class="va">LTVEC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">)</span></span>
 <span><span class="va">LTVEC</span></span>
 <span><span class="co">#&gt; [1] 7</span></span></code></pre></div>
-<p>Likelihood:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>This is the likelihood that can be optimized using IPD data. This
+approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## this approach is similar to Swihart &amp; Bandyopadhyay 2021</span></span>
 <span><span class="va">integrated_likelihood</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">parms</span><span class="op">)</span><span class="op">{</span></span>
 <span>  </span>
@@ -335,11 +332,10 @@ from then 56 days after the first dose, etc.</p>
 <span>  <span class="va">nll</span>      </span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level3">
-<h3 id="set-starting-values-and-test-one-evaluation-of-likelihood">set starting values and test one evaluation of likelihood<a class="anchor" aria-label="anchor" href="#set-starting-values-and-test-one-evaluation-of-likelihood"></a>
-</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="section level2">
+<h2 id="set-starting-values-and-test-one-evaluation-of-likelihood">set starting values and test one evaluation of likelihood<a class="anchor" aria-label="anchor" href="#set-starting-values-and-test-one-evaluation-of-likelihood"></a>
+</h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## set the starting values for the optimization</span></span>
 <span><span class="co">## the first two elements are for the first</span></span>
@@ -363,11 +359,11 @@ from then 56 days after the first dose, etc.</p>
 <span><span class="va">end.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dur.one.iter</span> <span class="op">&lt;-</span> <span class="va">end.one.iter</span> <span class="op">-</span> <span class="va">beg.one.iter</span></span>
 <span><span class="va">dur.one.iter</span></span>
-<span><span class="co">#&gt; Time difference of 1.791036 secs</span></span></code></pre></div>
-<p>We include this code chunk below but do not run it. We take the
-resultant estimates from the <code>$par</code> to demonstrate our
-point.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; Time difference of 1.787412 secs</span></span></code></pre></div>
+<p>We include this code chunk below but do not run it (we saved its
+output, accessed in the following chunk). We take the resultant
+estimates from the <code>$par</code> to demonstrate our point.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## takes  7 min. w/o hess </span></span>
 <span><span class="co">## takes 21 min with hess</span></span>
@@ -385,65 +381,9 @@ point.</p>
 <span><span class="va">end.all.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dur.all.iter</span> <span class="op">&lt;-</span> <span class="va">end.all.iter</span> <span class="op">-</span> <span class="va">beg.all.iter</span></span>
 <span><span class="va">dur.all.iter</span></span></code></pre></div>
-<p>Here’s the saved object:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## &gt; dput(estimates_from_integrated_likelihood)</span></span>
-<span><span class="va">estimates_from_integrated_likelihood</span> <span class="op">&lt;-</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.152353295766645</span>, <span class="op">-</span><span class="fl">9.29170555007139</span>, <span class="fl">0.106891433620299</span>, </span>
-<span><span class="op">-</span><span class="fl">0.136059602259565</span>, <span class="fl">0.168511532499485</span>, <span class="fl">0.215710900101426</span>, <span class="op">-</span><span class="fl">0.0812718060180775</span>, </span>
-<span><span class="op">-</span><span class="fl">0.315370884660848</span>, <span class="op">-</span><span class="fl">0.236712547663703</span>, <span class="op">-</span><span class="fl">0.207309280434875</span>, <span class="op">-</span><span class="fl">0.867076653923816</span>, </span>
-<span><span class="fl">0.418596286367761</span>, <span class="fl">0.318719583458342</span>, <span class="fl">0.561423073791174</span>, <span class="fl">0.264441255322591</span>, </span>
-<span><span class="fl">0.504041894544567</span><span class="op">)</span>, value <span class="op">=</span> <span class="fl">11743.5557393676</span>, counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`function` <span class="op">=</span> <span class="fl">585L</span>, </span>
-<span>gradient <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>, convergence <span class="op">=</span> <span class="fl">0L</span>, message <span class="op">=</span> <span class="cn">NULL</span>, hessian <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">46726.4228941531</span>, </span>
-<span><span class="fl">7588.91415762264</span>, <span class="fl">35489.1029558075</span>, <span class="fl">12729.8868162598</span>, <span class="fl">7887.03743114638</span>, </span>
-<span><span class="fl">5037.04853463205</span>, <span class="fl">3088.04326050449</span>, <span class="fl">1741.54023261508</span>, <span class="fl">746.805569178832</span>, </span>
-<span><span class="fl">4620.23907903131</span>, <span class="fl">1915.53882314111</span>, <span class="fl">940.026757234591</span>, <span class="fl">566.068177704437</span>, </span>
-<span><span class="fl">324.305618050857</span>, <span class="fl">159.556260769023</span>, <span class="fl">43.6977356912394</span>, <span class="fl">7588.91415762264</span>, </span>
-<span><span class="fl">1284.10950310354</span>, <span class="fl">5837.30741664112</span>, <span class="fl">2007.53645276563</span>, <span class="fl">1213.98571127429</span>, </span>
-<span><span class="fl">754.938053205478</span>, <span class="fl">449.127310730546</span>, <span class="fl">245.601941514906</span>, <span class="fl">101.32384386452</span>, </span>
-<span><span class="fl">679.144186960912</span>, <span class="fl">230.875468787417</span>, <span class="fl">138.203271944803</span>, <span class="fl">84.8153354127135</span>, </span>
-<span><span class="fl">49.0339689349639</span>, <span class="fl">24.7462162406009</span>, <span class="fl">6.92689218340092</span>, <span class="fl">35489.1029558075</span>, </span>
-<span><span class="fl">5837.30741664112</span>, <span class="fl">30473.811164029</span>, <span class="fl">10930.9099361781</span>, <span class="fl">6772.44860253268</span>, </span>
-<span><span class="fl">4325.21308266587</span>, <span class="fl">2651.63563562965</span>, <span class="fl">1495.42477038267</span>, <span class="fl">641.267406535917</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">12729.8868162598</span>, <span class="fl">2007.53645276563</span>, <span class="fl">10930.9099361781</span>, </span>
-<span><span class="fl">4241.34615741423</span>, <span class="fl">2727.17285815816</span>, <span class="fl">1809.58945975362</span>, <span class="fl">1155.06194106274</span>, </span>
-<span><span class="fl">677.026928769919</span>, <span class="fl">303.628045003279</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">7887.03743114638</span>, </span>
-<span><span class="fl">1213.98571127429</span>, <span class="fl">6772.44860253268</span>, <span class="fl">2727.17285815816</span>, <span class="fl">1885.69966212526</span>, </span>
-<span><span class="fl">1286.30001336205</span>, <span class="fl">843.748751321982</span>, <span class="fl">506.782537740946</span>, <span class="fl">233.396000567154</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">4.54747350886464e-07</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">5037.04853463205</span>, <span class="fl">754.938053205478</span>, </span>
-<span><span class="fl">4325.21308266587</span>, <span class="fl">1809.58945975362</span>, <span class="fl">1286.30001336205</span>, <span class="fl">980.193503892224</span>, </span>
-<span><span class="fl">661.64994814244</span>, <span class="fl">407.200678637309</span>, <span class="fl">192.308155419596</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">4.54747350886464e-07</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">3088.04326050449</span>, <span class="fl">449.127310730546</span>, <span class="fl">2651.63563562965</span>, </span>
-<span><span class="fl">1155.06194106274</span>, <span class="fl">843.748751321982</span>, <span class="fl">661.64994814244</span>, <span class="fl">532.439771177451</span>, </span>
-<span><span class="fl">336.547421284195</span>, <span class="fl">163.159583735251</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4.54747350886464e-07</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1741.54023261508</span>, <span class="fl">245.601941514906</span>, <span class="fl">1495.42477038267</span>, </span>
-<span><span class="fl">677.026928769919</span>, <span class="fl">506.782537740946</span>, <span class="fl">407.200678637309</span>, <span class="fl">336.547421284195</span>, </span>
-<span><span class="fl">281.739328329422</span>, <span class="fl">140.54930443308</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4.54747350886464e-07</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">746.805569178832</span>, <span class="fl">101.32384386452</span>, <span class="fl">641.267406535917</span>, </span>
-<span><span class="fl">303.628045003279</span>, <span class="fl">233.396000567154</span>, <span class="fl">192.308155419596</span>, <span class="fl">163.159583735251</span>, </span>
-<span><span class="fl">140.54930443308</span>, <span class="fl">122.071693112957</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4.54747350886464e-07</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4620.23907903131</span>, <span class="fl">679.144186960912</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">3967.30226702857</span>, <span class="fl">1644.82767740992</span>, <span class="fl">807.181005711755</span>, <span class="fl">486.069544876955</span>, </span>
-<span><span class="fl">278.474720744271</span>, <span class="fl">137.003375130007</span>, <span class="fl">37.5175109184056</span>, <span class="fl">1915.53882314111</span>, </span>
-<span><span class="fl">230.875468787417</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1644.82767740992</span>, <span class="fl">875.477099725686</span>, </span>
-<span><span class="fl">346.638276369049</span>, <span class="fl">203.432355647237</span>, <span class="fl">115.075495159545</span>, <span class="fl">54.5399007023661</span>, </span>
-<span><span class="fl">14.4286423164885</span>, <span class="fl">940.026757234591</span>, <span class="fl">138.203271944803</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">4.54747350886464e-07</span>, </span>
-<span><span class="op">-</span><span class="fl">4.54747350886464e-07</span>, <span class="fl">4.54747350886464e-07</span>, <span class="fl">4.54747350886464e-07</span>, </span>
-<span><span class="fl">4.54747350886464e-07</span>, <span class="fl">807.181005711755</span>, <span class="fl">346.638276369049</span>, <span class="fl">250.846941526106</span>, </span>
-<span><span class="fl">144.640387588879</span>, <span class="fl">81.0865017228934</span>, <span class="fl">37.3870957446343</span>, <span class="fl">9.63004004006507</span>, </span>
-<span><span class="fl">566.068177704437</span>, <span class="fl">84.8153354127135</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">486.069544876955</span>, </span>
-<span><span class="fl">203.432355647237</span>, <span class="fl">144.640387588879</span>, <span class="fl">110.247605789482</span>, <span class="fl">61.2064081906283</span>, </span>
-<span><span class="fl">27.3484943136282</span>, <span class="fl">6.81838355376385</span>, <span class="fl">324.305618050857</span>, <span class="fl">49.0339689349639</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">278.474720744271</span>, <span class="fl">115.075495159545</span>, <span class="fl">81.0865017228934</span>, </span>
-<span><span class="fl">61.2064081906283</span>, <span class="fl">47.09732502306</span>, <span class="fl">20.2343594537524</span>, <span class="fl">4.82133191326284</span>, </span>
-<span><span class="fl">159.556260769023</span>, <span class="fl">24.7462162406009</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">137.003375130007</span>, </span>
-<span><span class="fl">54.5399007023661</span>, <span class="fl">37.3870957446343</span>, <span class="fl">27.3484943136282</span>, <span class="fl">20.2343594537524</span>, </span>
-<span><span class="fl">14.7110495163361</span>, <span class="fl">3.27586622006493</span>, <span class="fl">43.6977356912394</span>, <span class="fl">6.92689218340092</span>, </span>
-<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">37.5175109184056</span>, <span class="fl">14.4286423164885</span>, <span class="fl">9.63004004006507</span>, </span>
-<span><span class="fl">6.81838355376385</span>, <span class="fl">4.82133191326284</span>, <span class="fl">3.27586622006493</span>, <span class="fl">2.01954662770731</span></span>
-<span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16L</span>, <span class="fl">16L</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>And here the starting and the estimated parameters side by side:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<!-- Here's the saved object: -->
+<p>Here the starting and the estimated parameters side by side:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">start_parms_val</span>,</span>
 <span>      <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span></span>
 <span><span class="op">)</span></span>
@@ -464,65 +404,50 @@ point.</p>
 <span><span class="co">#&gt; [14,]            0.00  0.56142307</span></span>
 <span><span class="co">#&gt; [15,]            0.00  0.26444126</span></span>
 <span><span class="co">#&gt; [16,]            0.00  0.50404189</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="old-stuff">OLD STUFF<a class="anchor" aria-label="anchor" href="#old-stuff"></a>
-</h4>
 </div>
-<div class="section level4">
-<h4 id="two-step-fitting-procedure">Two step fitting procedure<a class="anchor" aria-label="anchor" href="#two-step-fitting-procedure"></a>
-</h4>
-<div class="section level5">
-<h5 id="fit-for-placebo-group">1. Fit for placebo group<a class="anchor" aria-label="anchor" href="#fit-for-placebo-group"></a>
-</h5>
+<div class="section level2">
+<h2 id="fit-for-the-placebo-group">Fit for the placebo group<a class="anchor" aria-label="anchor" href="#fit-for-the-placebo-group"></a>
+</h2>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># starting values:</span></span>
+<span><span class="co"># logk0p = start_parms_val[1]</span></span>
+<span><span class="co"># g0p = start_parms_val[2]</span></span>
+<span><span class="co"># delta_vec_p = start_parms_val[ 3:(3+(LTVEC-1))]</span></span>
+<span></span>
+<span><span class="co"># estimated values:</span></span>
+<span><span class="va">logk0p</span> <span class="op">=</span> <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">g0p</span> <span class="op">=</span> <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="va">delta_vec_p</span> <span class="op">=</span> <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span><span class="op">[</span> <span class="fl">3</span><span class="op">:</span><span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="op">(</span><span class="va">LTVEC</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
-<div class="section level5">
-<h5 id="fit-for-vaccine-group">2. Fit for vaccine group<a class="anchor" aria-label="anchor" href="#fit-for-vaccine-group"></a>
-</h5>
-<p>Now take <code>logk0p</code> and <code>g0p</code>, the parameters
-that control the first (leftmost) piece for the placebo group and use
-them for <code>logk0v</code> and <code>g0v</code> when estimating the
-pieces for the vaccine group. This forces the first pieces to be the
-same for both groups (i.e. <em>ramp-up time</em>).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<div class="section level2">
+<h2 id="fit-for-vaccine-group">Fit for vaccine group<a class="anchor" aria-label="anchor" href="#fit-for-vaccine-group"></a>
+</h2>
+<p>Notice <code>logk0p</code>=<code>logk0v</code> and
+<code>g0p</code>=<code>g0v</code>, the parameters that control the first
+(leftmost) piece for the placebo group (p) and the vaccine group (v).
+This parameterization forces the first pieces to be the same for both
+groups (i.e. <em>ramp-up time</em>).</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># starting values:</span></span>
 <span><span class="co"># logk0v = start_parms_val[1]</span></span>
 <span><span class="co"># g0v = start_parms_val[2]</span></span>
 <span><span class="co"># delta_vec_v = start_parms_val[ (3+LTVEC):(2*LTVEC+2)]</span></span>
 <span></span>
-<span></span>
-<span></span>
-<span></span>
+<span><span class="co"># estimated values:</span></span>
 <span><span class="va">logk0v</span> <span class="op">=</span> <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">g0v</span> <span class="op">=</span> <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
-<span><span class="va">delta_vec_v</span> <span class="op">=</span> <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span><span class="op">[</span> <span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="va">LTVEC</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">LTVEC</span><span class="op">+</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span></span>
-<span></span>
-<span><span class="va">time</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">14</span>,<span class="fl">28</span>,<span class="fl">42</span>,<span class="fl">56</span>,<span class="fl">70</span>,<span class="fl">84</span>,<span class="fl">98</span>,<span class="fl">112</span>,<span class="fl">126</span>,<span class="fl">140</span>,<span class="fl">154</span>,<span class="fl">168</span>,<span class="fl">182</span>,<span class="fl">196</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#F1  &lt;- c(0,.18,.19,.22,.25,.27,.28,.34,.44,.50,.60,.72,.75,.81,.93)/100</span></span>
-<span><span class="co">#F0  &lt;- c(0,.29,.60,1,1.38,1.75,2.25,2.97,3.50,4.25,4.94,5.53,6.00,6.31,6.94)/100</span></span>
-<span></span>
-<span><span class="co"># F0 &lt;- 1-c(ipd_plac$Points$surv[ipd_plac$Points$time %in% time])</span></span>
-<span><span class="co"># F1 &lt;- 1-c(ipd_vacc$Points$surv[ipd_vacc$Points$time %in% time])</span></span>
-<span></span>
-<span><span class="va">time_plac</span> <span class="op">&lt;-</span> <span class="va">ipd_plac</span><span class="op">$</span><span class="va">Points</span><span class="op">$</span><span class="va">time</span></span>
-<span><span class="va">F0</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ipd_plac</span><span class="op">$</span><span class="va">Points</span><span class="op">$</span><span class="va">surv</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">time_vacc</span> <span class="op">&lt;-</span> <span class="va">ipd_vacc</span><span class="op">$</span><span class="va">Points</span><span class="op">$</span><span class="va">time</span></span>
-<span><span class="va">F1</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ipd_vacc</span><span class="op">$</span><span class="va">Points</span><span class="op">$</span><span class="va">surv</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">delta_vec_v</span> <span class="op">=</span> <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span><span class="op">[</span> <span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="va">LTVEC</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">LTVEC</span><span class="op">+</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level4">
-<h4 id="plot-population-avg-cdf">Plot population avg CDF<a class="anchor" aria-label="anchor" href="#plot-population-avg-cdf"></a>
-</h4>
+<div class="section level2">
+<h2 id="plot-population-avg-cdf">Plot population avg CDF<a class="anchor" aria-label="anchor" href="#plot-population-avg-cdf"></a>
+</h2>
 <ul>
 <li>Quick check of fit</li>
 </ul>
 <p>We use the knots and the original time in <code>time.dist</code> to
 do a quick check of the fit. We put vertical dashed lines in the plot to
 denote knot placement.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">time.dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>                        <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">tvec.in</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
 <span>                    <span class="va">tvec.in</span><span class="op">)</span></span>
@@ -544,7 +469,8 @@ denote knot placement.</p>
 <span>                          h_parm <span class="op">=</span> <span class="va">H_PARM</span>,</span>
 <span>                         frailty <span class="op">=</span> <span class="va">FRAILTY</span><span class="op">)</span></span>
 <span>  </span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.dist</span>, <span class="va">plac.dist</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"#2E9FDF"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>, ylab<span class="op">=</span><span class="st">"CDF"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.dist</span>, <span class="va">plac.dist</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"#2E9FDF"</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.08</span><span class="op">)</span>, ylab<span class="op">=</span><span class="st">"Cumulative Incidence"</span>,xlab<span class="op">=</span><span class="st">"Day since Receipt of First Dose"</span>, </span>
+<span>        main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Specified Knots: "</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">tvec.in</span>,<span class="fl">1</span><span class="op">)</span>, collapse<span class="op">=</span><span class="st">", "</span><span class="op">)</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time_plac</span>     , <span class="va">F0</span>       , col<span class="op">=</span><span class="st">"#2E9FDF"</span>, pch<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span> <span class="op">(</span><span class="va">time.dist</span>, <span class="va">vacc.dist</span>, col<span class="op">=</span><span class="st">"#FF4500"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">time_vacc</span>     , <span class="va">F1</span>, col<span class="op">=</span><span class="st">"#FF4500"</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></span>
@@ -561,9 +487,9 @@ denote knot placement.</p>
 will be 1. Additionally, the fit looks okay – some points are below
 their line and some are above.</p>
 </div>
-<div class="section level4">
-<h4 id="plot-population-avg-hr">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr"></a>
-</h4>
+<div class="section level2">
+<h2 id="plot-population-avg-hr">Plot population avg HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-hr"></a>
+</h2>
 <ul>
 <li>uses parameters from two step fitting procedure</li>
 <li>HR(0) = 1</li>
@@ -571,7 +497,7 @@ their line and some are above.</p>
 <p>We use the parameters of the previous fits to estimate the population
 average hazard, which we can fit with <code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code>. We
 adjust the time input so that the first element is just above 0.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">time.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-4</span>, <span class="va">time.dist</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">plac.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
 <span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
@@ -597,7 +523,11 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-haz-1.png" class="r-plt" width="700"></p>
 <p>Or, plot the VE = 1-HR:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+</div>
+<div class="section level2">
+<h2 id="plot-population-avg-ve1-hr">Plot population avg VE=1-HR<a class="anchor" aria-label="anchor" href="#plot-population-avg-ve1-hr"></a>
+</h2>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="fl">1</span><span class="op">-</span><span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>,</span>
 <span>       ylab<span class="op">=</span><span class="st">"Vaccine Efficacy"</span>, lwd<span class="op">=</span><span class="fl">2</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">1.05</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -605,14 +535,18 @@ adjust the time input so that the first element is just above 0.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-ve-1.png" class="r-plt" width="700"></p>
+<p>A nice feature of this analysis is that we can surmise the
+heterogeneity and make a point in the next section.</p>
 </div>
-<div class="section level4">
-<h4 id="plot-subject-specific-ves-for-different-alpha-values">Plot subject-specific VEs for different
+<div class="section level2">
+<h2 id="plot-subject-specific-ves-for-different-alpha-values">Plot subject-specific VEs for different
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 values<a class="anchor" aria-label="anchor" href="#plot-subject-specific-ves-for-different-alpha-values"></a>
-</h4>
+</h2>
 <ul>
-<li>should flatten</li>
+<li>The VE should flatten to 1 as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha \rightarrow 0</annotation></semantics></math>
+</li>
 </ul>
 <p>In other articles on this website demonstrating <code>mpw</code> use
 cases, adding subject specific curves involves the
@@ -624,7 +558,7 @@ h_parm as 1/alpha to plot the subject specific curve.</p>
 <p>To demonstrate how the individual-level VE might be different than
 the population-level, the code below runs a loop for three specific
 values of alpha:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>,<span class="fl">.5</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">LTY</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">LWD</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span></span>
@@ -637,10 +571,8 @@ values of alpha:</p>
 <span><span class="co">## now plot</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">alpha.vec</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  </span>
-<span>  </span>
 <span>  <span class="va">a.in</span> <span class="op">&lt;-</span> <span class="va">alpha.vec</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span>  </span>
-<span></span>
 <span><span class="va">plac.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
 <span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
 <span>                           logk0 <span class="op">=</span> <span class="va">logk0p</span>,</span>
@@ -657,27 +589,23 @@ values of alpha:</p>
 <span>                          h_parm <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">a.in</span>,</span>
 <span>                         frailty <span class="op">=</span> <span class="va">FRAILTY</span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">time.haz</span>, <span class="fl">1</span><span class="op">-</span><span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, col<span class="op">=</span><span class="va">COL</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,lty<span class="op">=</span><span class="va">LTY</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
-<span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"alpha="</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0.40"</span>,<span class="st">"0.70"</span>,<span class="st">"0.99"</span><span class="op">)</span><span class="op">)</span>,lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span>,col<span class="op">=</span><span class="va">COL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" width="700"></p>
 <p>The plot above shows that for a positive-stable frailty, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-goes to 0 the subject-specific VE is flatter, approaching VE=1. As
+goes to 0 the subject-specific VE is flatter, approaching VE=1. Going
+the opposite direction, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-goes to 1 the VE for an individual approaches that of the population.
+goes to 1 the VE for an individual approaches that of the population VE.
 Conceptually, one might conclude VE is waning over time if alpha is
-0.99. One would not conclude that if alpha was 0.40. In both instances,
-the same population-level VE would be observed. Therefore the takeaway
-is to not make statements about VE looking at population-level
-curves.</p>
-</div>
-</div>
+0.99. One would not conclude that if alpha was 0.40. <strong>In both
+instances, the same population-level VE would be observed.</strong>
+Therefore the takeaway is to not make statements about VE looking at
+population-level curves.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
