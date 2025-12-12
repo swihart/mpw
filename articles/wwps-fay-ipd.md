@@ -27,7 +27,7 @@ Bandyopadhyay
 (2021)](https://www.sciencedirect.com/science/article/pii/S0169260721001905?casa_token=xYzQZ9UfxGMAAAAA:vFpj08P43bUx_7BTN21cSUksK_WSyQdjIBhWHS7VG8u5ctGB91gDzE8-NJtMblcut67jD6k),
 particularly in Section 2.1.
 
-## PS($\alpha,\alpha,0$) Positive Stable Frailty Example
+## Positive Stable Frailty
 
 This is the $F_{\alpha}$, the marginalized piecewise Weibull CDF:
 
@@ -45,13 +45,15 @@ We analyze data that looks similar to that of Figure 2 [Thomas et al
 (2021) *Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine
 through 6 Months*](https://pubmed.ncbi.nlm.nih.gov/34525277/).
 
-We accomplished creating the dataset in this package, `ipd_data`, by
-using the R package `IPDfromKM`. Feeding screen shots of the original
-Figure 2 (rotated and flipped so that they looked like survival curves)
-into `IPDfromKM`, and then using the point and click feature for both
-inset curve and full curve for each group. The results of this data are
-saved as `ipd_data` in this package (mpw) and can be loaded and
-analyzed, just as we do in this document.
+We accomplished creating the Individual Patient Data (IPD) dataset in
+this package, `ipd_data`, by using the R package `IPDfromKM`. Feeding
+screen shots of the original Figure 2 [Thomas et al
+(2021)](https://pubmed.ncbi.nlm.nih.gov/34525277/) (rotated and flipped
+so that they looked like survival curves) into `IPDfromKM`, and then
+using the point and click feature for both the inset curve and the full
+curve for each group was how the IPD data was generated. The results of
+this data are saved as `ipd_data` in this package (mpw) and can be
+loaded and analyzed, just as we do in this document.
 
 Below, we load `ipd_data` and do a couple of quick checks with
 `survminer` before proceeding with the core of our example.
@@ -77,7 +79,7 @@ head(ipd_data)
 
 fit <- survfit(Surv(time, status) ~ treat,
                data = ipd_data)
-## zoomed in, inset, 11days
+## zoomed in, inset, 11 days
 # Visualize with survminer
 ggsurvplot(fit, data = ipd_data, risk.table = TRUE, 
            ylim=c(1,0.993), xlim=c(0,28), break.time.by=11,
@@ -101,7 +103,8 @@ ggsurvplot(fit, data = ipd_data, risk.table = TRUE,
 
 ![](wwps-fay-ipd_files/figure-html/thomas-data-2.png)
 
-Set the `h_parm` and `frailty` distribution for this example. Beware
+In this exercise we use the functions of the mpw package. We begin by
+setting the `h_parm` and `frailty` distribution for this example. Beware
 that H_PARM has different bounds depending on what value of FRAILTY is
 selected. For this example, we are going to estimate the marginal
 parameters first and can accomplish this by mitigating the effect of
@@ -121,7 +124,8 @@ to the *ramp-up time* of a vaccine. Below we set the ramp-up time to end
 after the first dose, and the third piece from then 56 days after the
 first dose, etc. The pieces are determined by the knots, which we select
 in the next section to match up with the periods of time listed in the
-Figure 2 of Thomas et al(2020).
+Figure 2 of [Thomas et al
+(2021)](https://pubmed.ncbi.nlm.nih.gov/34525277/).
 
 ## Knot selection
 
@@ -133,7 +137,8 @@ tvec.in
 
 ## Fit the Likelihood to IPD data
 
-We set up some global variables from the data:
+We set up some global variables from the data `ipd_data` which will
+subsequently be used in the likelihood `integrated_likelihood()`:
 
 ``` r
 library(data.table)
@@ -165,7 +170,6 @@ integrated_likelihood <- function(parms){
   logk0  <- parms[ 1]; # shared shape (piece 1)
   g0  <- parms[ 2]; # shared scale (piece 1)
   delta_p <- parms[ 3:(3+(LTVEC-1))];
-  
   delta_v <- parms[ (3+LTVEC):(2*LTVEC+2)];
   
   ## use fast data.table to only compute if needed
@@ -211,7 +215,6 @@ integrated_likelihood <- function(parms){
            by=id
   ]
   
-  
   ipd_data[, surv_v :=
              ifelse(treat==1, 
                     
@@ -226,7 +229,6 @@ integrated_likelihood <- function(parms){
            by=id
   ]
   
-  
   ipd_data[, likelihood_contribution:=surv_p*haz_p*surv_v*haz_v]
   k0 = exp(logk0);
   nll <- 
@@ -240,17 +242,7 @@ integrated_likelihood <- function(parms){
           k0+cumsum(delta_p),
           k0+cumsum(delta_v)
     ) < 0) * 1e6
-  ## penalize shapes less than 0 
-  # sum(abs(c(k0,
-  #   k0+cumsum(delta_p),
-  #   k0+cumsum(delta_v)
-  # )[c(k0,
-  #   k0+cumsum(delta_p),
-  #   k0+cumsum(delta_v)
-  # ) < 0])) 
-  
-  
-  #print(head(ipd_data))
+
   nll      
 }
 ```
@@ -258,19 +250,16 @@ integrated_likelihood <- function(parms){
 ## set starting values and test one evaluation of likelihood
 
 ``` r
-
 ## set the starting values for the optimization
 ## the first two elements are for the first
 ## (shared) piece; the 2nd row for the 
 ## deltas for one group
 ## the 3rd row deltas for the other
-
 start_parms_val <- c(
   0.6, -9.6, ## first piece (shared)
   rep(0.01, LTVEC),
   rep(0.0, LTVEC)
 )
-
 
 ## test how long a computation of likelihood takes at starting values
 ## one compuation?  takes a minute...
@@ -281,7 +270,7 @@ ilspv
 end.one.iter <- Sys.time()
 dur.one.iter <- end.one.iter - beg.one.iter
 dur.one.iter
-#> Time difference of 1.787412 secs
+#> Time difference of 1.744874 secs
 ```
 
 We include this code chunk below but do not run it (we saved its output,
@@ -289,7 +278,6 @@ accessed in the following chunk). We take the resultant estimates from
 the `$par` to demonstrate our point.
 
 ``` r
-
 ## takes  7 min. w/o hess 
 ## takes 21 min with hess
 hess.true <- FALSE ## calculate hessian (adds time)
@@ -472,7 +460,7 @@ axis(1, at=c(tvec.in[1]))
 A nice feature of this analysis is that we can surmise the heterogeneity
 and make a point in the next section.
 
-## Plot subject-specific VEs for different $\alpha$ values
+## Plot subject-specific VEs for different alpha values
 
 - The VE should flatten to 1 as $\left. \alpha\rightarrow 0 \right.$
 

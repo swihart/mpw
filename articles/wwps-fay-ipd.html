@@ -110,8 +110,7 @@ can be produced by:</p>
 <p>More details for the interested reader can be found in <a href="https://www.sciencedirect.com/science/article/pii/S0169260721001905?casa_token=xYzQZ9UfxGMAAAAA:vFpj08P43bUx_7BTN21cSUksK_WSyQdjIBhWHS7VG8u5ctGB91gDzE8-NJtMblcut67jD6k" class="external-link">Swihart
 &amp; Bandyopadhyay (2021)</a>, particularly in Section 2.1.</p>
 <div class="section level2">
-<h2 id="psalphaalpha0-positive-stable-frailty-example">PS(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>,</mo><mi>α</mi><mo>,</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha,\alpha,0</annotation></semantics></math>)
-Positive Stable Frailty Example<a class="anchor" aria-label="anchor" href="#psalphaalpha0-positive-stable-frailty-example"></a>
+<h2 id="positive-stable-frailty">Positive Stable Frailty<a class="anchor" aria-label="anchor" href="#positive-stable-frailty"></a>
 </h2>
 <p>This is the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mi>α</mi></msub><annotation encoding="application/x-tex">F_{\alpha}</annotation></semantics></math>,
@@ -133,12 +132,13 @@ Positive Stable Frailty density:</p>
 <p>We analyze data that looks similar to that of Figure 2 <a href="https://pubmed.ncbi.nlm.nih.gov/34525277/" class="external-link">Thomas et al (2021)
 <em>Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine through 6
 Months</em></a>.</p>
-<p>We accomplished creating the dataset in this package,
-<code>ipd_data</code>, by using the R package <code>IPDfromKM</code>.
-Feeding screen shots of the original Figure 2 (rotated and flipped so
-that they looked like survival curves) into <code>IPDfromKM</code>, and
-then using the point and click feature for both inset curve and full
-curve for each group. The results of this data are saved as
+<p>We accomplished creating the Individual Patient Data (IPD) dataset in
+this package, <code>ipd_data</code>, by using the R package
+<code>IPDfromKM</code>. Feeding screen shots of the original Figure 2 <a href="https://pubmed.ncbi.nlm.nih.gov/34525277/" class="external-link">Thomas et al (2021)</a>
+(rotated and flipped so that they looked like survival curves) into
+<code>IPDfromKM</code>, and then using the point and click feature for
+both the inset curve and the full curve for each group was how the IPD
+data was generated. The results of this data are saved as
 <code>ipd_data</code> in this package (mpw) and can be loaded and
 analyzed, just as we do in this document.</p>
 <p>Below, we load <code>ipd_data</code> and do a couple of quick checks
@@ -166,7 +166,7 @@ example.</p>
 <span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html" class="external-link">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">treat</span>,</span>
 <span>               data <span class="op">=</span> <span class="va">ipd_data</span><span class="op">)</span></span>
-<span><span class="co">## zoomed in, inset, 11days</span></span>
+<span><span class="co">## zoomed in, inset, 11 days</span></span>
 <span><span class="co"># Visualize with survminer</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html" class="external-link">ggsurvplot</a></span><span class="op">(</span><span class="va">fit</span>, data <span class="op">=</span> <span class="va">ipd_data</span>, risk.table <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>           ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0.993</span><span class="op">)</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">28</span><span class="op">)</span>, break.time.by<span class="op">=</span><span class="fl">11</span>,</span>
@@ -184,11 +184,12 @@ example.</p>
 <span>           legend.labs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"BNT162b2"</span><span class="op">)</span>,</span>
 <span>           palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#2E9FDF"</span>,<span class="st">"#FF4500"</span> <span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay-ipd_files/figure-html/thomas-data-2.png" class="r-plt" width="700"></p>
-<p>Set the <code>h_parm</code> and <code>frailty</code> distribution for
-this example. Beware that H_PARM has different bounds depending on what
-value of FRAILTY is selected. For this example, we are going to estimate
-the marginal parameters first and can accomplish this by mitigating the
-effect of alpha, that is, setting the global variable
+<p>In this exercise we use the functions of the mpw package. We begin by
+setting the <code>h_parm</code> and <code>frailty</code> distribution
+for this example. Beware that H_PARM has different bounds depending on
+what value of FRAILTY is selected. For this example, we are going to
+estimate the marginal parameters first and can accomplish this by
+mitigating the effect of alpha, that is, setting the global variable
 <code>H_PARM=1.00</code> which will be passed to the argument
 <code>h_parm</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -202,7 +203,8 @@ time to end 1 day after first dose, the second piece to go from then to
 28 days after the first dose, and the third piece from then 56 days
 after the first dose, etc. The pieces are determined by the knots, which
 we select in the next section to match up with the periods of time
-listed in the Figure 2 of Thomas et al(2020).</p>
+listed in the Figure 2 of <a href="https://pubmed.ncbi.nlm.nih.gov/34525277/" class="external-link">Thomas et al
+(2021)</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="knot-selection">Knot selection<a class="anchor" aria-label="anchor" href="#knot-selection"></a>
@@ -215,7 +217,9 @@ listed in the Figure 2 of Thomas et al(2020).</p>
 <div class="section level2">
 <h2 id="fit-the-likelihood-to-ipd-data">Fit the Likelihood to IPD data<a class="anchor" aria-label="anchor" href="#fit-the-likelihood-to-ipd-data"></a>
 </h2>
-<p>We set up some global variables from the data:</p>
+<p>We set up some global variables from the data <code>ipd_data</code>
+which will subsequently be used in the likelihood
+<code>integrated_likelihood()</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="co">## the approach this script uses to build the likelihood</span></span>
@@ -243,7 +247,6 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span>  <span class="va">logk0</span>  <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="fl">1</span><span class="op">]</span>; <span class="co"># shared shape (piece 1)</span></span>
 <span>  <span class="va">g0</span>  <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="fl">2</span><span class="op">]</span>; <span class="co"># shared scale (piece 1)</span></span>
 <span>  <span class="va">delta_p</span> <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="fl">3</span><span class="op">:</span><span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="op">(</span><span class="va">LTVEC</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>;</span>
-<span>  </span>
 <span>  <span class="va">delta_v</span> <span class="op">&lt;-</span> <span class="va">parms</span><span class="op">[</span> <span class="op">(</span><span class="fl">3</span><span class="op">+</span><span class="va">LTVEC</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">LTVEC</span><span class="op">+</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span>;</span>
 <span>  </span>
 <span>  <span class="co">## use fast data.table to only compute if needed</span></span>
@@ -289,7 +292,6 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span>           by<span class="op">=</span><span class="va">id</span></span>
 <span>  <span class="op">]</span></span>
 <span>  </span>
-<span>  </span>
 <span>  <span class="va">ipd_data</span><span class="op">[</span>, <span class="va">surv_v</span> <span class="op">:=</span></span>
 <span>             <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">treat</span><span class="op">==</span><span class="fl">1</span>, </span>
 <span>                    </span>
@@ -304,7 +306,6 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span>           by<span class="op">=</span><span class="va">id</span></span>
 <span>  <span class="op">]</span></span>
 <span>  </span>
-<span>  </span>
 <span>  <span class="va">ipd_data</span><span class="op">[</span>, <span class="va">likelihood_contribution</span><span class="op">:=</span><span class="va">surv_p</span><span class="op">*</span><span class="va">haz_p</span><span class="op">*</span><span class="va">surv_v</span><span class="op">*</span><span class="va">haz_v</span><span class="op">]</span></span>
 <span>  <span class="va">k0</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">logk0</span><span class="op">)</span>;</span>
 <span>  <span class="va">nll</span> <span class="op">&lt;-</span> </span>
@@ -318,17 +319,7 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span>          <span class="va">k0</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">delta_p</span><span class="op">)</span>,</span>
 <span>          <span class="va">k0</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">delta_v</span><span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span>
-<span>  <span class="co">## penalize shapes less than 0 </span></span>
-<span>  <span class="co"># sum(abs(c(k0,</span></span>
-<span>  <span class="co">#   k0+cumsum(delta_p),</span></span>
-<span>  <span class="co">#   k0+cumsum(delta_v)</span></span>
-<span>  <span class="co"># )[c(k0,</span></span>
-<span>  <span class="co">#   k0+cumsum(delta_p),</span></span>
-<span>  <span class="co">#   k0+cumsum(delta_v)</span></span>
-<span>  <span class="co"># ) &lt; 0])) </span></span>
-<span>  </span>
-<span>  </span>
-<span>  <span class="co">#print(head(ipd_data))</span></span>
+<span></span>
 <span>  <span class="va">nll</span>      </span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
@@ -336,19 +327,16 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <h2 id="set-starting-values-and-test-one-evaluation-of-likelihood">set starting values and test one evaluation of likelihood<a class="anchor" aria-label="anchor" href="#set-starting-values-and-test-one-evaluation-of-likelihood"></a>
 </h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">## set the starting values for the optimization</span></span>
+<code class="sourceCode R"><span><span class="co">## set the starting values for the optimization</span></span>
 <span><span class="co">## the first two elements are for the first</span></span>
 <span><span class="co">## (shared) piece; the 2nd row for the </span></span>
 <span><span class="co">## deltas for one group</span></span>
 <span><span class="co">## the 3rd row deltas for the other</span></span>
-<span></span>
 <span><span class="va">start_parms_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="fl">0.6</span>, <span class="op">-</span><span class="fl">9.6</span>, <span class="co">## first piece (shared)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="va">LTVEC</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="va">LTVEC</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span></span>
 <span></span>
 <span><span class="co">## test how long a computation of likelihood takes at starting values</span></span>
 <span><span class="co">## one compuation?  takes a minute...</span></span>
@@ -359,13 +347,12 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span><span class="va">end.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dur.one.iter</span> <span class="op">&lt;-</span> <span class="va">end.one.iter</span> <span class="op">-</span> <span class="va">beg.one.iter</span></span>
 <span><span class="va">dur.one.iter</span></span>
-<span><span class="co">#&gt; Time difference of 1.787412 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.744874 secs</span></span></code></pre></div>
 <p>We include this code chunk below but do not run it (we saved its
 output, accessed in the following chunk). We take the resultant
 estimates from the <code>$par</code> to demonstrate our point.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">## takes  7 min. w/o hess </span></span>
+<code class="sourceCode R"><span><span class="co">## takes  7 min. w/o hess </span></span>
 <span><span class="co">## takes 21 min with hess</span></span>
 <span><span class="va">hess.true</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span> <span class="co">## calculate hessian (adds time)</span></span>
 <span><span class="va">cis.true</span> <span class="op">&lt;-</span>  <span class="cn">FALSE</span> <span class="co">## given hess.true is TRUE, invert and calc CIs</span></span>
@@ -539,9 +526,7 @@ adjust the time input so that the first element is just above 0.</p>
 heterogeneity and make a point in the next section.</p>
 </div>
 <div class="section level2">
-<h2 id="plot-subject-specific-ves-for-different-alpha-values">Plot subject-specific VEs for different
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
-values<a class="anchor" aria-label="anchor" href="#plot-subject-specific-ves-for-different-alpha-values"></a>
+<h2 id="plot-subject-specific-ves-for-different-alpha-values">Plot subject-specific VEs for different alpha values<a class="anchor" aria-label="anchor" href="#plot-subject-specific-ves-for-different-alpha-values"></a>
 </h2>
 <ul>
 <li>The VE should flatten to 1 as
