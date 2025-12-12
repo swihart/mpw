@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Fay et al. (2025) supporting materials • mpw</title>
+<title>IPD version: Fay et al. (2025) supporting materials • mpw</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Fay et al. (2025) supporting materials">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="IPD version: Fay et al. (2025) supporting materials">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -43,7 +43,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>1-over-alpha approach</h6></li>
     <li><a class="dropdown-item" href="../articles/wwps-fay.html">Fay et al. (2025) supporting materials</a></li>
-    <li><a class="dropdown-item" href="../articles/wwps-fay-ipd.html">Fay et al. (2025) supporting materials</a></li>
+    <li><a class="dropdown-item" href="../articles/wwps-fay-ipd.html">IPD version: Fay et al. (2025) supporting materials</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Inferential approaches</h6></li>
     <li><a class="dropdown-item" href="../articles/womega.html">Marginalized-Weibull-Two Point (unconstrained mean)</a></li>
@@ -68,7 +68,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Fay et al. (2025) supporting materials</h1>
+      <h1>IPD version: Fay et al. (2025) supporting materials</h1>
             <h3 data-toc-skip class="subtitle">IPD version</h3>
             
       
@@ -363,7 +363,107 @@ from then 56 days after the first dose, etc.</p>
 <span><span class="va">end.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dur.one.iter</span> <span class="op">&lt;-</span> <span class="va">end.one.iter</span> <span class="op">-</span> <span class="va">beg.one.iter</span></span>
 <span><span class="va">dur.one.iter</span></span>
-<span><span class="co">#&gt; Time difference of 1.781077 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.791815 secs</span></span></code></pre></div>
+<p>We include this code chunk below but do not run it. We take the
+resultant estimates from the <code>$par</code> to demonstrate our
+point.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">## takes  7 min. w/o hess </span></span>
+<span><span class="co">## takes 21 min with hess</span></span>
+<span><span class="va">hess.true</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span> <span class="co">## calculate hessian (adds time)</span></span>
+<span><span class="va">cis.true</span> <span class="op">&lt;-</span>  <span class="cn">FALSE</span> <span class="co">## given hess.true is TRUE, invert and calc CIs</span></span>
+<span><span class="va">beg.all.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Started at: "</span>, <span class="va">beg.all.iter</span><span class="op">)</span></span>
+<span><span class="va">estimates_from_integrated_likelihood</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></span><span class="op">(</span><span class="va">start_parms_val</span>,</span>
+<span>        <span class="va">integrated_likelihood</span>,</span>
+<span>        method<span class="op">=</span><span class="st">"Nelder-Mead"</span>,</span>
+<span>        control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxit<span class="op">=</span><span class="fl">5000</span>, trace<span class="op">=</span><span class="fl">99</span>, reltol<span class="op">=</span><span class="fl">1e-5</span><span class="op">)</span>,</span>
+<span>        hessian <span class="op">=</span> <span class="va">hess.true</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">end.all.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">dur.all.iter</span> <span class="op">&lt;-</span> <span class="va">end.all.iter</span> <span class="op">-</span> <span class="va">beg.all.iter</span></span>
+<span><span class="va">dur.all.iter</span></span></code></pre></div>
+<p>Here’s the saved object:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## &gt; dput(estimates_from_integrated_likelihood)</span></span>
+<span><span class="va">estimates_from_integrated_likelihood</span> <span class="op">&lt;-</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.152353295766645</span>, <span class="op">-</span><span class="fl">9.29170555007139</span>, <span class="fl">0.106891433620299</span>, </span>
+<span><span class="op">-</span><span class="fl">0.136059602259565</span>, <span class="fl">0.168511532499485</span>, <span class="fl">0.215710900101426</span>, <span class="op">-</span><span class="fl">0.0812718060180775</span>, </span>
+<span><span class="op">-</span><span class="fl">0.315370884660848</span>, <span class="op">-</span><span class="fl">0.236712547663703</span>, <span class="op">-</span><span class="fl">0.207309280434875</span>, <span class="op">-</span><span class="fl">0.867076653923816</span>, </span>
+<span><span class="fl">0.418596286367761</span>, <span class="fl">0.318719583458342</span>, <span class="fl">0.561423073791174</span>, <span class="fl">0.264441255322591</span>, </span>
+<span><span class="fl">0.504041894544567</span><span class="op">)</span>, value <span class="op">=</span> <span class="fl">11743.5557393676</span>, counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`function` <span class="op">=</span> <span class="fl">585L</span>, </span>
+<span>gradient <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>, convergence <span class="op">=</span> <span class="fl">0L</span>, message <span class="op">=</span> <span class="cn">NULL</span>, hessian <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">46726.4228941531</span>, </span>
+<span><span class="fl">7588.91415762264</span>, <span class="fl">35489.1029558075</span>, <span class="fl">12729.8868162598</span>, <span class="fl">7887.03743114638</span>, </span>
+<span><span class="fl">5037.04853463205</span>, <span class="fl">3088.04326050449</span>, <span class="fl">1741.54023261508</span>, <span class="fl">746.805569178832</span>, </span>
+<span><span class="fl">4620.23907903131</span>, <span class="fl">1915.53882314111</span>, <span class="fl">940.026757234591</span>, <span class="fl">566.068177704437</span>, </span>
+<span><span class="fl">324.305618050857</span>, <span class="fl">159.556260769023</span>, <span class="fl">43.6977356912394</span>, <span class="fl">7588.91415762264</span>, </span>
+<span><span class="fl">1284.10950310354</span>, <span class="fl">5837.30741664112</span>, <span class="fl">2007.53645276563</span>, <span class="fl">1213.98571127429</span>, </span>
+<span><span class="fl">754.938053205478</span>, <span class="fl">449.127310730546</span>, <span class="fl">245.601941514906</span>, <span class="fl">101.32384386452</span>, </span>
+<span><span class="fl">679.144186960912</span>, <span class="fl">230.875468787417</span>, <span class="fl">138.203271944803</span>, <span class="fl">84.8153354127135</span>, </span>
+<span><span class="fl">49.0339689349639</span>, <span class="fl">24.7462162406009</span>, <span class="fl">6.92689218340092</span>, <span class="fl">35489.1029558075</span>, </span>
+<span><span class="fl">5837.30741664112</span>, <span class="fl">30473.811164029</span>, <span class="fl">10930.9099361781</span>, <span class="fl">6772.44860253268</span>, </span>
+<span><span class="fl">4325.21308266587</span>, <span class="fl">2651.63563562965</span>, <span class="fl">1495.42477038267</span>, <span class="fl">641.267406535917</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">12729.8868162598</span>, <span class="fl">2007.53645276563</span>, <span class="fl">10930.9099361781</span>, </span>
+<span><span class="fl">4241.34615741423</span>, <span class="fl">2727.17285815816</span>, <span class="fl">1809.58945975362</span>, <span class="fl">1155.06194106274</span>, </span>
+<span><span class="fl">677.026928769919</span>, <span class="fl">303.628045003279</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">7887.03743114638</span>, </span>
+<span><span class="fl">1213.98571127429</span>, <span class="fl">6772.44860253268</span>, <span class="fl">2727.17285815816</span>, <span class="fl">1885.69966212526</span>, </span>
+<span><span class="fl">1286.30001336205</span>, <span class="fl">843.748751321982</span>, <span class="fl">506.782537740946</span>, <span class="fl">233.396000567154</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">4.54747350886464e-07</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">5037.04853463205</span>, <span class="fl">754.938053205478</span>, </span>
+<span><span class="fl">4325.21308266587</span>, <span class="fl">1809.58945975362</span>, <span class="fl">1286.30001336205</span>, <span class="fl">980.193503892224</span>, </span>
+<span><span class="fl">661.64994814244</span>, <span class="fl">407.200678637309</span>, <span class="fl">192.308155419596</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">4.54747350886464e-07</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">3088.04326050449</span>, <span class="fl">449.127310730546</span>, <span class="fl">2651.63563562965</span>, </span>
+<span><span class="fl">1155.06194106274</span>, <span class="fl">843.748751321982</span>, <span class="fl">661.64994814244</span>, <span class="fl">532.439771177451</span>, </span>
+<span><span class="fl">336.547421284195</span>, <span class="fl">163.159583735251</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4.54747350886464e-07</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1741.54023261508</span>, <span class="fl">245.601941514906</span>, <span class="fl">1495.42477038267</span>, </span>
+<span><span class="fl">677.026928769919</span>, <span class="fl">506.782537740946</span>, <span class="fl">407.200678637309</span>, <span class="fl">336.547421284195</span>, </span>
+<span><span class="fl">281.739328329422</span>, <span class="fl">140.54930443308</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4.54747350886464e-07</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">746.805569178832</span>, <span class="fl">101.32384386452</span>, <span class="fl">641.267406535917</span>, </span>
+<span><span class="fl">303.628045003279</span>, <span class="fl">233.396000567154</span>, <span class="fl">192.308155419596</span>, <span class="fl">163.159583735251</span>, </span>
+<span><span class="fl">140.54930443308</span>, <span class="fl">122.071693112957</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4.54747350886464e-07</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">4620.23907903131</span>, <span class="fl">679.144186960912</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">3967.30226702857</span>, <span class="fl">1644.82767740992</span>, <span class="fl">807.181005711755</span>, <span class="fl">486.069544876955</span>, </span>
+<span><span class="fl">278.474720744271</span>, <span class="fl">137.003375130007</span>, <span class="fl">37.5175109184056</span>, <span class="fl">1915.53882314111</span>, </span>
+<span><span class="fl">230.875468787417</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1644.82767740992</span>, <span class="fl">875.477099725686</span>, </span>
+<span><span class="fl">346.638276369049</span>, <span class="fl">203.432355647237</span>, <span class="fl">115.075495159545</span>, <span class="fl">54.5399007023661</span>, </span>
+<span><span class="fl">14.4286423164885</span>, <span class="fl">940.026757234591</span>, <span class="fl">138.203271944803</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">4.54747350886464e-07</span>, </span>
+<span><span class="op">-</span><span class="fl">4.54747350886464e-07</span>, <span class="fl">4.54747350886464e-07</span>, <span class="fl">4.54747350886464e-07</span>, </span>
+<span><span class="fl">4.54747350886464e-07</span>, <span class="fl">807.181005711755</span>, <span class="fl">346.638276369049</span>, <span class="fl">250.846941526106</span>, </span>
+<span><span class="fl">144.640387588879</span>, <span class="fl">81.0865017228934</span>, <span class="fl">37.3870957446343</span>, <span class="fl">9.63004004006507</span>, </span>
+<span><span class="fl">566.068177704437</span>, <span class="fl">84.8153354127135</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">486.069544876955</span>, </span>
+<span><span class="fl">203.432355647237</span>, <span class="fl">144.640387588879</span>, <span class="fl">110.247605789482</span>, <span class="fl">61.2064081906283</span>, </span>
+<span><span class="fl">27.3484943136282</span>, <span class="fl">6.81838355376385</span>, <span class="fl">324.305618050857</span>, <span class="fl">49.0339689349639</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">278.474720744271</span>, <span class="fl">115.075495159545</span>, <span class="fl">81.0865017228934</span>, </span>
+<span><span class="fl">61.2064081906283</span>, <span class="fl">47.09732502306</span>, <span class="fl">20.2343594537524</span>, <span class="fl">4.82133191326284</span>, </span>
+<span><span class="fl">159.556260769023</span>, <span class="fl">24.7462162406009</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">137.003375130007</span>, </span>
+<span><span class="fl">54.5399007023661</span>, <span class="fl">37.3870957446343</span>, <span class="fl">27.3484943136282</span>, <span class="fl">20.2343594537524</span>, </span>
+<span><span class="fl">14.7110495163361</span>, <span class="fl">3.27586622006493</span>, <span class="fl">43.6977356912394</span>, <span class="fl">6.92689218340092</span>, </span>
+<span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">37.5175109184056</span>, <span class="fl">14.4286423164885</span>, <span class="fl">9.63004004006507</span>, </span>
+<span><span class="fl">6.81838355376385</span>, <span class="fl">4.82133191326284</span>, <span class="fl">3.27586622006493</span>, <span class="fl">2.01954662770731</span></span>
+<span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16L</span>, <span class="fl">16L</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>And here the starting and the estimated parameters side by side:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">start_parms_val</span>,</span>
+<span>      <span class="va">estimates_from_integrated_likelihood</span><span class="op">$</span><span class="va">par</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;       start_parms_val            </span></span>
+<span><span class="co">#&gt;  [1,]            0.60  0.15235330</span></span>
+<span><span class="co">#&gt;  [2,]           -9.60 -9.29170555</span></span>
+<span><span class="co">#&gt;  [3,]            0.01  0.10689143</span></span>
+<span><span class="co">#&gt;  [4,]            0.01 -0.13605960</span></span>
+<span><span class="co">#&gt;  [5,]            0.01  0.16851153</span></span>
+<span><span class="co">#&gt;  [6,]            0.01  0.21571090</span></span>
+<span><span class="co">#&gt;  [7,]            0.01 -0.08127181</span></span>
+<span><span class="co">#&gt;  [8,]            0.01 -0.31537088</span></span>
+<span><span class="co">#&gt;  [9,]            0.01 -0.23671255</span></span>
+<span><span class="co">#&gt; [10,]            0.00 -0.20730928</span></span>
+<span><span class="co">#&gt; [11,]            0.00 -0.86707665</span></span>
+<span><span class="co">#&gt; [12,]            0.00  0.41859629</span></span>
+<span><span class="co">#&gt; [13,]            0.00  0.31871958</span></span>
+<span><span class="co">#&gt; [14,]            0.00  0.56142307</span></span>
+<span><span class="co">#&gt; [15,]            0.00  0.26444126</span></span>
+<span><span class="co">#&gt; [16,]            0.00  0.50404189</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="old-stuff">OLD STUFF<a class="anchor" aria-label="anchor" href="#old-stuff"></a>
 </h4>
@@ -383,7 +483,7 @@ that control the first (leftmost) piece for the placebo group and use
 them for <code>logk0v</code> and <code>g0v</code> when estimating the
 pieces for the vaccine group. This forces the first pieces to be the
 same for both groups (i.e. <em>ramp-up time</em>).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">logk0v</span> <span class="op">=</span> <span class="va">start_parms_val</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">g0v</span> <span class="op">=</span> <span class="va">start_parms_val</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
@@ -400,7 +500,7 @@ same for both groups (i.e. <em>ramp-up time</em>).</p>
 do a quick check of the fit. We put vertical dashed lines in the plot to
 denote knot placement.</p>
 <!-- Note from Days 0 to 1 the curves are the same. Over this range the HR will be 1.  Additionally, the fit looks okay -- some points are below their line and some are above. -->
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"grey"</span><span class="op">)</span></span>
 <span><span class="va">LTY</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">LWD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">6</span><span class="op">)</span></span>
@@ -443,7 +543,7 @@ denote knot placement.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">time.dist</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">plac.dist</span><span class="op">)</span>,  col<span class="op">=</span><span class="va">COL</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,lty<span class="op">=</span><span class="va">LTY</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,col<span class="op">=</span><span class="va">COL</span>,</span>
 <span>       lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="700"></p>
 <p>Note from Days 0 to 1 the curves are the same. Over this range the HR
 will be 1. Additionally, the fit looks okay – some points are below
 their line and some are above.</p>
@@ -458,7 +558,7 @@ their line and some are above.</p>
 <p>We use the parameters of the previous fits to estimate the population
 average hazard, which we can fit with <code><a href="../reference/popavg_haz.html">mpw::popavg_haz()</a></code>. We
 adjust the time input so that the first element is just above 0.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">time.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1e-4</span>, <span class="va">time.dist</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">plac.haz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/popavg_haz.html">popavg_haz</a></span><span class="op">(</span>      x <span class="op">=</span> <span class="va">time.haz</span>, </span>
 <span>                           knots <span class="op">=</span> <span class="va">tvec.in</span>,</span>
@@ -484,7 +584,7 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay-ipd_files/figure-html/alpha-02-knots-popavg-haz-1.png" class="r-plt" width="700"></p>
 <p>Or, plot the VE = 1-HR:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="fl">1</span><span class="op">-</span><span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>,</span>
 <span>       ylab<span class="op">=</span><span class="st">"Vaccine Efficacy"</span>, lwd<span class="op">=</span><span class="fl">2</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">1.05</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -511,7 +611,7 @@ h_parm as 1/alpha to plot the subject specific curve.</p>
 <p>To demonstrate how the individual-level VE might be different than
 the population-level, the code below runs a loop for three specific
 values of alpha:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">COL</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>,<span class="fl">.5</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">LTY</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">LWD</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">4</span>,<span class="fl">2</span><span class="op">)</span></span>
@@ -552,7 +652,7 @@ values of alpha:</p>
 <span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"alpha="</span>,<span class="va">alpha.vec</span><span class="op">)</span>,lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span>,col<span class="op">=</span><span class="va">COL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="700"></p>
 <p>The plot above shows that for a positive-stable frailty, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 goes to 0 the subject-specific VE is flatter, approaching VE=1. As
