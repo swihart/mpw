@@ -62,13 +62,14 @@ fit <- survfit(Surv(time, status) ~ treat,
 ## zoomed in, inset, 11days
 # Visualize with survminer
 ggsurvplot(fit, data = ipd_data, risk.table = TRUE, 
-           ylim=c(1,0.993), xlim=c(0,28), break.time.by=11)
+           ylim=c(1,0.993), xlim=c(0,28), break.time.by=11,
+           tables.height = 0.50)
 
 # Visualize with survminer
 ## full view; every 14 days
 ggsurvplot(fit, data = ipd_data, risk.table = TRUE, 
            ylim=c(1,0.925), break.time.by=14,
-           fontsize=3)
+           fontsize=2.8, tables.height = 0.50)
 
 
 ## This data resembles Figure 2 in Thomas et al
