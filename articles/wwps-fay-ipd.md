@@ -73,7 +73,9 @@ fit <- survfit(Surv(time, status) ~ treat,
 # Visualize with survminer
 ggsurvplot(fit, data = ipd_data, risk.table = TRUE, 
            ylim=c(1,0.993), xlim=c(0,28), break.time.by=11,
-           fontsize=2.7,tables.height = 0.50)
+           fontsize=2.7,tables.height = 0.250,
+           legend.labs = c("Placebo", "BNT162b2"),
+           palette = c("#2E9FDF","#FF4500" ))
 ```
 
 ![](wwps-fay-ipd_files/figure-html/thomas-data-1.png)
@@ -84,7 +86,9 @@ ggsurvplot(fit, data = ipd_data, risk.table = TRUE,
 ## full view; every 14 days
 ggsurvplot(fit, data = ipd_data, risk.table = TRUE, 
            ylim=c(1,0.925), break.time.by=14,
-           fontsize=2.7, tables.height = 0.50)
+           fontsize=2.7, tables.height = 0.250,
+           legend.labs = c("Placebo", "BNT162b2"),
+           palette = c("#2E9FDF","#FF4500" ))
 ```
 
 ![](wwps-fay-ipd_files/figure-html/thomas-data-2.png)
