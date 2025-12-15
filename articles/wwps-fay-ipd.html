@@ -187,11 +187,11 @@ example.</p>
 <p>In this exercise we use the functions of the mpw package. We begin by
 setting the <code>h_parm</code> and <code>frailty</code> distribution
 for this example. Beware that H_PARM has different bounds depending on
-what value of FRAILTY is selected. For this example, we are going to
-estimate the marginal parameters first and can accomplish this by
-mitigating the effect of alpha, that is, setting the global variable
-<code>H_PARM=1.00</code> which will be passed to the argument
-<code>h_parm</code>.</p>
+what value of FRAILTY is selected. For this positive-stable frailty
+example, <code>FRAILTY &lt;- "PS"</code>, we are going to estimate the
+marginal parameters first and can accomplish this setting
+<code>H_PARM=1.00</code>, which will be passed to the argument
+<code>h_parm</code> in the <code>mpw</code> function calls.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ALPHA_FIXED</span> <span class="op">&lt;-</span> <span class="va">H_PARM</span> <span class="op">&lt;-</span> <span class="fl">1.00</span></span>
 <span><span class="va">FRAILTY</span> <span class="op">&lt;-</span> <span class="st">"PS"</span></span></code></pre></div>
@@ -217,8 +217,8 @@ listed in the Figure 2 of <a href="https://pubmed.ncbi.nlm.nih.gov/34525277/" cl
 <div class="section level2">
 <h2 id="fit-the-likelihood-to-ipd-data">Fit the Likelihood to IPD data<a class="anchor" aria-label="anchor" href="#fit-the-likelihood-to-ipd-data"></a>
 </h2>
-<p>We set up some global variables from the data <code>ipd_data</code>
-which will subsequently be used in the likelihood
+<p>We set up the data objects from <code>ipd_data</code> which will
+subsequently be used in the likelihood
 <code>integrated_likelihood()</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
@@ -347,7 +347,7 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span><span class="va">end.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dur.one.iter</span> <span class="op">&lt;-</span> <span class="va">end.one.iter</span> <span class="op">-</span> <span class="va">beg.one.iter</span></span>
 <span><span class="va">dur.one.iter</span></span>
-<span><span class="co">#&gt; Time difference of 1.744874 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.794265 secs</span></span></code></pre></div>
 <p>We include this code chunk below but do not run it (we saved its
 output, accessed in the following chunk). We take the resultant
 estimates from the <code>$par</code> to demonstrate our point.</p>
@@ -580,17 +580,20 @@ values of alpha:</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"alpha="</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0.40"</span>,<span class="st">"0.70"</span>,<span class="st">"0.99"</span><span class="op">)</span><span class="op">)</span>,lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span>,col<span class="op">=</span><span class="va">COL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wwps-fay-ipd_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" width="700"></p>
+<!-- The plot above shows that for a positive-stable frailty, as $\alpha$ goes to 0 the subject-specific VE is flatter, approaching VE=1.  Going the opposite direction, as $\alpha$ goes to 1 the VE for an individual approaches that of the population VE.  Conceptually, one might conclude VE is waning over time if alpha is 0.99.  One would not conclude that if alpha was 0.40.  **In both instances, the same population-level VE would be observed.**  Therefore the takeaway is to not make statements about VE looking at population-level curves. -->
 <p>The plot above shows that for a positive-stable frailty, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 goes to 0 the subject-specific VE is flatter, approaching VE=1. Going
 the opposite direction, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 goes to 1 the VE for an individual approaches that of the population VE.
-Conceptually, one might conclude VE is waning over time if alpha is
-0.99. One would not conclude that if alpha was 0.40. <strong>In both
-instances, the same population-level VE would be observed.</strong>
-Therefore the takeaway is to not make statements about VE looking at
-population-level curves.</p>
+Under the model with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.99</mn></mrow><annotation encoding="application/x-tex">\alpha=0.99</annotation></semantics></math>,
+the individual-level VE is waning over time, but under the model with
+alpha=0.40, the individual-level VE appears relatively constant over
+time. In both instances, the same population-level VE would be observed.
+Therefore the takeaway is to not make statements about individual-level
+VE looking at population-level curves.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

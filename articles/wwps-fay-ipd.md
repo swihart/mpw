@@ -106,10 +106,10 @@ ggsurvplot(fit, data = ipd_data, risk.table = TRUE,
 In this exercise we use the functions of the mpw package. We begin by
 setting the `h_parm` and `frailty` distribution for this example. Beware
 that H_PARM has different bounds depending on what value of FRAILTY is
-selected. For this example, we are going to estimate the marginal
-parameters first and can accomplish this by mitigating the effect of
-alpha, that is, setting the global variable `H_PARM=1.00` which will be
-passed to the argument `h_parm`.
+selected. For this positive-stable frailty example, `FRAILTY <- "PS"`,
+we are going to estimate the marginal parameters first and can
+accomplish this setting `H_PARM=1.00`, which will be passed to the
+argument `h_parm` in the `mpw` function calls.
 
 ``` r
 ALPHA_FIXED <- H_PARM <- 1.00
@@ -137,8 +137,8 @@ tvec.in
 
 ## Fit the Likelihood to IPD data
 
-We set up some global variables from the data `ipd_data` which will
-subsequently be used in the likelihood `integrated_likelihood()`:
+We set up the data objects from `ipd_data` which will subsequently be
+used in the likelihood `integrated_likelihood()`:
 
 ``` r
 library(data.table)
@@ -270,7 +270,7 @@ ilspv
 end.one.iter <- Sys.time()
 dur.one.iter <- end.one.iter - beg.one.iter
 dur.one.iter
-#> Time difference of 1.744874 secs
+#> Time difference of 1.794265 secs
 ```
 
 We include this code chunk below but do not run it (we saved its output,
@@ -518,8 +518,9 @@ legend("bottomright",legend=paste0("alpha=",c("0.40","0.70","0.99")),lty=LTY,lwd
 The plot above shows that for a positive-stable frailty, as $\alpha$
 goes to 0 the subject-specific VE is flatter, approaching VE=1. Going
 the opposite direction, as $\alpha$ goes to 1 the VE for an individual
-approaches that of the population VE. Conceptually, one might conclude
-VE is waning over time if alpha is 0.99. One would not conclude that if
-alpha was 0.40. **In both instances, the same population-level VE would
-be observed.** Therefore the takeaway is to not make statements about VE
-looking at population-level curves.
+approaches that of the population VE. Under the model with
+$\alpha = 0.99$, the individual-level VE is waning over time, but under
+the model with alpha=0.40, the individual-level VE appears relatively
+constant over time. In both instances, the same population-level VE
+would be observed. Therefore the takeaway is to not make statements
+about individual-level VE looking at population-level curves.
