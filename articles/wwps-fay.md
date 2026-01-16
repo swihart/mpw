@@ -1,6 +1,6 @@
 # POP version: Fay et al. (2026) supporting materials
 
-In Fay et al. (2025) *Vaccine Efficacy Estimands for Individual
+In Fay et al. (2026) *Vaccine Efficacy Estimands for Individual
 Randomized Field Trials*, the $\frac{1}{\alpha}$ approach is used. In
 this approach which utilizes the “Weibull-Weibull-Positive Stable”
 model, the population (marginal) Weibull is estimated, and then
