@@ -1,4 +1,4 @@
-# Fay et al. (2025) supporting materials
+# POP version: Fay et al. (2026) supporting materials
 
 In Fay et al. (2025) *Vaccine Efficacy Estimands for Individual
 Randomized Field Trials*, the $\frac{1}{\alpha}$ approach is used. In
