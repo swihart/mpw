@@ -1,5 +1,6 @@
 ---
-title: "Fay et al. (2025) supporting materials"
+title: "POP version: Fay et al. (2026) supporting materials"
+subtitle: "POP version"
 output: 
   html_document:
     toc: true # table of content true
