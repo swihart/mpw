@@ -270,7 +270,7 @@ ilspv
 end.one.iter <- Sys.time()
 dur.one.iter <- end.one.iter - beg.one.iter
 dur.one.iter
-#> Time difference of 1.818219 secs
+#> Time difference of 1.77323 secs
 ```
 
 We include this code chunk below but do not run it (we saved its output,
