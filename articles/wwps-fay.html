@@ -43,7 +43,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>1-over-alpha approach</h6></li>
     <li><a class="dropdown-item" href="../articles/wwps-fay.html">Fay et al. (2025) supporting materials</a></li>
-    <li><a class="dropdown-item" href="../articles/wwps-fay-ipd.html">IPD version: Fay et al. (2025) supporting materials</a></li>
+    <li><a class="dropdown-item" href="../articles/wwps-fay-ipd.html">IPD version: Fay et al. (2026) supporting materials</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Inferential approaches</h6></li>
     <li><a class="dropdown-item" href="../articles/womega.html">Marginalized-Weibull-Two Point (unconstrained mean)</a></li>
@@ -148,7 +148,7 @@ Months</em></a>.</p>
 <span>       lty<span class="op">=</span><span class="fl">1</span>,</span>
 <span>       pch<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">16</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/thomas-data-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay_files/figure-html/thomas-data-1.png" class="r-plt" alt="" width="700"></p>
 <p>Set the <code>h_parm</code> and <code>frailty</code> distribution for
 this example. Beware that H_PARM has different bounds depending on what
 value of FRAILTY is selected. For this example, we are going to estimate
@@ -314,7 +314,7 @@ denote knot placement.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">time.dist</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="va">plac.dist</span><span class="op">)</span>,  col<span class="op">=</span><span class="va">COL</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,lty<span class="op">=</span><span class="va">LTY</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topleft"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">0</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="cn">F</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,col<span class="op">=</span><span class="va">COL</span>,</span>
 <span>       lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700"></p>
 <p>Note from Days 0 to 1 the curves are the same. Over this range the HR
 will be 1. Additionally, the fit looks okay – some points are below
 their line and some are above.</p>
@@ -353,7 +353,7 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/alpha-02-knots-popavg-haz-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay_files/figure-html/alpha-02-knots-popavg-haz-1.png" class="r-plt" alt="" width="700"></p>
 <p>Or, plot the VE = 1-HR:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span>  <span class="op">(</span><span class="va">time.haz</span>, <span class="fl">1</span><span class="op">-</span><span class="va">vacc.haz</span><span class="op">/</span><span class="va">plac.haz</span>, type<span class="op">=</span><span class="st">"l"</span>, col<span class="op">=</span><span class="st">"purple"</span>, xlab<span class="op">=</span><span class="st">"Days"</span>,</span>
@@ -362,7 +362,7 @@ adjust the time input so that the first element is just above 0.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">tvec.in</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">1</span>, at<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tvec.in</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/alpha-02-knots-popavg-ve-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay_files/figure-html/alpha-02-knots-popavg-ve-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="plot-subject-specific-ves-for-different-alpha-values">Plot subject-specific VEs for different
@@ -423,7 +423,7 @@ values of alpha:</p>
 <span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"alpha="</span>,<span class="va">alpha.vec</span><span class="op">)</span>,lty<span class="op">=</span><span class="va">LTY</span>,lwd<span class="op">=</span><span class="va">LWD</span>,col<span class="op">=</span><span class="va">COL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wwps-fay_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
+<p><img src="wwps-fay_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
 <p>The plot above shows that for a positive-stable frailty, as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 goes to 0 the subject-specific VE is flatter, approaching VE=1. As

@@ -7,13 +7,13 @@
 
 ## Citation
 
-Swihart B (2025). *mpw: Marginalized Piecewise Weibull Frailty Models in
+Swihart B (2026). *mpw: Marginalized Piecewise Weibull Frailty Models in
 R*. R package version 0.0.0.9000, <https://swihart.github.io/mpw/>.
 
     @Manual{,
       title = {mpw: Marginalized Piecewise Weibull Frailty Models in R},
       author = {Bruce Swihart},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.0.0.9000},
       url = {https://swihart.github.io/mpw/},
     }

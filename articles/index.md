@@ -27,7 +27,7 @@ that paper.
 
 - [Fay et al. (2025) supporting
   materials](https://swihart.github.io/mpw/articles/wwps-fay.md):
-- [IPD version: Fay et al. (2025) supporting
+- [IPD version: Fay et al. (2026) supporting
   materials](https://swihart.github.io/mpw/articles/wwps-fay-ipd.md):
 
 ### Inferential approaches
