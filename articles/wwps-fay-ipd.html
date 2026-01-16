@@ -347,7 +347,7 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span><span class="va">end.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dur.one.iter</span> <span class="op">&lt;-</span> <span class="va">end.one.iter</span> <span class="op">-</span> <span class="va">beg.one.iter</span></span>
 <span><span class="va">dur.one.iter</span></span>
-<span><span class="co">#&gt; Time difference of 1.822702 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.765202 secs</span></span></code></pre></div>
 <p>We include this code chunk below but do not run it (we saved its
 output, accessed in the following chunk). We take the resultant
 estimates from the <code>$par</code> to demonstrate our point.</p>
@@ -596,7 +596,7 @@ Therefore the takeaway is to not make statements about individual-level
 VE looking at population-level curves.</p>
 </div>
 <div class="section level2">
-<h2 id="example-code-calculate-ve-ci-and-ve-ch">Example code: Calculate VE-CI and VE-CH<a class="anchor" aria-label="anchor" href="#example-code-calculate-ve-ci-and-ve-ch"></a>
+<h2 id="example-code-calculate-ve-ci-ve-ch-ve-odds-and-ve-ir">Example code: Calculate VE-CI, VE-CH, VE-Odds, and VE-IR<a class="anchor" aria-label="anchor" href="#example-code-calculate-ve-ci-ve-ch-ve-odds-and-ve-ir"></a>
 </h2>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## (using IPD data) </span></span>
@@ -615,7 +615,16 @@ VE looking at population-level curves.</p>
 <span><span class="va">theta_odds</span> <span class="op">&lt;-</span> <span class="va">F1</span><span class="op">/</span><span class="va">F0</span> <span class="op">*</span> <span class="op">(</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F0</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F1</span><span class="op">)</span> <span class="op">)</span></span>
 <span><span class="va">theta_ci</span> <span class="op">&lt;-</span> <span class="va">theta_odds</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F0</span><span class="op">+</span><span class="va">theta_odds</span><span class="op">*</span><span class="va">F0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ve_ci</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="va">theta_ci</span>,<span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.877</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.877</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ve_odds</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="va">theta_odds</span>,<span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.884</span></span>
+<span></span>
+<span><span class="co">## equation (13) for bounding VE_IR</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="op">(</span><span class="va">theta_odds</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F0</span><span class="op">)</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span> <span class="co">## lower bound for VE_IR</span></span>
+<span><span class="co">#&gt; [1] 0.876</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="op">(</span><span class="va">theta_ci</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F0</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span>   <span class="co">## upper bound for VE_IR</span></span>
+<span><span class="co">#&gt; [1] 0.885</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

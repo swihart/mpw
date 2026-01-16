@@ -270,7 +270,7 @@ ilspv
 end.one.iter <- Sys.time()
 dur.one.iter <- end.one.iter - beg.one.iter
 dur.one.iter
-#> Time difference of 1.822702 secs
+#> Time difference of 1.765202 secs
 ```
 
 We include this code chunk below but do not run it (we saved its output,
@@ -525,7 +525,7 @@ constant over time. In both instances, the same population-level VE
 would be observed. Therefore the takeaway is to not make statements
 about individual-level VE looking at population-level curves.
 
-## Example code: Calculate VE-CI and VE-CH
+## Example code: Calculate VE-CI, VE-CH, VE-Odds, and VE-IR
 
 ``` r
 ## (using IPD data) 
@@ -545,4 +545,13 @@ theta_odds <- F1/F0 * ( (1-F0)/(1-F1) )
 theta_ci <- theta_odds / (1-F0+theta_odds*F0)
 round(ve_ci <- 1-theta_ci,3)
 #> [1] 0.877
+
+round(ve_odds <- 1-theta_odds,3)
+#> [1] 0.884
+
+## equation (13) for bounding VE_IR
+round(1-(theta_odds/(1-F0)),3) ## lower bound for VE_IR
+#> [1] 0.876
+round(1-(theta_ci)*(1-F0),3)   ## upper bound for VE_IR
+#> [1] 0.885
 ```
