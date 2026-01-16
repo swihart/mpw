@@ -270,7 +270,7 @@ ilspv
 end.one.iter <- Sys.time()
 dur.one.iter <- end.one.iter - beg.one.iter
 dur.one.iter
-#> Time difference of 1.722149 secs
+#> Time difference of 1.818219 secs
 ```
 
 We include this code chunk below but do not run it (we saved its output,
@@ -524,3 +524,25 @@ the model with alpha=0.40, the individual-level VE appears relatively
 constant over time. In both instances, the same population-level VE
 would be observed. Therefore the takeaway is to not make statements
 about individual-level VE looking at population-level curves.
+
+## Example code: Calculate VE-CI and VE-CH
+
+``` r
+## (using IPD data) 
+## warning: this will overwrite F0 and F1 vectors
+(F0 <- round(plac.dist[time.dist==182],3))
+#> [1] 0.065
+(F1 <- round(vacc.dist[time.dist==182],3))
+#> [1] 0.008
+
+# use vectors from above
+S0 <- 1-F0
+S1 <- 1-F1
+round(ve_ch <- 1-log(S1)/log(S0), 3)
+#> [1] 0.88
+
+theta_odds <- F1/F0 * ( (1-F0)/(1-F1) )
+theta_ci <- theta_odds / (1-F0+theta_odds*F0)
+round(ve_ci <- 1-theta_ci,3)
+#> [1] 0.877
+```

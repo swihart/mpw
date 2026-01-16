@@ -347,7 +347,7 @@ approach is similar to Swihart &amp; Bandyopadhyay (2021).</p>
 <span><span class="va">end.one.iter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">dur.one.iter</span> <span class="op">&lt;-</span> <span class="va">end.one.iter</span> <span class="op">-</span> <span class="va">beg.one.iter</span></span>
 <span><span class="va">dur.one.iter</span></span>
-<span><span class="co">#&gt; Time difference of 1.722149 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.818219 secs</span></span></code></pre></div>
 <p>We include this code chunk below but do not run it (we saved its
 output, accessed in the following chunk). We take the resultant
 estimates from the <code>$par</code> to demonstrate our point.</p>
@@ -594,6 +594,28 @@ alpha=0.40, the individual-level VE appears relatively constant over
 time. In both instances, the same population-level VE would be observed.
 Therefore the takeaway is to not make statements about individual-level
 VE looking at population-level curves.</p>
+</div>
+<div class="section level2">
+<h2 id="example-code-calculate-ve-ci-and-ve-ch">Example code: Calculate VE-CI and VE-CH<a class="anchor" aria-label="anchor" href="#example-code-calculate-ve-ci-and-ve-ch"></a>
+</h2>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## (using IPD data) </span></span>
+<span><span class="co">## warning: this will overwrite F0 and F1 vectors</span></span>
+<span><span class="op">(</span><span class="va">F0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">plac.dist</span><span class="op">[</span><span class="va">time.dist</span><span class="op">==</span><span class="fl">182</span><span class="op">]</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.065</span></span>
+<span><span class="op">(</span><span class="va">F1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">vacc.dist</span><span class="op">[</span><span class="va">time.dist</span><span class="op">==</span><span class="fl">182</span><span class="op">]</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.008</span></span>
+<span></span>
+<span><span class="co"># use vectors from above</span></span>
+<span><span class="va">S0</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="va">F0</span></span>
+<span><span class="va">S1</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="va">F1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ve_ch</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">S1</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">S0</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.88</span></span>
+<span></span>
+<span><span class="va">theta_odds</span> <span class="op">&lt;-</span> <span class="va">F1</span><span class="op">/</span><span class="va">F0</span> <span class="op">*</span> <span class="op">(</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F0</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F1</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="va">theta_ci</span> <span class="op">&lt;-</span> <span class="va">theta_odds</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">F0</span><span class="op">+</span><span class="va">theta_odds</span><span class="op">*</span><span class="va">F0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">ve_ci</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">-</span><span class="va">theta_ci</span>,<span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.877</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
